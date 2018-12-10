@@ -129,8 +129,61 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>Add your markdown content here …</p>
+							<h6 id="install-danted">Install Danted.</h6>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dante-server
+</code></pre></div></div>
 
+<h6 id="backup-the-original-configuration-file">Backup the original configuration file.</h6>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/danted.conf /etc/danted.conf.bkp
+</code></pre></div></div>
+
+<h6 id="modify-the-conf-file">Modify the conf file.</h6>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/danted.conf
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logoutput: stderr /var/log/dante.log
+
+internal: eth0 port <span class="o">=</span> 1080
+external: tun0
+
+method: none
+clientmethod: none
+
+user.privileged: proxy
+user.notprivileged: nobody
+user.libwrap: nobody
+
+client pass <span class="o">{</span>
+from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+
+client block <span class="o">{</span>
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+
+block <span class="o">{</span>
+from: 0.0.0.0/0 to: 127.0.0.0/8
+log: connect error
+<span class="o">}</span>
+
+pass <span class="o">{</span>
+from: 192.168.0.0/16 to: 0.0.0.0/0
+protocol: tcp udp
+log: connect error
+<span class="o">}</span>
+
+block <span class="o">{</span>
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="credit">Credit</h2>
+<ul>
+  <li><a href="https://github.com/jonathanhaslett/PrivacyPi">PrivacyPi on Github</a>.</li>
+</ul>
 
 							
 

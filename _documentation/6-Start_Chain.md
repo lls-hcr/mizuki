@@ -12,5 +12,100 @@ hero:
     text: OpenVPN + Privoxy + Danted Starting Process — Text
 ---
 
-Add your markdown content here ...
+###### Run the commands below so the programs will not start at boot.  
 
+```bash
+sudo update-rc.d openvpn disable
+sudo update-rc.d squid disable
+sudo update-rc.d privoxy disable
+sudo update-rc.d danted disable
+```
+
+###### Create the vpn-up script to start programs.
+
+```bash
+sudo nano /home/pi/vpn-up
+```
+
+```bash
+#!/bin/sh
+sudo service danted start
+sudo service privoxy start
+```
+
+###### Create the vpn-down script to stop programs.
+
+```bash
+sudo nano /home/pi/vpn-down
+```
+
+```bash
+#!/bin/sh
+sudo service danted stop
+sudo service privoxy stop
+```
+
+###### Create a start script.
+
+```bash
+sudo nano /home/pi/start
+```
+
+```bash
+#!/bin/sh
+sudo service openvpn start
+```
+
+###### Create a stop script.
+
+```bash
+sudo nano /home/pi/stop
+```
+
+```bash
+#!/bin/sh
+sudo service openvpn stop
+```
+
+###### Create a status report script.
+
+```bash
+sudo nano /home/pi/status
+```
+
+```bash
+#!/bin/sh
+ifconfig tun0
+service openvpn status
+service privoxy status
+service danted status
+```
+
+###### Set execution rights.
+
+```bash
+sudo chmod +x /home/pi/vpn-up
+sudo chmod +x /home/pi/vpn-down
+sudo chmod +x /home/pi/start
+sudo chmod +x /home/pi/stop
+sudo chmod +x /home/pi/status
+```
+
+###### Add the 3 lines below at the end of the openvpn.conf.
+
+```bash
+sudo nano /etc/openvpn/openvpn.conf
+```
+
+```bash
+script-security 2
+up /home/pi/vpn-up
+down /home/pi/vpn-down
+```
+
+## Credit
+- [PrivacyPi on Github](https://github.com/jonathanhaslett/PrivacyPi).
+
+<div class="callout callout--info">
+    <p><strong>Note:</strong>An installer is available in the PrivacyPi github page.</p>
+</div>

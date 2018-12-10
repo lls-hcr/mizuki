@@ -129,8 +129,91 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>Add your markdown content here …</p>
+							<h6 id="run-the-commands-below-so-the-programs-will-not-start-at-boot">Run the commands below so the programs will not start at boot.</h6>
 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>update-rc.d openvpn disable
+<span class="nb">sudo </span>update-rc.d squid disable
+<span class="nb">sudo </span>update-rc.d privoxy disable
+<span class="nb">sudo </span>update-rc.d danted disable
+</code></pre></div></div>
+
+<h6 id="create-the-vpn-up-script-to-start-programs">Create the vpn-up script to start programs.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /home/pi/vpn-up
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service danted start
+<span class="nb">sudo </span>service privoxy start
+</code></pre></div></div>
+
+<h6 id="create-the-vpn-down-script-to-stop-programs">Create the vpn-down script to stop programs.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /home/pi/vpn-down
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service danted stop
+<span class="nb">sudo </span>service privoxy stop
+</code></pre></div></div>
+
+<h6 id="create-a-start-script">Create a start script.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /home/pi/start
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service openvpn start
+</code></pre></div></div>
+
+<h6 id="create-a-stop-script">Create a stop script.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /home/pi/stop
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service openvpn stop
+</code></pre></div></div>
+
+<h6 id="create-a-status-report-script">Create a status report script.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /home/pi/status
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+ifconfig tun0
+service openvpn status
+service privoxy status
+service danted status
+</code></pre></div></div>
+
+<h6 id="set-execution-rights">Set execution rights.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod</span> +x /home/pi/vpn-up
+<span class="nb">sudo chmod</span> +x /home/pi/vpn-down
+<span class="nb">sudo chmod</span> +x /home/pi/start
+<span class="nb">sudo chmod</span> +x /home/pi/stop
+<span class="nb">sudo chmod</span> +x /home/pi/status
+</code></pre></div></div>
+
+<h6 id="add-the-3-lines-below-at-the-end-of-the-openvpnconf">Add the 3 lines below at the end of the openvpn.conf.</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/openvpn/openvpn.conf
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>script-security 2
+up /home/pi/vpn-up
+down /home/pi/vpn-down
+</code></pre></div></div>
+
+<h2 id="credit">Credit</h2>
+<ul>
+  <li><a href="https://github.com/jonathanhaslett/PrivacyPi">PrivacyPi on Github</a>.</li>
+</ul>
+
+<div class="callout callout--info">
+    <p><strong>Note:</strong>An installer is available in the PrivacyPi github page.</p>
+</div>
 
 							
 
