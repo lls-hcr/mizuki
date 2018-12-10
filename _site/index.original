@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>r-pi</title>
+			<title>LLS | r-pi</title>
 		
 		
 			<meta name="description" content="LLS">
@@ -52,9 +52,9 @@
 							<div class="u-flex u-items-center">
 								
 									
-										<h1 class="c-logo u-mb-0 js-logo">
+										<p class="c-logo u-mb-0 js-logo">
 											<a href="/" class="c-logo__link">r-pi</a>
-										</h1><!-- /.c-logo -->
+										</p><!-- /.c-logo -->
 									
 								
 								
@@ -106,14 +106,48 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-8@xl o-offset-1@lg">
 					
-						<h2 class="u-text-xxl u-font-normal u-font-bold">r-pi</h2>
+						<h2 class="u-text-xxl u-font-normal u-font-bold">Hero section — Title</h2>
 					
 					
 						<div class="u-h5">
-							<p>Baking some pi - This site in under construction.</p>
+							<p>Hero section — Text</p>
 						</div>
 					
 					
+						<div class="u-mt-3">
+							
+								
+									
+										
+											<a href="http://example.com" class="c-btn c-btn--white c-btn--lg u-h6 u-mr-1 u-mb-2">
+												Button — Filled with icon
+												<div class="c-btn__icon">
+													<i class="o-icon o-icon--github"></i>
+												</div>
+											</a>
+										
+									
+								
+							
+								
+									
+										
+											<a href="/documentation" class="c-btn c-btn--bordered-white c-btn--lg u-h6 u-mr-1 u-mb-2">
+												Button — Bordered with icon
+												<div class="c-btn__icon">
+													<i class="o-icon o-icon--gitlab"></i>
+												</div>
+											</a>
+										
+									
+								
+							
+						</div>
+					
+					
+						<p class="u-text-sm">
+							<a href="https://example.com" target="_blank"><em>Download — v4.0.0</em></a>
+						</p>
 					
 				</div><!-- /.o-col -->
 			</div><!-- /.o-row -->
@@ -130,8 +164,12 @@
 					<div class="o-row">
 						<div class="o-col-10@lg o-col-8@xl o-offset-1@lg u-mb-4 u-mr-auto">
 							
-								<h2 class="u-h1 u-font-normal">r-pi</h2>
+								<h2 class="u-h1 u-font-normal">Features row 1 — Title</h2>
 							
+							
+								<div class="u-text-md">
+									<p>Features row 1 — Description</p>
+								</div>
 							
 						</div><!-- /.o-col -->
 					</div><!-- /.o-row -->
@@ -143,12 +181,12 @@
 								<div class="c-feature-card">
 									
 										<div class="c-feature-card__icon">
-											<i class="o-icon o-icon--umbrella"></i>
+											<i class="o-icon o-icon--info"></i>
 										</div><!-- /.c-feature-card__icon -->
 									
 									
 										<div class="c-feature-card__content">
-											<h4 class="c-feature-card__title">Add Filter & Parental Control</h4>
+											<h4 class="c-feature-card__title">r-pi - parental control</h4>
 											<p>dnsmasq + nginx + squid + clamav + SquidGuard + privoxy + danted + ufw + fail2ban + watchdog + webmin</p>
 										</div><!-- /.c-featured-card__content -->
 									
@@ -159,12 +197,12 @@
 								<div class="c-feature-card">
 									
 										<div class="c-feature-card__icon">
-											<i class="o-icon o-icon--lock"></i>
+											<i class="o-icon o-icon--server"></i>
 										</div><!-- /.c-feature-card__icon -->
 									
 									
 										<div class="c-feature-card__content">
-											<h4 class="c-feature-card__title">Virtual Private Network (VPN)</h4>
+											<h4 class="c-feature-card__title">r-pi - vpn</h4>
 											<p>dnsmasq + apache2 + openvpn + squid + privoxy + danted + ufw + fail2ban + watchdog + webmin</p>
 										</div><!-- /.c-featured-card__content -->
 									
@@ -174,6 +212,108 @@
 					</div><!-- /.o-row -->
 				
 			
+				
+					<div class="o-row">
+						<div class="o-col-10@lg o-col-8@xl o-offset-1@lg u-mb-4 u-mr-auto">
+							
+								<h2 class="u-h1 u-font-normal">Features row 2 — Title</h2>
+							
+							
+								<div class="u-text-md">
+									<p>Features row 2 — Description</p>
+								</div>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				
+				
+					<div class="o-row u-mb-5">
+						
+							<div class="o-col-6@md o-col-4@lg u-mb-3">
+								<div class="c-feature-card">
+									
+										<div class="c-feature-card__icon">
+											<i class="o-icon o-icon--git-branch"></i>
+										</div><!-- /.c-feature-card__icon -->
+									
+									
+										<div class="c-feature-card__content">
+											<h4 class="c-feature-card__title">Feature 1 — Title</h4>
+											<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident iste voluptas sunt eligendi sit dolorem blanditiis nostrum, fuga ducimus enim? Ut temporibus.</p>
+										</div><!-- /.c-featured-card__content -->
+									
+								</div><!-- /.c-feature-card -->
+							</div><!-- /.o-col -->
+						
+							<div class="o-col-6@md o-col-4@lg u-mb-3">
+								<div class="c-feature-card">
+									
+										<div class="c-feature-card__icon">
+											<i class="o-icon o-icon--git-commit"></i>
+										</div><!-- /.c-feature-card__icon -->
+									
+									
+										<div class="c-feature-card__content">
+											<h4 class="c-feature-card__title">Feature 2 — Title</h4>
+											<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident iste voluptas sunt eligendi sit dolorem blanditiis nostrum, fuga ducimus enim? Ut temporibus.</p>
+										</div><!-- /.c-featured-card__content -->
+									
+								</div><!-- /.c-feature-card -->
+							</div><!-- /.o-col -->
+						
+							<div class="o-col-6@md o-col-4@lg u-mb-3">
+								<div class="c-feature-card">
+									
+										<div class="c-feature-card__icon">
+											<i class="o-icon o-icon--git-merge"></i>
+										</div><!-- /.c-feature-card__icon -->
+									
+									
+										<div class="c-feature-card__content">
+											<h4 class="c-feature-card__title">Feature 3 — Title</h4>
+											<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident iste voluptas sunt eligendi sit dolorem blanditiis nostrum, fuga ducimus enim? Ut temporibus.</p>
+										</div><!-- /.c-featured-card__content -->
+									
+								</div><!-- /.c-feature-card -->
+							</div><!-- /.o-col -->
+						
+					</div><!-- /.o-row -->
+				
+			
+			
+				<div class="o-row">
+					<div class="o-col-10@lg o-col-8@xl o-offset-1@lg u-mb-4 u-mr-auto">
+						
+							<h2 class="u-h1 u-font-normal">Features footer — Title</h2>
+						
+						
+							<div class="u-text-md u-mb-3">
+								<p>Features footer — Description</p>
+							</div>
+						
+						
+							
+								
+									
+										<a href="http://example.com" class="c-btn c-btn--gray c-btn--lg u-text-md u-mr-1 u-mb-2">
+											Button — Filled
+										</a>
+									
+								
+							
+						
+							
+								
+									
+										<a href="/documentation" class="c-btn c-btn--bordered-gray c-btn--lg u-text-md u-mr-1 u-mb-2">
+											Button — Bordered
+										</a>
+									
+								
+							
+						
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
 			
 		</div><!-- /.o-container -->
 	</div>

@@ -1,15 +1,15 @@
 ---
 # Page settings
-title: Squid # Define a title of your page
-description: Squid — Description # Define a description of your page
+title: Tripwire # Define a title of your page
+description: Tripwire — Description # Define a description of your page
 keywords: # Define keywords for search engines
-order: 3 # Define order of this page in list of all documentation documents
+order: 18 # Define order of this page in list of all documentation documents
 comments: false # Set to "true" in order to enable comments on this page. Make sure you properly setup "disqus_forum_shortname" variable in "_config.yml"
 
 # Hero section
 hero:
-    title: Squid — Title
-    text: Squid — Text
+    title: Tripwire — Title
+    text: Tripwire — Text
 ---
 
 Add your markdown content here ...

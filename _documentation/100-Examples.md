@@ -1,9 +1,9 @@
 ---
 # Page settings
-title: Static IP # Define a title of your page
-description: Give r-pi a static IP # Define a description of your page
+title: EXAMPLES # Define a title of your page
+description: Examples # Define a description of your page
 keywords: # Define keywords for search engines
-order: 1 # Define order of this page in list of all documentation documents
+order: 100 # Define order of this page in list of all documentation documents
 comments: true # Set to "true" in order to enable comments on this page. Make sure you properly setup "disqus_forum_shortname" variable in "_config.yml"
 
 # Hero section
@@ -11,23 +11,6 @@ hero:
     title: Static IP — Title
     text: Static IP — Text
 ---
-
-```
-sudo nano /etc/dhcpcd.conf
-```
-
-> aa
-
-```
-#Config for static IP on eth0
-
-interface eth0 
-static ip_address=192.168.1.131/24 
-static routers=192.168.1.1 
-static domain_name_servers=192.168.1.1
-```
-
-
 
 <div class="example"></div>
 
@@ -42,8 +25,6 @@ static domain_name_servers=192.168.1.1
 </div>
 
 <div markdown="span" class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> {{include.content}}</div>
-
-
 
 
 ```bash
@@ -136,3 +117,6 @@ This site was built using [GitHub Pages](https://pages.github.com/).
 @octocat :+1: This PR looks great - it's ready to merge! :shipit:
 
 Let's rename \*our-new-project\* to \*our-old-project\*.
+
+<s>this is strike through text</s>
+

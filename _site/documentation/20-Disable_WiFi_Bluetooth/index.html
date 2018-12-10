@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Privoxy | r-pi</title>
+			<title>Disable WiFi + Bluetooth | r-pi</title>
 		
 		
-			<meta name="description" content="Privoxy — Description">
+			<meta name="description" content="Disable WiFi + Bluetooth — Description">
 		
 		
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -106,11 +106,11 @@
 			<div class="o-row">
 				<div class="o-col-8@lg o-col-7@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Privoxy — Title</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Disable WiFi + Bluetooth — Title</h2>
 					
 					
 						<div class="u-h6">
-							<p>Privoxy — Text</p>
+							<p>Disable WiFi + Bluetooth — Text</p>
 						</div>
 					
 					
@@ -129,53 +129,8 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h6 id="install-privoxy">Install Privoxy.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>privoxy
-</code></pre></div></div>
+							<p>Add your markdown content here …</p>
 
-<h6 id="backup-the-original-configuration-file">Backup the original configuration file.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/privoxy/config /etc/privoxy/config.bkp
-</code></pre></div></div>
-
-<h6 id="create-a-config-file-without-commented-lines">Create a config file without commented lines.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
-<span class="nb">cat</span> /etc/privoxy/config.bkp | egrep <span class="nt">-v</span> <span class="nt">-e</span> <span class="s1">'^[[:blank:]]*#|^$'</span> <span class="o">&gt;</span> /etc/privoxy/config
-</code></pre></div></div>
-
-<h6 id="modify-the-conf-file">Modify the conf file.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/privoxy/config
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user-manual /usr/share/doc/privoxy/user-manual
-confdir /etc/privoxy
-logdir /var/log/privoxy
-actionsfile match-all.action <span class="c"># Actions that are applied to all sites and maybe overruled later on.</span>
-actionsfile default.action   <span class="c"># Main actions file</span>
-actionsfile user.action      <span class="c"># User customizations</span>
-filterfile default.filter
-filterfile user.filter      <span class="c"># User customizations</span>
-logfile logfile
-listen-address  192.168.1.xxx:8118
-toggle  1
-enable-remote-toggle  0
-enable-remote-http-toggle  0
-enable-edit-actions 1
-enforce-blocks 0
-buffer-limit 4096
-enable-proxy-authentication-forwarding 0
-forwarded-connect-retries  0
-accept-intercepted-requests 0
-allow-cgi-request-crunching 0
-split-large-forms 0
-keep-alive-timeout 5
-tolerate-pipelining 1
-socket-timeout 300
-forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
-</code></pre></div></div>
-
-<div class="callout callout--warning">
-    <p><strong>Note:</strong>The last line is used to forward traffic to Danted.</p>
-</div>
 
 							
 
@@ -220,7 +175,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/5-Danted/">
 											<p class="c-page-nav__heading">Danted</p>
 										</a>
@@ -228,7 +183,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/6-Start_Chain/">
 											<p class="c-page-nav__heading">OpenVPN + Privoxy + Danted</p>
 										</a>
@@ -236,7 +191,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/7-Squid/">
 											<p class="c-page-nav__heading">Squid</p>
 										</a>
@@ -244,7 +199,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/8-Squidguard/">
 											<p class="c-page-nav__heading">SquidGuard</p>
 										</a>
@@ -252,7 +207,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/9-Sarg_Calamaris/">
 											<p class="c-page-nav__heading">Sarg + Calamaris</p>
 										</a>
@@ -260,7 +215,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/10-Clamav/">
 											<p class="c-page-nav__heading">ClamAV</p>
 										</a>
@@ -268,7 +223,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/11-Nginx/">
 											<p class="c-page-nav__heading">NginX</p>
 										</a>
@@ -276,7 +231,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/12-SSMTP/">
 											<p class="c-page-nav__heading">SSMTP</p>
 										</a>
@@ -284,7 +239,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/13-Webmin/">
 											<p class="c-page-nav__heading">Webmin</p>
 										</a>
@@ -292,7 +247,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/14-CCZE/">
 											<p class="c-page-nav__heading">CCZE</p>
 										</a>
@@ -300,7 +255,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/15-UFW/">
 											<p class="c-page-nav__heading">UFW</p>
 										</a>
@@ -308,7 +263,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/16-Fail2Ban/">
 											<p class="c-page-nav__heading">Fail2Ban</p>
 										</a>
@@ -316,7 +271,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/17-Watchdog/">
 											<p class="c-page-nav__heading">Watchdog</p>
 										</a>
@@ -324,7 +279,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/18-Tripwire/">
 											<p class="c-page-nav__heading">Tripwire</p>
 										</a>
@@ -332,7 +287,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/19-Raspibackup/">
 											<p class="c-page-nav__heading">RaspiBackup</p>
 										</a>
@@ -340,7 +295,7 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 								
 							
 								
-									<li>
+									<li class="is-active">
 										<a href="/documentation/20-Disable_WiFi_Bluetooth/">
 											<p class="c-page-nav__heading">Disable WiFi + Bluetooth</p>
 										</a>
@@ -383,18 +338,6 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 							
 							
 							
-								<a href="/documentation/3-OpenVPN/" class="c-arrow-link c-arrow-link--prev u-mr-auto">OpenVPN</a>
-							
-						
-							
-							
-							
-						
-							
-							
-							
-								<a href="/documentation/5-Danted/" class="c-arrow-link c-arrow-link--next u-ml-auto">Danted</a>
-							
 						
 							
 							
@@ -450,6 +393,16 @@ forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
 						
 							
 							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+								<a href="/documentation/19-Raspibackup/" class="c-arrow-link c-arrow-link--prev u-mr-auto">RaspiBackup</a>
 							
 						
 							

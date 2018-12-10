@@ -11,8 +11,9 @@ dox:
         nav:
             - item_name: Homepage
               item_url: /
-            - item_name: Default Layout
-              item_url: /default
+# Add top page menu items - add as many pages as needed
+#             - item_name: Default Layout
+#               item_url: /default
         cta:
             label: Documentation
             url: /documentation
