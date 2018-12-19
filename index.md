@@ -17,7 +17,7 @@ features:
         - title: r-pi
           description: 
           grid: # Add feature grid items below, there are examples with all available options
-              - title: Add Filter & Parental Control
+              - title: Ads & p0rn filter (Parental Control)
                 description: dnsmasq + nginx + squid + clamav + SquidGuard + privoxy + danted + ufw + fail2ban + watchdog + webmin
                 icon: umbrella # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
               - title: Virtual Private Network (VPN)

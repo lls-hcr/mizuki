@@ -12,11 +12,10 @@ hero:
     text: OpenVPN + Privoxy + Danted Starting Process — Text
 ---
 
-###### Run the commands below so the programs will not start at boot.  
+###### Run the commands below to disable the auto-start daemon.  
 
 ```bash
 sudo update-rc.d openvpn disable
-sudo update-rc.d squid disable
 sudo update-rc.d privoxy disable
 sudo update-rc.d danted disable
 ```
