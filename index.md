@@ -7,14 +7,14 @@ keywords: # Define keywords for search engines
 
 # Hero section
 hero:
-    title: r-pi
-    text: Baking some pi - This site in under construction.
+    title: reciPi
+    text: reciPi - This site in under construction.
     background_image: # Paste image URL to display image in background of hero section
 
 # Features section
 features:
     rows: # Add feature rows below, there are examples with all available options
-        - title: r-pi
+        - title: reciPi
           description: 
           grid: # Add feature grid items below, there are examples with all available options
               - title: Ads & p0rn filter (Parental Control)
