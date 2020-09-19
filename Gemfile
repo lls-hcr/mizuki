@@ -27,5 +27,5 @@ group :jekyll_plugins do
  end
 
 gem "nokogiri"
-gem "rack", "~> 2.0.1"
+gem "rack", "~> 2.1.4"
 gem "rspec"
