@@ -1,0 +1,2352 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-US">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Web Filter Proxy (Ads & Pr0n) | r-pi</title>
+		
+		
+			<meta name="description" content="Web filter and parental control proxy with Privoxy, Squid and SquidGuard">
+		
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/">Homepage</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Documentation
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									
+										<p class="c-logo u-mb-0 js-logo">
+											<a href="/" class="c-logo__link">r-pi</a>
+										</p><!-- /.c-logo -->
+									
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/">Homepage</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Documentation
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Web Filter Proxy</h2>
+					
+					
+						<div class="u-h6">
+							<p>A configurable <span style="color:red">Web Filter Proxy</span> with advanced parental control feature</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>This is a quick-reference guide to setting up a highly configurable web filter on a Raspberry Pi. For this project, I am using a Raspberry Pi 4 Model B (4G) with the <a href="https://www.raspberrypi.org/downloads/raspberry-pi-os/">Raspberry Pi OS Lite (buster)</a>.</p>
+
+<p>The IP range of my LAN network is of type 192.168.1.0/24. Adjust as needed if you have a different range.</p>
+
+<div class="callout callout--info">
+<p><strong></strong>I don't take any credit for the below, all was found on the Internet and gathered from various specialised websites. In each section, I have put reference links (those I still have or that are still alive).</p>
+
+<p>English is not my mother tongue, I apologise for any mistake, typo and grammar.</p>
+
+<p>Feel free to leave a message, ask a question or make a suggestion in the chat box at the bottom of the page.</p>
+</div>
+
+<p><strong>Main programs to install</strong></p>
+<ul>
+  <li><span style="color:red">Dnsmasq:</span> a lightweight DHCP and caching DNS server</li>
+  <li><span style="color:red">Privoxy:</span> a non-caching web proxy with filtering capabilities for enhancing privacy</li>
+  <li><span style="color:red">Squid:</span> a caching web proxy</li>
+  <li><span style="color:red">SquidGuard:</span> a URL redirector used in conjunction with squid</li>
+  <li><span style="color:red">Nginx:</span> an open source high-performance HTTP server</li>
+  <li><span style="color:red">Clamav:</span> an open source antivirus engine</li>
+  <li><span style="color:red">SquidClamav:</span> an antivirus for Squid</li>
+</ul>
+
+<p><strong>Other programs (optional)</strong></p>
+<ul>
+  <li><span style="color:red">Danted:</span> a Socks5 Proxy</li>
+  <li><span style="color:red">UFW:</span> an Uncomplicated FireWall</li>
+  <li><span style="color:red">Watchdog:</span> a tool that can automatically reboot the Raspberry Pi in case it goes down</li>
+  <li><span style="color:red">Webmin:</span> a web-based interface for system administration</li>
+  <li><span style="color:red">mSMTP:</span> a light SMTP client</li>
+  <li><span style="color:red">CCZE:</span> a log colorizer</li>
+</ul>
+
+<h2 id="part-1-preparation">Part 1: Preparation</h2>
+
+<p>First, update the system</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>Now, we will assign a static IP to the Raspberry Pi.</p>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/dhcpcd.conf
+</code></pre></div></div>
+
+<p>Add the following lines at the end. Make sure you have adjusted the following line with a full IP address according to your need (replace the <span style="color:red">xxx</span>).</p>
+
+<div class="callout">
+...<br />
+static ip_address=192.168.1.<span style="color:red">xxx</span>/24<br />
+...
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Static IP on eth0&lt;br /&gt;</span>
+
+interface eth0
+static <span class="nv">ip_address</span><span class="o">=</span>192.168.1.xxx/24
+static <span class="nv">routers</span><span class="o">=</span>192.168.1.1
+static <span class="nv">domain_name_servers</span><span class="o">=</span>192.168.1.1
+</code></pre></div></div>
+
+<p>To increase security, we will change the default username (pi).</p>
+
+<p>Type</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">groups</span>
+</code></pre></div></div>
+
+<p>The output should look similar this:</p>
+
+<div class="callout">
+pi adm dialout cdrom sudo audio video plugdev games users input netdev gpio i2c spi
+</div>
+
+<p>Remove the <code class="language-plaintext highlighter-rouge">pi</code>at the beginning and put the new username at the end. Each group separated by a comma; no space.</p>
+
+<p>Replace <span style="color:red">new_username</span> with whatever you like.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>useradd <span class="nt">-m</span> <span class="nt">-G</span> adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi new_username
+</code></pre></div></div>
+
+<p>Set a password for the new username</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>passwd new_username
+</code></pre></div></div>
+
+<p>Open</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/systemd/system/autologin@.service
+</code></pre></div></div>
+
+<p>Find</p>
+<div class="callout">
+ExecStart=-/sbin/agetty --autologin <span style="color:red">pi</span> --noclear %I $TERM
+</div>
+
+<p>Replace with</p>
+
+<div class="callout">
+ExecStart=-/sbin/agetty --autologin <span style="color:red">new_username</span> --noclear %I $TERM
+</div>
+
+<p>Delete the old username “pi”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>deluser pi
+</code></pre></div></div>
+
+<p>Reboot and log in using the new username and password.</p>
+
+<h2 id="part-2-main-programs-to-install">Part 2: Main programs to install</h2>
+
+<h3 id="dnsmasq"><strong>Dnsmasq</strong></h3>
+
+<p>Dnsmasq is a DNS server. It translates domain names into IP addresses and speed up the Internet browsing.</p>
+
+<p>Test first with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<p>The output should see something similar to:</p>
+
+<div class="callout">
+# Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)<br />
+#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN<br />
+<span style="color:red">nameserver 8.8.8.8</span><br />
+<span style="color:red">nameserver 8.8.4.4</span>
+</div>
+
+<p>Install Dnsmasq</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dnsmasq
+</code></pre></div></div>
+
+<p>Test again with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<p>Now you should see:</p>
+
+<div class="callout">
+# Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)<br />
+#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN<br />
+<span style="color:red">nameserver 127.0.0.1</span>
+</div>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/dnsmasq.conf
+</code></pre></div></div>
+
+<p>Find and uncomment (remove the # at the start of the line)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>domain-needed
+bogus-priv
+no-resolv
+</code></pre></div></div>
+
+<p>Find</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#cache-size=150</span>
+</code></pre></div></div>
+
+<p>Replace with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cache-size<span class="o">=</span>1000
+</code></pre></div></div>
+
+<p>Find</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#server=/localnet/192.168.0.1</span>
+</code></pre></div></div>
+
+<p>Add</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#server=/localnet/192.168.0.1</span>
+<span class="nv">server</span><span class="o">=</span>8.8.8.8
+<span class="nv">server</span><span class="o">=</span>8.8.4.4
+</code></pre></div></div>
+
+<p>Restart Dnsmasq</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service dnsmasq restart
+</code></pre></div></div>
+
+<p>Check that it has started up correctly. The status output should show: <strong>Active: active (running)</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service dnsmasq status
+</code></pre></div></div>
+
+<p>Test the result with <strong>dnsutils</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dnsutils
+</code></pre></div></div>
+
+<p>Test the DNS service with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dig digitalocean.com
+</code></pre></div></div>
+
+<p>Run the command twice and check changes in the “Query time”. The second time it should be close to <strong>0 msec</strong></p>
+
+<div class="callout">
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Raspbian &lt;&lt;&gt;&gt; digitalocean.com<br />
+;; global options: +cmd<br />
+;; Got answer:<br />
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 14033<br />
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1<br />
+<br />
+;; OPT PSEUDOSECTION:<br />
+; EDNS: version: 0, flags:; udp: 4096<br />
+;; QUESTION SECTION:<br />
+;digitalocean.com.              IN      A<br />
+<br />
+;; ANSWER SECTION:<br />
+digitalocean.com.       1       IN      A       104.16.181.15<br />
+digitalocean.com.       1       IN      A       104.16.182.15<br />
+<br />
+;; <span style="color:red">Query time: 0 msec</span><br />
+;; SERVER: 127.0.0.1#53(127.0.0.1)<br />
+;; WHEN: Sun Sep 20 00:22:59 CEST 2020<br />
+;; MSG SIZE  rcvd: 77
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://pimylifeup.com/raspberry-pi-dns-server/">https://pimylifeup.com/raspberry-pi-dns-server/</a></p>
+
+<h3 id="privoxy"><strong>Privoxy</strong></h3>
+
+<p>Install Privoxy</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>privoxy
+</code></pre></div></div>
+
+<p>Make a backup copy of the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/privoxy/config /etc/privoxy/config.bkp
+</code></pre></div></div>
+
+<p>This step is optional, it removes all the lines in the config file that starts with <code class="language-plaintext highlighter-rouge">#</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+
+<span class="nb">cat</span> /etc/privoxy/config.bkp | egrep <span class="nt">-v</span> <span class="nt">-e</span> <span class="s1">'^[[:blank:]]*#|^$'</span> <span class="o">&gt;</span> /etc/privoxy/config
+
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/privoxy/config
+</code></pre></div></div>
+
+<p>Adjust the <code class="language-plaintext highlighter-rouge">listen-address</code> with the static IP adress of the Rasperry Pi as set previously.</p>
+
+<p>The Privoxy default port is <strong>8118</strong>, it can be changed if needed.</p>
+
+<div class="callout">
+...<br />
+listen-address  192.168.1.<span style="color:red">xxx</span>:8118<br />
+...
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user-manual /usr/share/doc/privoxy/user-manual
+confdir /etc/privoxy
+logdir /var/log/privoxy
+
+actionsfile match-all.action <span class="c"># Actions that are applied to all sites and maybe overruled later on.</span>
+actionsfile default.action   <span class="c"># Main actions file</span>
+actionsfile user.action      <span class="c"># User customizations</span>
+
+filterfile default.filter
+filterfile user.filter      <span class="c"># User customizations</span>
+
+logfile logfile
+
+listen-address  192.168.1.xxx:8118
+
+toggle  1
+enable-remote-toggle  0
+enable-remote-http-toggle  0
+enable-edit-actions 1
+enforce-blocks 0
+buffer-limit 4096
+enable-proxy-authentication-forwarding 0
+forwarded-connect-retries  0
+accept-intercepted-requests 0
+allow-cgi-request-crunching 0
+split-large-forms 0
+keep-alive-timeout 5
+tolerate-pipelining 1
+socket-timeout 300
+debug  4096
+</code></pre></div></div>
+
+<p>Restart Privoxy</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service privoxy restart
+</code></pre></div></div>
+
+<p>Check that it has started up correctly. The status output should show: <strong>Active: active (running)</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service privoxy status
+</code></pre></div></div>
+
+<h4 id="test-it"><strong>Test it!</strong></h4>
+
+<p>For now, Privoxy is not set as a transparent (intercept) proxy. This means that the browser needs to point to the server. <a href="https://getfoxyproxy.org/">FoxyProxy</a> is a nice extention that works well with both Chrome and Firefox. We will use this to configure the browser to point directly to the proxy server.</p>
+
+<ol>
+  <li>Install the extention</li>
+  <li>In “Options” create a new configuration with:
+    <ul>
+      <li>Type of Proxy: <span style="color:red">HTTP</span></li>
+      <li>IP Adrdress: 192.168.1.<span style="color:red">xxx</span></li>
+      <li>Port <span style="color:red">8118</span> (Privoxy’s default port)</li>
+    </ul>
+  </li>
+  <li>Save and apply</li>
+</ol>
+
+<p><img src="/images/FoxyProxy_Privoxy.jpg" alt="image" /></p>
+
+<p>In your browser’s URL bar, type <a href="http://p.p/">http://p.p/</a> You should see the following</p>
+
+<p><img src="/images/privoxy_enabled.jpg" alt="image" /></p>
+
+<div class="callout callout--success">
+    <p><strong>Congratulation!</strong>Privoxy is correctly configured and all requests are filtered with the default settings.</p>
+</div>
+
+<p><strong>Add more blocklists (optional)</strong></p>
+
+<p>Here, we will install a script that automatically download blocklists from <a href="https://easylist.to/">https://easylist.to/</a>, convert them in a Privoxy compatible language and install them. Below are listed the blocklists the script will install (you can modify as needed):</p>
+
+<ul>
+  <li><span style="color:red">easylist:</span> # the primary filter list that removes most adverts from international webpages</li>
+  <li><span style="color:red">easyprivacy:</span> # an optional supplementary filter list that completely removes all forms of tracking from the internet</li>
+  <li><span style="color:red">fanboy-annoyance:</span> # blocks Social Media content, in-page pop-ups and other annoyances</li>
+  <li><span style="color:red">fanboy-social:</span> # removes Social Media content on web pages such as the Facebook like button and other widgets</li>
+  <li><span style="color:red">easylist-cookie:</span> # blocks cookies banners</li>
+  <li><span style="color:red">liste_fr:</span> # specifically removes adverts on French language websites</li>
+  <li><span style="color:red">antiadblockfilters:</span> # Adblock Warning Removal List</li>
+  <li><span style="color:red">adblock-list.txt:</span> # protects from online scams</li>
+  <li><span style="color:red">malwaredomains_full:</span> # a list of malware domains generated from malwaredomains.com</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /usr/local/bin/privoxy-blocklist.sh
+</code></pre></div></div>
+
+<p>Copy-paste the following or <a href="http://192.168.1.121:4000/download/privoxy-blocklist.sh">download the script here</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#</span>
+<span class="c">######################################################################</span>
+<span class="c">#</span>
+<span class="c">#                  Author: Andrwe Lord Weber</span>
+<span class="c">#                  Mail: lord-weber-andrwe &lt;at&gt; andrwe &lt;dot&gt; org</span>
+<span class="c">#                  Version: 0.3</span>
+<span class="c">#                  URL: http://andrwe.dyndns.org/doku.php/scripting/bash/privoxy-blocklist</span>
+<span class="c">#</span>
+<span class="c">##################</span>
+<span class="c">#</span>
+<span class="c">#                  Sumary: </span>
+<span class="c">#                   This script downloads, converts and installs</span>
+<span class="c">#                   AdblockPlus lists into Privoxy</span>
+<span class="c">#</span>
+<span class="c">######################################################################</span>
+
+<span class="c">######################################################################</span>
+<span class="c">#</span>
+<span class="c">#                 TODO:</span>
+<span class="c">#                  - implement:</span>
+<span class="c">#                     domain-based filter</span>
+<span class="c">#                     id-&gt;class combination</span>
+<span class="c">#                     class-&gt;id combination</span>
+<span class="c">#</span>
+<span class="c">######################################################################</span>
+
+<span class="c"># script config-file</span>
+<span class="nv">SCRIPTCONF</span><span class="o">=</span>/usr/local/bin/privoxy-blacklist
+<span class="nv">DEPENDS</span><span class="o">=(</span> <span class="s1">'sed'</span> <span class="s1">'grep'</span> <span class="s1">'bash'</span> <span class="s1">'wget'</span> <span class="o">)</span>
+
+<span class="c">######################################################################</span>
+<span class="c">#</span>
+<span class="c">#                  No changes needed after this line.</span>
+<span class="c">#</span>
+<span class="c">######################################################################</span>
+
+<span class="k">function </span>usage<span class="o">()</span>
+<span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2"> is a script to convert AdBlockPlus-lists into Privoxy-lists and install them."</span>
+  <span class="nb">echo</span> <span class="s2">" "</span>
+  <span class="nb">echo</span> <span class="s2">"Options:"</span>
+  <span class="nb">echo</span> <span class="s2">"      -h:    Show this help."</span>
+  <span class="nb">echo</span> <span class="s2">"      -q:    Don't give any output."</span>
+  <span class="nb">echo</span> <span class="s2">"      -v 1:  Enable verbosity 1. Show a little bit more output."</span>
+  <span class="nb">echo</span> <span class="s2">"      -v 2:  Enable verbosity 2. Show a lot more output."</span>
+  <span class="nb">echo</span> <span class="s2">"      -v 3:  Enable verbosity 3. Show all possible output and don't delete temporary files.(For debugging only!!)"</span>
+  <span class="nb">echo</span> <span class="s2">"      -r:    Remove all lists build by this script."</span>
+<span class="o">}</span>
+
+<span class="o">[</span> <span class="k">${</span><span class="nv">UID</span><span class="k">}</span> <span class="nt">-ne</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Root privileges needed. Exit.</span><span class="se">\n\n</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> usage <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+
+<span class="k">for </span>dep <span class="k">in</span> <span class="k">${</span><span class="nv">DEPENDS</span><span class="p">[@]</span><span class="k">}</span>
+<span class="k">do
+  if</span> <span class="o">!</span> <span class="nb">type</span> <span class="nt">-p</span> <span class="k">${</span><span class="nv">dep</span><span class="k">}</span> <span class="o">&gt;</span>/dev/null
+  <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"The command </span><span class="k">${</span><span class="nv">dep</span><span class="k">}</span><span class="s2"> can't be found. Please install the package providing </span><span class="k">${</span><span class="nv">dep</span><span class="k">}</span><span class="s2"> and run </span><span class="nv">$0</span><span class="s2"> again. Exit"</span> <span class="o">&gt;</span>&amp;2
+    <span class="nb">exit </span>1
+  <span class="k">fi
+done
+
+if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="si">)</span><span class="s2">"</span> <span class="o">]]</span>
+<span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"The config directory </span><span class="si">$(</span><span class="nb">dirname</span> <span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="si">)</span><span class="s2"> doesn't exist. Please either adjust the variable SCRIPTCONF in this script or create the directory."</span> <span class="o">&gt;</span>&amp;2
+  <span class="nb">exit </span>1
+<span class="k">fi
+
+function </span>debug<span class="o">()</span>
+<span class="o">{</span>
+  <span class="o">[</span> <span class="k">${</span><span class="nv">DBG</span><span class="k">}</span> <span class="nt">-ge</span> <span class="k">${</span><span class="nv">2</span><span class="k">}</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">1</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="k">function </span>main<span class="o">()</span>
+<span class="o">{</span>
+  <span class="k">for </span>url <span class="k">in</span> <span class="k">${</span><span class="nv">URLS</span><span class="p">[@]</span><span class="k">}</span>
+  <span class="k">do
+    </span>debug <span class="s2">"Processing </span><span class="k">${</span><span class="nv">url</span><span class="k">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">"</span> 0
+    <span class="nv">file</span><span class="o">=</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/<span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">url</span><span class="k">}</span><span class="si">)</span>
+    <span class="nv">actionfile</span><span class="o">=</span><span class="k">${</span><span class="nv">file</span><span class="p">%\.*</span><span class="k">}</span>.script.action
+    <span class="nv">filterfile</span><span class="o">=</span><span class="k">${</span><span class="nv">file</span><span class="p">%\.*</span><span class="k">}</span>.script.filter
+    <span class="nv">list</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">file</span><span class="p">%\.*</span><span class="k">}</span><span class="si">)</span>
+
+    <span class="c"># download list</span>
+    debug <span class="s2">"Downloading </span><span class="k">${</span><span class="nv">url</span><span class="k">}</span><span class="s2"> ..."</span> 0
+    wget <span class="nt">-t</span> 3 <span class="nt">--no-check-certificate</span> <span class="nt">-O</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span> <span class="k">${</span><span class="nv">url</span><span class="k">}</span> <span class="o">&gt;</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/wget-<span class="k">${</span><span class="nv">url</span><span class="p">//\//#</span><span class="k">}</span>.log 2&gt;&amp;1
+    debug <span class="s2">"</span><span class="si">$(</span><span class="nb">cat</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/wget-<span class="k">${</span><span class="nv">url</span><span class="p">//\//#</span><span class="k">}</span>.log<span class="si">)</span><span class="s2">"</span> 2
+    debug <span class="s2">".. downloading done."</span> 0
+    <span class="o">[</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'^.*\[Adblock.*\].*$'</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span><span class="si">)</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">""</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"The list received from </span><span class="k">${</span><span class="nv">url</span><span class="k">}</span><span class="s2"> isn't an adult block list. Skipped"</span> <span class="o">&amp;&amp;</span> <span class="k">continue</span>
+
+    <span class="c"># convert AdblockPlus list to Privoxy list</span>
+    <span class="c"># blacklist of urls</span>
+    debug <span class="s2">"Creating actionfile for </span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2"> ..."</span> 1
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"{ +block{</span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2">} }"</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    <span class="nb">sed</span> <span class="s1">'/^!.*/d;1,1 d;/^@@.*/d;/\$.*/d;/#/d;s/\./\\./g;s/\?/\\?/g;s/\*/.*/g;s/(/\\(/g;s/)/\\)/g;s/\[/\\[/g;s/\]/\\]/g;s/\^/[\/\&amp;:\?=_]/g;s/^||/\./g;s/^|/^/g;s/|$/\$/g;/|/d'</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+
+    debug <span class="s2">"... creating filterfile for </span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2"> ..."</span> 1
+    <span class="nb">echo</span> <span class="s2">"FILTER: </span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2"> Tag filter of </span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">filterfile</span><span class="k">}</span>
+    <span class="c"># set filter for html elements</span>
+    <span class="nb">sed</span> <span class="s1">'/^#/!d;s/^##//g;s/^#\(.*\)\[.*\]\[.*\]*/s@&lt;([a-zA-Z0-9]+)\\s+.*id=.?\1.*&gt;.*&lt;\/\\1&gt;@@g/g;s/^#\(.*\)/s@&lt;([a-zA-Z0-9]+)\\s+.*id=.?\1.*&gt;.*&lt;\/\\1&gt;@@g/g;s/^\.\(.*\)/s@&lt;([a-zA-Z0-9]+)\\s+.*class=.?\1.*&gt;.*&lt;\/\\1&gt;@@g/g;s/^a\[\(.*\)\]/s@&lt;a.*\1.*&gt;.*&lt;\/a&gt;@@g/g;s/^\([a-zA-Z0-9]*\)\.\(.*\)\[.*\]\[.*\]*/s@&lt;\1.*class=.?\2.*&gt;.*&lt;\/\1&gt;@@g/g;s/^\([a-zA-Z0-9]*\)#\(.*\):.*[\:[^:]]*[^:]*/s@&lt;\1.*id=.?\2.*&gt;.*&lt;\/\1&gt;@@g/g;s/^\([a-zA-Z0-9]*\)#\(.*\)/s@&lt;\1.*id=.?\2.*&gt;.*&lt;\/\1&gt;@@g/g;s/^\[\([a-zA-Z]*\).=\(.*\)\]/s@\1^=\2&gt;@@g/g;s/\^/[\/\&amp;:\?=_]/g;s/\.\([a-zA-Z0-9]\)/\\.\1/g'</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">filterfile</span><span class="k">}</span>
+    debug <span class="s2">"... filterfile created - adding filterfile to actionfile ..."</span> 1
+    <span class="nb">echo</span> <span class="s2">"{ +filter{</span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2">} }"</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    <span class="nb">echo</span> <span class="s2">"*"</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    debug <span class="s2">"... filterfile added ..."</span> 1
+
+    <span class="c"># create domain based whitelist</span>
+
+    <span class="c"># create domain based blacklist</span>
+<span class="c">#    domains=$(sed '/^#/d;/#/!d;s/,~/,\*/g;s/~/;:\*/g;s/^\([a-zA-Z]\)/;:\1/g' ${file})</span>
+<span class="c">#    [ -n "${domains}" ] &amp;&amp; debug "... creating domainbased filterfiles ..." 1</span>
+<span class="c">#    debug "Found Domains: ${domains}." 2</span>
+<span class="c">#    ifs=$IFS</span>
+<span class="c">#    IFS=";:"</span>
+<span class="c">#    for domain in ${domains}</span>
+<span class="c">#    do</span>
+<span class="c">#      dns=$(echo ${domain} | awk -F ',' '{print $1}' | awk -F '#' '{print $1}')</span>
+<span class="c">#      debug "Modifying line: ${domain}" 2</span>
+<span class="c">#      debug "   ... creating filterfile for ${dns} ..." 1</span>
+<span class="c">#      sed '' ${file} &gt; ${file%\.*}-${dns%~}.script.filter</span>
+<span class="c">#      debug "   ... filterfile created ..." 1</span>
+<span class="c">#      debug "   ... adding filterfile for ${dns} to actionfile ..." 1</span>
+<span class="c">#      echo "{ +filter{${list}-${dns}} }" &gt;&gt; ${actionfile}</span>
+<span class="c">#      echo "${dns}" &gt;&gt; ${actionfile}</span>
+<span class="c">#      debug "   ... filterfile added ..." 1</span>
+<span class="c">#    done</span>
+<span class="c">#    IFS=${ifs}</span>
+<span class="c">#    debug "... all domainbased filterfiles created ..." 1</span>
+
+    debug <span class="s2">"... creating and adding whitlist for urls ..."</span> 1
+    <span class="c"># whitelist of urls</span>
+    <span class="nb">echo</span> <span class="s2">"{ -block }"</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    <span class="nb">sed</span> <span class="s1">'/^@@.*/!d;s/^@@//g;/\$.*/d;/#/d;s/\./\\./g;s/\?/\\?/g;s/\*/.*/g;s/(/\\(/g;s/)/\\)/g;s/\[/\\[/g;s/\]/\\]/g;s/\^/[\/\&amp;:\?=_]/g;s/^||/\./g;s/^|/^/g;s/|$/\$/g;/|/d'</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    debug <span class="s2">"... created and added whitelist - creating and adding image handler ..."</span> 1
+    <span class="c"># whitelist of image urls</span>
+    <span class="nb">echo</span> <span class="s2">"{ -block +handle-as-image }"</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    <span class="nb">sed</span> <span class="s1">'/^@@.*/!d;s/^@@//g;/\$.*image.*/!d;s/\$.*image.*//g;/#/d;s/\./\\./g;s/\?/\\?/g;s/\*/.*/g;s/(/\\(/g;s/)/\\)/g;s/\[/\\[/g;s/\]/\\]/g;s/\^/[\/\&amp;:\?=_]/g;s/^||/\./g;s/^|/^/g;s/|$/\$/g;/|/d'</span> <span class="k">${</span><span class="nv">file</span><span class="k">}</span> <span class="o">&gt;&gt;</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span>
+    debug <span class="s2">"... created and added image handler ..."</span> 1
+    debug <span class="s2">"... created actionfile for </span><span class="k">${</span><span class="nv">list</span><span class="k">}</span><span class="s2">."</span> 1
+    
+    <span class="c"># install Privoxy actionsfile</span>
+    <span class="nb">install</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">PRIVOXY_USER</span><span class="k">}</span> <span class="nt">-g</span> <span class="k">${</span><span class="nv">PRIVOXY_GROUP</span><span class="k">}</span> <span class="k">${</span><span class="nv">VERBOSE</span><span class="k">}</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span> <span class="k">${</span><span class="nv">PRIVOXY_DIR</span><span class="k">}</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">grep</span> <span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span><span class="si">)</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="si">)</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">""</span> <span class="o">]</span> 
+    <span class="k">then
+      </span>debug <span class="s2">"</span><span class="se">\n</span><span class="s2">Modifying </span><span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="s2"> ..."</span> 0
+      <span class="nb">sed</span> <span class="s2">"s/^actionsfile user</span><span class="se">\.</span><span class="s2">action/actionsfile </span><span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">actionfile</span><span class="k">}</span><span class="si">)</span><span class="se">\n</span><span class="s2">actionsfile user.action/"</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/config
+      debug <span class="s2">"... modification done.</span><span class="se">\n</span><span class="s2">"</span> 0
+      debug <span class="s2">"Installing new config ..."</span> 0
+      <span class="nb">install</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">PRIVOXY_USER</span><span class="k">}</span> <span class="nt">-g</span> <span class="k">${</span><span class="nv">PRIVOXY_GROUP</span><span class="k">}</span> <span class="k">${</span><span class="nv">VERBOSE</span><span class="k">}</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/config <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span>
+      debug <span class="s2">"... installation done</span><span class="se">\n</span><span class="s2">"</span> 0
+    <span class="k">fi</span>  
+
+    <span class="c"># install Privoxy filterfile</span>
+    <span class="nb">install</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">PRIVOXY_USER</span><span class="k">}</span> <span class="nt">-g</span> <span class="k">${</span><span class="nv">PRIVOXY_GROUP</span><span class="k">}</span> <span class="k">${</span><span class="nv">VERBOSE</span><span class="k">}</span> <span class="k">${</span><span class="nv">filterfile</span><span class="k">}</span> <span class="k">${</span><span class="nv">PRIVOXY_DIR</span><span class="k">}</span>
+    <span class="k">if</span> <span class="si">$(</span><span class="nb">grep</span> <span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">filterfile</span><span class="k">}</span><span class="si">)</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="si">)</span>
+    <span class="c">#if [ "$(grep $(basename ${filterfile}) ${PRIVOXY_CONF})" == "" ]</span>
+    <span class="k">then
+      </span>debug <span class="s2">"</span><span class="se">\n</span><span class="s2">Modifying </span><span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="s2"> ..."</span> 0
+      <span class="nb">sed</span> <span class="s2">"s/^</span><span class="se">\(</span><span class="s2">#*</span><span class="se">\)</span><span class="s2">filterfile user</span><span class="se">\.</span><span class="s2">filter/filterfile </span><span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">filterfile</span><span class="k">}</span><span class="si">)</span><span class="se">\n\1</span><span class="s2">filterfile user.filter/"</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/config
+      debug <span class="s2">"... modification done.</span><span class="se">\n</span><span class="s2">"</span> 0
+      debug <span class="s2">"Installing new config ..."</span> 0
+      <span class="nb">install</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">PRIVOXY_USER</span><span class="k">}</span> <span class="nt">-g</span> <span class="k">${</span><span class="nv">PRIVOXY_GROUP</span><span class="k">}</span> <span class="k">${</span><span class="nv">VERBOSE</span><span class="k">}</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>/config <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span>
+      debug <span class="s2">"... installation done</span><span class="se">\n</span><span class="s2">"</span> 0
+    <span class="k">fi  
+
+    </span>debug <span class="s2">"... </span><span class="k">${</span><span class="nv">url</span><span class="k">}</span><span class="s2"> installed successfully.</span><span class="se">\n</span><span class="s2">"</span> 0
+  <span class="k">done</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span>
+<span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"No config found in </span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">. Creating default one and exiting because you might have to adjust it."</span>
+  <span class="nb">echo</span> <span class="s2">"# Config of 
+
+# array of URL for AdblockPlus lists
+#  for more sources just add it within the round brackets
+URLS=(</span><span class="se">\"</span><span class="s2">https://easylist.to/easylist/easylist.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist.to/easylist/easyprivacy.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist.to/easylist/fanboy-annoyance.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist.to/easylist/fanboy-social.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist-downloads.adblockplus.org/easylist-cookie.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist-downloads.adblockplus.org/liste_fr.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist-downloads.adblockplus.org/antiadblockfilters.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">https://easylist-downloads.adblockplus.org/malwaredomains_full.txt</span><span class="se">\"</span><span class="s2">)
+
+# config for privoxy initscript providing PRIVOXY_CONF, PRIVOXY_USER and PRIVOXY_GROUP
+INIT_CONF=</span><span class="se">\"</span><span class="s2">/etc/privoxy</span><span class="se">\"</span><span class="s2">
+
+# !! if the config above doesn't exist set these variables here !!
+# !! These values will be overwritten by INIT_CONF !!
+# PRIVOXY_USER=</span><span class="se">\"</span><span class="s2">privoxy</span><span class="se">\"</span><span class="s2">
+# PRIVOXY_GROUP=</span><span class="se">\"</span><span class="s2">privoxy</span><span class="se">\"</span><span class="s2">
+# PRIVOXY_CONF=</span><span class="se">\"</span><span class="s2">/etc/privoxy/config</span><span class="se">\"</span><span class="s2">
+
+# name for lock file (default: script name)
+TMPNAME=</span><span class="se">\"\$</span><span class="s2">(basename </span><span class="se">\$</span><span class="s2">{0})</span><span class="se">\"</span><span class="s2">
+# directory for temporary files
+TMPDIR=</span><span class="se">\"</span><span class="s2">/tmp/</span><span class="se">\$</span><span class="s2">{TMPNAME}</span><span class="se">\"</span><span class="s2">
+
+# Debug-level
+#   -1 = quiet
+#    0 = normal
+#    1 = verbose
+#    2 = more verbose (debugging)
+#    3 = incredibly loud (function debugging)
+DBG=0
+"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">"</span>
+  <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+<span class="o">[[</span> <span class="o">!</span> <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> debug <span class="s2">"Can't read </span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">. Permission denied."</span> <span class="nt">-1</span>
+
+<span class="c"># load script config</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2">"</span>
+<span class="c"># load privoxy config</span>
+<span class="o">[[</span> <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span><span class="nv">INIT_CONF</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> <span class="s2">"</span><span class="k">${</span><span class="nv">INIT_CONF</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># check whether needed variables are set</span>
+<span class="o">[[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">PRIVOXY_CONF isn't set please either provice a valid initscript config or set it in </span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2"> ."</span> <span class="o">&gt;</span>&amp;2 <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+<span class="o">[[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PRIVOXY_USER</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">PRIVOXY_USER isn't set please either provice a valid initscript config or set it in </span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2"> ."</span> <span class="o">&gt;</span>&amp;2 <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+<span class="o">[[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PRIVOXY_GROUP</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">PRIVOXY_GROUP isn't set please either provice a valid initscript config or set it in </span><span class="k">${</span><span class="nv">SCRIPTCONF</span><span class="k">}</span><span class="s2"> ."</span> <span class="o">&gt;</span>&amp;2 <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+
+<span class="c"># set command to be run on exit</span>
+<span class="o">[</span> <span class="k">${</span><span class="nv">DBG</span><span class="k">}</span> <span class="nt">-le</span> 2 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">trap</span> <span class="s2">"rm -fr </span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">;exit"</span> INT TERM EXIT
+
+<span class="c"># set privoxy config dir</span>
+<span class="nv">PRIVOXY_DIR</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># create temporary directory and lock file</span>
+<span class="nb">install</span> <span class="nt">-d</span> <span class="nt">-m700</span> <span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span>
+
+<span class="c"># check lock file</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">.lock"</span> <span class="o">]</span>
+<span class="k">then
+  </span><span class="nb">read</span> <span class="nt">-r</span> fpid &lt;<span class="s2">"</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">.lock"</span>
+  <span class="nv">ppid</span><span class="o">=</span><span class="si">$(</span>pidof <span class="nt">-o</span> %PPID <span class="nt">-x</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
+  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$fpid</span> <span class="o">=</span> <span class="s2">"</span><span class="k">${</span><span class="nv">ppid</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span> 
+  <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"An Instance of </span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2"> is already running. Exit"</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+  <span class="k">else
+    </span>debug <span class="s2">"Found dead lock file."</span> 0
+    <span class="nb">rm</span> <span class="nt">-f</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">.lock"</span>
+    debug <span class="s2">"File removed."</span> 0
+  <span class="k">fi
+fi</span>
+
+<span class="c"># safe PID in lock-file</span>
+<span class="nb">echo</span> <span class="nv">$$</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">.lock"</span>
+
+<span class="c"># loop for options</span>
+<span class="k">while </span><span class="nb">getopts</span> <span class="s2">":hrqv:"</span> opt
+<span class="k">do
+  case</span> <span class="s2">"</span><span class="k">${</span><span class="nv">opt</span><span class="k">}</span><span class="s2">"</span> <span class="k">in</span> 
+    <span class="s2">"v"</span><span class="p">)</span>
+      <span class="nv">DBG</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">OPTARG</span><span class="k">}</span><span class="s2">"</span>
+      <span class="nv">VERBOSE</span><span class="o">=</span><span class="s2">"-v"</span>
+      <span class="p">;;</span>
+    <span class="s2">"q"</span><span class="p">)</span>
+      <span class="nv">DBG</span><span class="o">=</span><span class="nt">-1</span>
+      <span class="p">;;</span>
+    <span class="s2">"r"</span><span class="p">)</span>
+      <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"Do you really want to remove all build lists?(y/N) "</span> choice
+      <span class="o">[</span> <span class="s2">"</span><span class="k">${</span><span class="nv">choice</span><span class="k">}</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"y"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>0
+      <span class="nb">rm</span> <span class="nt">-rf</span> <span class="k">${</span><span class="nv">PRIVOXY_DIR</span><span class="k">}</span>/<span class="k">*</span>.script.<span class="o">{</span>action,filter<span class="o">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+      <span class="nb">sed</span> <span class="s1">'/^actionsfile .*\.script\.action$/d;/^filterfile .*\.script\.filter$/d'</span> <span class="nt">-i</span> <span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"Lists removed."</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>0
+      <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"An error occured while removing the lists.</span><span class="se">\n</span><span class="s2">Please have a look into </span><span class="k">${</span><span class="nv">PRIVOXY_DIR</span><span class="k">}</span><span class="s2"> whether there are .script.* files and search for *.script.* in </span><span class="k">${</span><span class="nv">PRIVOXY_CONF</span><span class="k">}</span><span class="s2">."</span>
+      <span class="nb">exit </span>1
+      <span class="p">;;</span>
+    <span class="s2">":"</span><span class="p">)</span>
+      <span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">: -</span><span class="k">${</span><span class="nv">OPTARG</span><span class="k">}</span><span class="s2"> requires an argument"</span> <span class="o">&gt;</span>&amp;2
+      <span class="nb">exit </span>1
+      <span class="p">;;</span>
+    <span class="s2">"h"</span><span class="p">|</span><span class="k">*</span><span class="p">)</span>
+      usage
+      <span class="nb">exit </span>0
+      <span class="p">;;</span>
+  <span class="k">esac</span>
+<span class="k">done
+
+</span>debug <span class="s2">"URL-List: </span><span class="k">${</span><span class="nv">URLS</span><span class="k">}</span><span class="se">\n</span><span class="s2">Privoxy-Configdir: </span><span class="k">${</span><span class="nv">PRIVOXY_DIR</span><span class="k">}</span><span class="se">\n</span><span class="s2">Temporary directory: </span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">"</span> 2
+main
+
+<span class="c"># restore default exit command</span>
+<span class="nb">trap</span> - INT TERM EXIT
+<span class="o">[</span> <span class="k">${</span><span class="nv">DBG</span><span class="k">}</span> <span class="nt">-lt</span> 3 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-r</span> <span class="k">${</span><span class="nv">VERBOSE</span><span class="k">}</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TMPDIR</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">exit </span>0
+</code></pre></div></div>
+
+<p>Run the script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>bash /usr/local/bin/privoxy-blocklist.sh
+</code></pre></div></div>
+
+<p>The first time the script is run, a file named “privoxy-blacklist” is created in /usr/local/bin/. Open the file and edit if needed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /usr/local/bin/privoxy-blacklist
+</code></pre></div></div>
+
+<p>This is how it looks in my Raspberry Pi</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Config of </span>
+
+<span class="c"># array of URL for AdblockPlus lists</span>
+<span class="c">#  for more sources just add it within the round brackets</span>
+<span class="nv">URLS</span><span class="o">=(</span><span class="s2">"https://easylist.to/easylist/easylist.txt"</span> <span class="s2">"https://easylist.to/easylist/easyprivacy.txt"</span> <span class="s2">"https://easylist.to/easylist/fanboy-annoyance.txt"</span> <span class="s2">"https://easylist.to/easylist/fanboy-social.txt"</span> <span class="s2">"https://easylist-downloads.adblockplus.org/easylist-cookie.txt"</span> <span class="s2">"https://easylist-downloads.adblockplus.org/liste_fr.txt"</span> <span class="s2">"https://easylist-downloads.adblockplus.org/antiadblockfilters.txt"</span> <span class="s2">"https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"</span> <span class="s2">"https://easylist-downloads.adblockplus.org/malwaredomains_full.txt"</span><span class="o">)</span>
+
+<span class="c"># config for privoxy initscript providing PRIVOXY_CONF, PRIVOXY_USER and PRIVOXY_GROUP</span>
+<span class="nv">INIT_CONF</span><span class="o">=</span><span class="s2">"/etc/privoxy"</span>
+
+<span class="c"># !! if the config above doesn't exist set these variables here !!</span>
+<span class="c"># !! These values will be overwritten by INIT_CONF !!</span>
+<span class="nv">PRIVOXY_USER</span><span class="o">=</span><span class="s2">"privoxy"</span>
+<span class="nv">PRIVOXY_GROUP</span><span class="o">=</span><span class="s2">"privoxy"</span>
+<span class="nv">PRIVOXY_CONF</span><span class="o">=</span><span class="s2">"/etc/privoxy/config"</span>
+
+<span class="c"># name for lock file (default: script name)</span>
+<span class="nv">TMPNAME</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">basename</span> <span class="k">${</span><span class="nv">0</span><span class="k">}</span><span class="si">)</span><span class="s2">"</span>
+<span class="c"># directory for temporary files</span>
+<span class="nv">TMPDIR</span><span class="o">=</span><span class="s2">"/tmp/</span><span class="k">${</span><span class="nv">TMPNAME</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># Debug-level</span>
+<span class="c">#   -1 = quiet</span>
+<span class="c">#    0 = normal</span>
+<span class="c">#    1 = verbose</span>
+<span class="c">#    2 = more verbose (debugging)</span>
+<span class="c">#    3 = incredibly loud (function debugging)</span>
+<span class="nv">DBG</span><span class="o">=</span>0
+</code></pre></div></div>
+
+<p>In your browser’s URL bar, type again <a href="http://p.p/">http://p.p/</a></p>
+
+<p><img src="/images/privoxy_enabled.jpg" alt="image" /></p>
+
+<p>…and click on <strong>View &amp; change the current configuration</strong>. You should see all the blocklists that were installed by the script.</p>
+
+<p><img src="/images/privoxy_blocklist_enabled.jpg" alt="image" /></p>
+
+<div class="callout callout--info">
+<p>Use <b>Crontab</b> to run the script automatically every day or week.</p>
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-1">Reference</h4>
+
+<p><a href="http://www.privoxy.org/">http://www.privoxy.org/</a><br />
+<a href="https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh">hhttps://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh</a></p>
+
+<h3 id="squid"><strong>Squid</strong></h3>
+
+<p>Install Squid</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>squid3
+</code></pre></div></div>
+
+<p>Make a backup copy of the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/squid/squid.conf /etc/squid/squid.conf.bkp
+</code></pre></div></div>
+
+<p>This step is optional, it removes all the lines in the config file that starts with <code class="language-plaintext highlighter-rouge">#</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+
+<span class="nb">cat</span> /etc/squid/squid.conf.bkp | egrep <span class="nt">-v</span> <span class="nt">-e</span> <span class="s1">'^[[:blank:]]*#|^$'</span> <span class="o">&gt;</span> /etc/squid/squid.conf
+
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squid/squid.conf
+</code></pre></div></div>
+
+<p>Add the following and make sure you have adjusted the line below. This line tells Squid to listen to Privoxy on port 8118 (or whatever port you have selected), so we can chain the two proxys.</p>
+
+<p>The Squid default port is <strong>3128</strong>, it can be changed if needed.</p>
+
+<div class="callout">
+...<br />
+cache_peer 192.168.1.<span style="color:red">xxx</span> parent 8118 0 default no-query no-digest<br />
+...
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>visible_hostname squid.proxy.org
+
+acl localnet src 192.168.1.0/24  <span class="c"># Home network</span>
+
+acl SSL_ports port 443
+acl Safe_ports port 80           <span class="c"># http</span>
+acl Safe_ports port 21           <span class="c"># ftp</span>
+acl Safe_ports port 443          <span class="c"># https</span>
+acl Safe_ports port 70           <span class="c"># gopher</span>
+acl Safe_ports port 210          <span class="c"># wais</span>
+acl Safe_ports port 1025-65535   <span class="c"># unregistered ports</span>
+acl Safe_ports port 280          <span class="c"># http-mgmt</span>
+acl Safe_ports port 488          <span class="c"># gss-http</span>
+acl Safe_ports port 591          <span class="c"># filemaker</span>
+acl Safe_ports port 777          <span class="c"># multiling http</span>
+acl Safe_ports port 873          <span class="c"># rsync</span>
+
+acl CONNECT method CONNECT
+
+http_access deny <span class="o">!</span>Safe_ports
+http_access deny CONNECT <span class="o">!</span>SSL_ports
+http_access allow localhost manager
+http_access deny manager
+http_access allow localnet
+http_access allow localhost
+http_access deny all
+
+http_port 3128
+
+cache_mem 512 MB
+maximum_object_size_in_memory 1024 KB
+minimum_object_size 0 KB
+maximum_object_size 96 MB
+memory_cache_mode always
+
+cache_dir ufs /var/spool/squid 4096 16 256
+coredump_dir /var/spool/squid
+
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>gif|png|jpg|jpeg|ico<span class="o">)</span><span class="nv">$ </span>10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>iso|avi|wav|mp3|mp4|mpeg|swf|flv|x-flv<span class="o">)</span><span class="nv">$ </span>43200 90% 432000 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>deb|rpm|exe|zip|tar|tgz|ram|rar|bin|ppt|doc|tiff<span class="o">)</span><span class="nv">$ </span>10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span>index.<span class="o">(</span>html|htm<span class="o">)</span><span class="nv">$ </span>0 40% 10080
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>html|htm|css|js<span class="o">)</span><span class="nv">$ </span>1440 40% 40320
+refresh_pattern <span class="nb">.</span> 0 40% 40320
+
+cache_peer 192.168.1.xxx parent 8118 0 default no-query no-digest
+acl ftp proto FTP
+always_direct allow ftp
+never_direct allow all
+cache_effective_group proxy
+</code></pre></div></div>
+
+<p>Restart Squid</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service squid restart
+</code></pre></div></div>
+
+<p>Check that it has started up correctly. The status output should show: <strong>Active: active (running)</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service squid status
+</code></pre></div></div>
+
+<p>Now, in the FoxyProxy browser extention, change the port number from <span style="color:red">8118</span> (the default Privoxy port) to <span style="color:red">3128</span> (the default Squid port)</p>
+
+<p><img src="/images/FoxyProxy_Squid.jpg" alt="image" /></p>
+
+<p>In your browser’s URL bar, type <a href="http://p.p/">http://p.p/</a> You should see the following</p>
+
+<p><img src="/images/privoxy_enabled.jpg" alt="image" /></p>
+
+<div class="callout callout--success">
+    <p><strong>Congratulation!</strong>Your browser is now pointing to Squid and all requests are filtered by both Squid and Privoxy.</p>
+</div>
+
+<h4 id="optional"><strong>Optional</strong></h4>
+
+<h3 id="calamaris"><strong>Calamaris</strong></h3>
+
+<p>calamaris is a tool to analyse Squid’s access.log.</p>
+
+<p>Install Calamaris</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>calamaris
+</code></pre></div></div>
+
+<h3 id="sarg"><strong>Sarg</strong></h3>
+
+<p>Squid Analysis Report Generator (Sarg) is a tool that allows you to view “where” your users are going to on the Internet.</p>
+
+<p>Install Sarg</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>sarg
+</code></pre></div></div>
+
+<p>Open the sarg.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/sarg/sarg.conf
+</code></pre></div></div>
+
+<p>Uncomment the following line if you intend to generate graphs</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># TAG:  graph_font</span>
+<span class="c">#       The full path to the TTF font file to use to create the graphs. It is required</span>
+<span class="c">#       if graphs is set to yes.</span>
+<span class="c">#</span>
+graph_font /usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+</code></pre></div></div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-2">Reference</h4>
+
+<p><a href="http://www.squid-cache.org/">http://www.squid-cache.org/</a></p>
+
+<h3 id="squidguard"><strong>SquidGuard</strong></h3>
+
+<p>This part is a bit more technical. We need to do a number of things:</p>
+
+<ol>
+  <li>install SquidGuard</li>
+  <li>configure SquidGuard to redirect any blocked request</li>
+  <li>create a script that will download and install the blacklists</li>
+  <li>install Nginx, the reverse web server, and create a page to be displayed when SquidGuard blocks a request</li>
+</ol>
+
+<p>Install SquidGuard</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>squidguard
+</code></pre></div></div>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squidguard/squidGuard.conf
+</code></pre></div></div>
+
+<p>Add the following and make sure you have adjusted the <code class="language-plaintext highlighter-rouge">redirect</code> argument with the correct IP number. This line tells SquidGuard to redirect any filtered request to the “block” page.</p>
+
+<div class="callout">
+...<br />
+redirect http://192.168.1.<span style="color:red">xxx</span>/adult_block.php?caddr=%a&amp;cname=%n&amp;user=%i&amp;group=%s&amp;target=%t&amp;url=%u<br />
+...
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dbhome /var/lib/squidguard/db
+logdir /var/log/squidguard
+
+<span class="c">#Any machine that should be authorised to pass through the filters</span>
+src authorised_machine <span class="o">{</span>
+        ip              192.168.1.xxx
+<span class="o">}</span>
+
+dest adult <span class="o">{</span>
+  domainlist adult/domains
+  urllist adult/urls
+  log adult
+<span class="o">}</span>
+
+dest malware <span class="o">{</span>
+  domainlist malware/domains
+  urllist malware/urls
+  log malware
+<span class="o">}</span>
+
+dest phishing <span class="o">{</span>
+  domainlist phishing/domains
+  urllist phishing/urls
+  log phishing
+<span class="o">}</span>
+
+acl <span class="o">{</span>
+  authorised_machine <span class="o">{</span>
+    pass all
+  <span class="o">}</span>
+
+  default <span class="o">{</span>
+    pass <span class="o">!</span>adult <span class="o">!</span>malware <span class="o">!</span>phishing all
+    redirect http://192.168.1.xxx/adult_block.php?caddr<span class="o">=</span>%a&amp;cname<span class="o">=</span>%n&amp;user<span class="o">=</span>%i&amp;group<span class="o">=</span>%s&amp;target<span class="o">=</span>%t&amp;url<span class="o">=</span>%u
+<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This configuration will block any request that is filtered by the <code class="language-plaintext highlighter-rouge">adult</code>, <code class="language-plaintext highlighter-rouge">malware</code> and <code class="language-plaintext highlighter-rouge">phishing</code> blacklists. Of course you can add more if needed.</p>
+
+<p>Now, we create a script that will automatically download and install the blacklists. Those are provided for free by the <a href="http://dsi.ut-capitole.fr/blacklists/index_en.php">Université Toulouse 1 Capitole</a>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /usr/local/bin/blacklist.sh
+</code></pre></div></div>
+
+<p>Copy-paste the following or <a href="http://192.168.1.121:4000/download/blacklist.sh">download the script here</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c">#</span>
+<span class="c"># shalla_update.sh, v 0.3.1 20080403</span>
+<span class="c"># done by kapivie at sil.at under FreeBSD</span>
+<span class="c"># without any warranty</span>
+<span class="c"># updated by Len Tucker to create and use diff</span>
+<span class="c"># files to reduce load and increase speed.</span>
+<span class="c"># Added Checks for required elements</span>
+<span class="c"># Added output info for status of script</span>
+<span class="c"># Modified by Chris Kronberg: included loop; added some more</span>
+<span class="c"># checks; reduced the diff files to the necessary content.</span>
+<span class="c">#</span>
+<span class="c">#--------------------------------------------------</span>
+<span class="c"># little script (for crond)</span>
+<span class="c"># to fetch and modify new list from shallalist.de</span>
+<span class="c">#--------------------------------------------------</span>
+<span class="c">#</span>
+<span class="c"># *check* paths and squidGuard-owner on your system</span>
+<span class="c"># try i.e. "which squid" to find out the path for squid</span>
+<span class="c"># try "ps aux | grep squid" to find out the owner for squidGuard</span>
+<span class="c">#     *needs wget*</span>
+<span class="c">#</span>
+
+<span class="nv">squidGuardpath</span><span class="o">=</span><span class="s2">"/usr/bin/squidGuard"</span>
+<span class="nv">squidpath</span><span class="o">=</span><span class="s2">"/usr/sbin/squid"</span>
+<span class="nv">tarpath</span><span class="o">=</span><span class="s2">"/bin/tar"</span>
+<span class="nv">chownpath</span><span class="o">=</span><span class="s2">"/bin/chown"</span>
+
+<span class="nv">dbhome</span><span class="o">=</span><span class="s2">"/var/lib/squidguard/db"</span>
+<span class="nv">squidGuardowner</span><span class="o">=</span><span class="s2">"proxy:proxy"</span>
+<span class="nv">blacklists</span><span class="o">=</span><span class="s2">"http://dsi.ut-capitole.fr/blacklists/download/blacklists.tar.gz"</span>
+<span class="nv">wgetlogdir</span><span class="o">=</span><span class="s2">"/var/log/squidguard"</span>
+
+<span class="c">##########################################</span>
+
+<span class="nv">workdir</span><span class="o">=</span><span class="s2">"/var/lib/squidguard/tmp"</span>
+<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-d</span> <span class="nv">$workdir</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$workdir</span>
+<span class="k">fi
+
+if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$tarpath</span> <span class="o">]</span>
+ <span class="k">then </span><span class="nb">echo</span> <span class="s2">"Could not locate tar."</span>
+      <span class="nb">exit </span>1
+<span class="k">fi
+
+if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$chownpath</span> <span class="o">]</span>
+ <span class="k">then </span><span class="nb">echo</span> <span class="s2">"Could not locate chown."</span>
+      <span class="nb">exit </span>1
+<span class="k">fi 
+
+if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-d</span>  <span class="nv">$dbhome</span> <span class="o">]</span>
+ <span class="k">then </span><span class="nb">echo</span> <span class="s2">"Could not locate squid db directory."</span>
+      <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+<span class="c"># check that everything is clean before we start.</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span>  <span class="nv">$workdir</span>/blacklists.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then
+   </span><span class="nb">echo</span> <span class="s2">"Old blacklist file found in </span><span class="k">${</span><span class="nv">workdir</span><span class="k">}</span><span class="s2">. Deleted!"</span>
+   <span class="nb">rm</span> <span class="nv">$workdir</span>/blacklists.tar.gz
+<span class="k">fi
+
+if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="nv">$workdir</span>/BL <span class="o">]</span><span class="p">;</span> <span class="k">then
+   </span><span class="nb">echo</span> <span class="s2">"Old blacklist directory found in </span><span class="k">${</span><span class="nv">workdir</span><span class="k">}</span><span class="s2">. Deleted!"</span>
+   <span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$workdir</span>/blacklists
+<span class="k">fi</span>
+
+<span class="c"># copy actual shalla's blacklist</span>
+<span class="c"># thanks for the " || exit 1 " hint to Rich Wales</span>
+<span class="c"># (-b run in background does not work correctly) -o log to $wgetlog</span>
+
+<span class="nb">rm</span> <span class="nv">$wgetlogdir</span>/blacklists-wget.log
+
+<span class="nb">echo</span> <span class="s2">"Updating Squid Blacklists -"</span> <span class="si">$(</span><span class="nb">date</span> <span class="nt">-u</span><span class="si">)</span>
+
+<span class="nb">echo</span> <span class="s2">"Retrieving blacklists.tar.gz"</span>
+
+wget <span class="nv">$blacklists</span> <span class="nt">-a</span> <span class="nv">$wgetlogdir</span>/blacklists-wget.log <span class="nt">-O</span> <span class="nv">$workdir</span>/blacklists.tar.gz <span class="o">||</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">"Unable to download blacklists.tar.gz"</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1 <span class="p">;</span> <span class="o">}</span>
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="nb">echo</span> <span class="s2">"Unzippping blacklists.tar.gz"</span>
+
+<span class="nv">$tarpath</span> xzf <span class="nv">$workdir</span>/blacklists.tar.gz <span class="nt">-C</span> <span class="nv">$workdir</span> <span class="o">||</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">"Unable to extract </span><span class="nv">$workdir</span><span class="s2">/blacklists.tar.gz"</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1 <span class="p">;</span> <span class="o">}</span>
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="c"># Create diff files for all categories</span>
+<span class="c"># Note: There is no reason to use all categories unless this is exactly</span>
+<span class="c">#       what you intend to block. Make sure that only the categories you</span>
+<span class="c">#       are going to block with squidGuard are listed below.</span>
+
+<span class="nv">CATEGORIES</span><span class="o">=</span><span class="s2">"blacklists/adult blacklists/malware blacklists/phishing blacklists/porn"</span> 
+
+<span class="nb">echo</span> <span class="s2">"Creating diff files."</span>
+
+<span class="nb">cp</span> <span class="nt">-R</span> <span class="nv">$workdir</span>/blacklists/adult <span class="nv">$dbhome</span>
+<span class="nb">cp</span> <span class="nt">-R</span> <span class="nv">$workdir</span>/blacklists/malware <span class="nv">$dbhome</span>
+<span class="nb">cp</span> <span class="nt">-R</span> <span class="nv">$workdir</span>/blacklists/phishing <span class="nv">$dbhome</span>
+<span class="nb">cp</span> <span class="nt">-R</span> <span class="nv">$workdir</span>/blacklists/porn <span class="nv">$dbhome</span>
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="nb">echo</span> <span class="s2">"Setting file permisions."</span>
+<span class="nv">$chownpath</span> <span class="nt">-R</span> <span class="nv">$squidGuardowner</span> <span class="nv">$dbhome</span>
+<span class="nb">chmod </span>755 <span class="nv">$dbhome</span>
+<span class="nb">cd</span> <span class="nv">$dbhome</span>
+find <span class="nb">.</span> <span class="nt">-type</span> f <span class="nt">-exec</span> <span class="nb">chmod </span>644 <span class="o">{}</span> <span class="se">\;</span>
+find <span class="nb">.</span> <span class="nt">-type</span> d <span class="nt">-exec</span> <span class="nb">chmod </span>755 <span class="o">{}</span> <span class="se">\;</span>
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="nb">echo</span> <span class="s2">"Updating squid db files. This will take some time, please be patient."</span>
+<span class="nv">$squidGuardpath</span> <span class="nt">-C</span> all
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="nb">echo</span> <span class="s2">"Reconfiguring squid."</span>
+<span class="nv">$squidpath</span> <span class="nt">-k</span> reconfigure
+
+<span class="nb">echo</span> <span class="s2">"Done!"</span>
+
+<span class="nb">echo</span> <span class="s2">"Clean up downloaded file and directories."</span>
+<span class="nb">rm</span> <span class="nv">$workdir</span>/blacklists.tar.gz
+<span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$workdir</span>/blacklists
+
+<span class="nb">echo</span> <span class="s2">"Completed! -"</span> <span class="si">$(</span><span class="nb">date</span> <span class="nt">-u</span><span class="si">)</span>
+
+<span class="nb">exit </span>0
+</code></pre></div></div>
+
+<p>Set access permissions</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod</span> +x /usr/local/bin/blacklist.sh
+</code></pre></div></div>
+
+<p>Before we can run the script and test it, we need to add a few lines in the Squid config file.</p>
+
+<p>Open the squid.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squid/squid.conf
+</code></pre></div></div>
+
+<p>Add the following at the end</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+url_rewrite_program /usr/bin/squidGuard <span class="nt">-c</span> /etc/squidguard/squidGuard.conf
+redirect_children 8
+redirector_bypass on
+redirect_program /usr/bin/squidGuard <span class="nt">-c</span> /etc/squidguard/squidGuard.conf
+</code></pre></div></div>
+
+<p>Run the script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>bash /usr/local/bin/blacklist.sh
+</code></pre></div></div>
+
+<div class="callout callout--info">
+<p>Use <b>Crontab</b> to run the script automatically every day or week.</p>
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-3">Reference</h4>
+
+<p><a href="http://www.squidguard.org/index.html">http://www.squidguard.org/index.html</a><br />
+<a href="http://dsi.ut-capitole.fr/blacklists/index_en.php">http://dsi.ut-capitole.fr/blacklists/index_en.php</a><br />
+<a href="http://www.shallalist.de/">http://www.shallalist.de/</a></p>
+
+<h3 id="nginx"><strong>Nginx</strong></h3>
+
+<p>Install Nginx</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-t</span> buster nginx-full
+</code></pre></div></div>
+
+<p>Install php7.2-fpm</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>php7.2-fpm
+</code></pre></div></div>
+
+<p>Create a custom file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/php/7.2/fpm/conf.d/90-pi-custom.ini
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cgi.fix_pathinfo<span class="o">=</span>0
+
+<span class="nv">upload_max_filesize</span><span class="o">=</span>64m
+<span class="nv">post_max_size</span><span class="o">=</span>64m
+<span class="nv">max_execution_time</span><span class="o">=</span>600
+</code></pre></div></div>
+
+<p>Open the www.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/php/7.2/fpm/pool.d/www.conf
+</code></pre></div></div>
+
+<p>Find and uncomment the following line</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>listen <span class="o">=</span> /run/php/php7.2-fpm.sock
+</code></pre></div></div>
+
+<p>Restart php7.2-fpm</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service php7.2-fpm restart
+</code></pre></div></div>
+
+<p>Create a php7.2-fpm.conf in nginx file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/nginx/conf.d/php7.2-fpm.conf
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upstream php7.2-fpm-sock <span class="o">{</span>
+  server unix:/run/php/php7.2-fpm.sock<span class="p">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Open the sites-available/default file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/nginx/sites-available/default
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
+listen 80<span class="p">;</span>
+root /var/www/html<span class="p">;</span>
+index index.php index.html index.htm index.nginx-debian.html adult_block.php block.php<span class="p">;</span>
+server_name localhost<span class="p">;</span>
+
+location / <span class="o">{</span>
+try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ /adult_block.php<span class="p">;</span>
+allow 192.168.1.0/24<span class="p">;</span>
+allow 127.0.0.1<span class="p">;</span>
+deny all<span class="p">;</span>
+<span class="o">}</span>
+
+location ~ <span class="se">\.</span>php<span class="nv">$ </span><span class="o">{</span>
+try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ <span class="o">=</span>404<span class="p">;</span>
+fastcgi_index adult_block.php<span class="p">;</span>
+fastcgi_pass php7.2-fpm-sock<span class="p">;</span>
+fastcgi_param SCRIPT_FILENAME <span class="nv">$document_root$fastcgi_script_name</span><span class="p">;</span>
+include /etc/nginx/fastcgi_params<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Create a info.php file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/info.php
+</code></pre></div></div>
+
+<p>Then</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo '<span class="cp">&lt;?php</span> <span class="nb">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span>' &gt; /var/www/html/info.php
+</code></pre></div></div>
+
+<p>In case you have apache already installed and running, stop it</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /etc/init.d/apache2 stop
+</code></pre></div></div>
+
+<p>Then disable it</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl disable apache2
+</code></pre></div></div>
+
+<p>Reboot</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>reboot
+</code></pre></div></div>
+
+<p>Log in again and test your installation (Nginx and PHP)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.1.ccc/info.php
+</code></pre></div></div>
+
+<p>You should see the following</p>
+
+<p><img src="/images/nginx_php.jpg" alt="image" /></p>
+
+<p>Create the adult_block.php file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/adult_block.php
+</code></pre></div></div>
+
+<p>Copy-paste the following, but make sure you have adjusted the two lines below with the correct IP number.</p>
+
+<div class="callout">
+...<br />
+rel="stylesheet" type="text/css" href='http://192.168.1.<span style="color:red">xxx</span>/adult_filter.css'<br />
+...<br />
+height=300px src='http://192.168.1.<span style="color:red">xxx</span>/adult_block.png' /&gt;<br />
+...
+</div>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//if (@$_GET['cname'])        $details[] = "Client Name: {$_GET['cname']}";</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'caddr'</span><span class="p">])</span>        <span class="nv">$details</span><span class="p">[]</span> <span class="o">=</span> <span class="s2">"Client IP: </span><span class="si">{</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'caddr'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'user'</span><span class="p">])</span>         <span class="nv">$details</span><span class="p">[]</span> <span class="o">=</span> <span class="s2">"Client User: </span><span class="si">{</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'user'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'group'</span><span class="p">])</span>        <span class="nv">$details</span><span class="p">[]</span> <span class="o">=</span> <span class="s2">"Group: </span><span class="si">{</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'group'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'target'</span><span class="p">])</span>       <span class="nv">$details</span><span class="p">[]</span> <span class="o">=</span> <span class="s2">"Category: </span><span class="si">{</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'target'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">isset</span><span class="p">(</span><span class="nv">$details</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$details</span><span class="p">)</span> <span class="nv">$details</span> <span class="o">=</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">" | "</span><span class="p">,</span> <span class="nv">$details</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+
+<span class="cp">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"Content-Type"</span> <span class="na">content=</span><span class="s">"text/html; charset=utf8"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Site Web bloqué<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">'http://192.168.1.xxx/adult_filter.css'</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"message"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;center&gt;&lt;img</span> <span class="na">height=</span><span class="s">300px</span> <span class="na">src=</span><span class="s">'http://192.168.1.xxx/adult_block.png'</span> <span class="nt">/&gt;&lt;/center&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"outer"</span><span class="nt">&gt;</span>
+           <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"header"</span><span class="nt">&gt;</span>
+           Contrôle parental activé
+           <span class="nt">&lt;/div&gt;</span>
+           <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"inner"</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"error"</span><span class="nt">&gt;</span>
+                 <span class="nt">&lt;p&gt;</span>
+                 Accès refusé !
+                 <span class="nt">&lt;/p&gt;</span>
+              <span class="nt">&lt;/div&gt;</span>
+              <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"msg"</span><span class="nt">&gt;</span>
+                 <span class="nt">&lt;p&gt;</span>
+                    Site Web bloqué
+                 <span class="nt">&lt;/p&gt;</span>
+                 <span class="nt">&lt;p&gt;</span>
+                    <span class="nt">&lt;strong&gt;</span>URL: <span class="cp">&lt;?php</span> <span class="nb">printf</span><span class="p">(</span><span class="s2">"&lt;a href=</span><span class="se">\"</span><span class="s2">%s</span><span class="se">\"</span><span class="s2">&gt;%s&lt;/a&gt;"</span><span class="p">,</span> <span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'url'</span><span class="p">],</span> <span class="o">@</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'url'</span><span class="p">]);</span><span class="cp">?&gt;</span><span class="nt">&lt;/strong&gt;</span>
+                 <span class="nt">&lt;/p&gt;</span>
+                 <span class="nt">&lt;p&gt;</span><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="k">isset</span><span class="p">(</span><span class="nv">$details</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$details</span><span class="p">)</span> <span class="k">print</span> <span class="nv">$details</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+              <span class="nt">&lt;/div&gt;</span>
+           <span class="nt">&lt;/div&gt;</span>
+           <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"footer"</span><span class="nt">&gt;</span>
+              Web Filtering by Squid3 and SquidGuard
+           <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p><span style="color:red">IMPORTANT:</span> Download this image <a href="http://192.168.1.121:4000/images/adult_block.png">adult_block.png</a> and put it in your root folder (var/www/html). You can of course replace the image by anything else of your choosing.</p>
+
+<p>Create the adult_filter.css file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/adult_filter.css
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@CHARSET <span class="s2">"UTF-8"</span><span class="p">;</span>
+
+body <span class="o">{</span>
+ background-color: <span class="c">#ffffff;</span>
+ font-family: verdana, arial, sans serif<span class="p">;</span>
+<span class="o">}</span>
+
+div.outer <span class="o">{</span>
+ width: 70%<span class="p">;</span>
+ margin: 20px auto<span class="p">;</span>
+<span class="o">}</span>
+
+div.header <span class="o">{</span>
+ padding: 10px<span class="p">;</span>
+ background-color: <span class="c">#c0c0c0;</span>
+ text-align: right<span class="p">;</span>
+ font-size: 60%<span class="p">;</span>
+<span class="o">}</span>
+
+div.footer <span class="o">{</span>
+ padding: 5px<span class="p">;</span>
+ background-color: <span class="c">#c0c0c0;</span>
+ text-align: right<span class="p">;</span>
+ font-size: 60%<span class="p">;</span>
+<span class="o">}</span>
+
+div.inner <span class="o">{</span>
+ text-align: center<span class="p">;</span>
+ background-color: <span class="c">#f4f4f4;</span>
+ text-align: center<span class="p">;</span>
+ padding: 20px<span class="p">;</span>
+<span class="o">}</span>
+
+div.msg <span class="o">{</span>
+ padding: 20px<span class="p">;</span>
+ margin-top: 20px<span class="p">;</span>
+ background-color: <span class="c">#e2e2e2;</span>
+ color: black<span class="p">;</span>
+ font-size: 80%<span class="p">;</span>
+<span class="o">}</span>
+
+div.error <span class="o">{</span>
+ letter-spacing: 0.5em<span class="p">;</span>
+ word-spacing: 1em<span class="p">;</span>
+ padding: 20px<span class="p">;</span>
+ background-color: <span class="c">#ff0000;</span>
+ color: white<span class="p">;</span>
+ font-size: 200%<span class="p">;</span>
+ font-weight: bold<span class="p">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now let’s run the blacklist script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>sh /usr/local/bin/blacklist.sh
+</code></pre></div></div>
+
+<h4 id="test-it-1"><strong>Test it!</strong></h4>
+
+<p>Try to access some adult content websites. When a website (HTTP) is blocked by the Adult blocklist, the user will be redirected to the block page (adult_block.php).</p>
+
+<p><img src="/images/block_adult_http.jpg" alt="image" /></p>
+
+<p>When a website (HTTP<span style="color:red">S</span>) is blocked by the Adult blocklist, the user will see a warning page.</p>
+
+<p><img src="/images/block_adult_https.jpg" alt="image" /></p>
+
+<div class="callout callout--warning">
+    <p><strong>Remember!</strong>A filter based on URL or domain will never be 100% accurate. Expect some sites not to be filtered.</p>
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-4">Reference</h4>
+
+<p><a href="https:aaa">AAA</a></p>
+
+<h3 id="clamav"><strong>Clamav</strong></h3>
+
+<p>Here, parts 7 &amp; 8, we will install an antivirus engine to scan the device for trojans, viruses, malware, and other malicious threats, but also to scan threats coming from the Internet (this works on HTTP connections only)</p>
+
+<p>Install Clamav</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>clamav clamav-daemon
+</code></pre></div></div>
+
+<p>Create a symbolic link</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo ln</span> <span class="nt">-s</span> /etc/clamav/freshclam.conf /usr/local/etc/freshclam.conf
+</code></pre></div></div>
+
+<p>Run freshclam</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>freshclam
+</code></pre></div></div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-5">Reference</h4>
+
+<p><a href="https://pimylifeup.com/raspberry-pi-clamav/">https://pimylifeup.com/raspberry-pi-clamav/</a></p>
+
+<h3 id="squidclamav"><strong>SquidClamav</strong></h3>
+
+<p>Download the SquidClamav .tar.gz archive file (check for the latest)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>wget https://sourceforge.net/projects/squidclamav/files/squidclamav/7.1/squidclamav-7.1.tar.gz/download <span class="nt">-O</span> squidclamav-7.1.tar.gz
+</code></pre></div></div>
+
+<p>Build the tool with the following commands (one by one)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>zxvf squidclamav-7.1.tar.gz
+<span class="nb">sudo </span>su
+<span class="nb">cd </span>squidclamav-7.1
+./configure <span class="nt">--with-c-icap</span> <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make <span class="nb">install
+exit</span>
+</code></pre></div></div>
+
+<p>Copy the cgi-bin folder in <code class="language-plaintext highlighter-rouge">/usr/lib/</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> <span class="nt">-rf</span> cgi-bin /usr/lib/
+</code></pre></div></div>
+
+<p>Assign access permissions</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> <span class="nt">-R</span> 755 /usr/lib/cgi-bin/
+</code></pre></div></div>
+
+<p>Create a symbolic link</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /etc/c-icap/squidclamav.conf /etc/squidclamav.conf
+</code></pre></div></div>
+
+<p>Open the c-icap file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/default/c-icap
+</code></pre></div></div>
+
+<p>Make sure Start is set to “yes”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">START</span><span class="o">=</span><span class="nb">yes</span>
+</code></pre></div></div>
+
+<p>Open the c-icap.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/c-icap/c-icap.conf
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PidFile /var/run/c-icap/c-icap.pid
+CommandsSocket /var/run/c-icap/c-icap.ctl
+Timeout 300
+MaxKeepAliveRequests 100
+KeepAliveTimeout 600
+StartServers 3
+MaxServers 10
+MinSpareThreads     10
+MaxSpareThreads     20
+ThreadsPerChild     10
+MaxRequestsPerChild  0
+Port 1344
+User c-icap
+Group nogroup
+ServerAdmin you@your.address
+ServerName Anti-Virus-Proxy
+TmpDir /tmp
+MaxMemObject 1048576
+DebugLevel 0
+ModulesDir /usr/lib/c_icap
+ServicesDir /usr/lib/c_icap
+TemplateDir /usr/share/c_icap/templates/squidclamav/en/MALWARE_FOUND
+TemplateDefaultLanguage en
+LoadMagicFile /etc/c-icap/c-icap.magic
+RemoteProxyUsers off
+RemoteProxyUserHeader X-Authenticated-User
+RemoteProxyUserHeaderEncoded on
+ServerLog /var/log/c-icap/server.log
+AccessLog /var/log/c-icap/access.log
+Service <span class="nb">echo </span>srv_echo.so
+Service squidclamav squidclamav.so
+</code></pre></div></div>
+
+<p>Now, we need to add some information on the squid.conf file that we saw in step 3 above</p>
+
+<p>Open the squid.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squid/squid.conf
+</code></pre></div></div>
+
+<p>Add at the end of the file the following lines. Make sure you have adjusted the IP address as needed</p>
+
+<div class="callout">
+...<br />
+icap_service service_req reqmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
+icap_service service_resp respmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
+...
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cap_enable on
+icap_send_client_ip on
+icap_send_client_username on
+icap_client_username_encode off
+icap_client_username_header X-Authenticated-User
+icap_preview_enable on
+icap_preview_size 1024
+
+icap_service service_req reqmod_precache <span class="nv">bypass</span><span class="o">=</span>1 icap://192.168.1.xxx:1344/squidclamav
+icap_service service_resp respmod_precache <span class="nv">bypass</span><span class="o">=</span>1 icap://192.168.1.xxx:1344/squidclamav
+
+adaptation_access service_req allow all
+adaptation_access service_resp allow all
+</code></pre></div></div>
+
+<p>So the entire <strong>squid.conf</strong> file should look like this</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>visible_hostname squid.proxy.org
+
+acl localnet src 192.168.1.0/24  <span class="c"># Home network</span>
+
+acl SSL_ports port 443
+acl Safe_ports port 80     <span class="c"># http</span>
+acl Safe_ports port 21     <span class="c"># ftp</span>
+acl Safe_ports port 443    <span class="c"># https</span>
+acl Safe_ports port 70     <span class="c"># gopher</span>
+acl Safe_ports port 210    <span class="c"># wais</span>
+acl Safe_ports port 1025-65535   <span class="c"># unregistered ports</span>
+acl Safe_ports port 280    <span class="c"># http-mgmt</span>
+acl Safe_ports port 488    <span class="c"># gss-http</span>
+acl Safe_ports port 591    <span class="c"># filemaker</span>
+acl Safe_ports port 777    <span class="c"># multiling http</span>
+acl Safe_ports port 873          <span class="c"># rsync</span>
+
+acl CONNECT method CONNECT
+
+http_access deny <span class="o">!</span>Safe_ports
+http_access deny CONNECT <span class="o">!</span>SSL_ports
+http_access allow localhost manager
+http_access deny manager
+http_access allow localnet
+http_access allow localhost
+http_access deny all
+
+http_port 3128
+
+cache_mem 512 MB
+maximum_object_size_in_memory 1024 KB
+minimum_object_size 0 KB
+maximum_object_size 96 MB
+memory_cache_mode always
+
+cache_dir ufs /var/spool/squid 4096 16 256
+coredump_dir /var/spool/squid
+
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>gif|png|jpg|jpeg|ico<span class="o">)</span><span class="nv">$ </span>10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>iso|avi|wav|mp3|mp4|mpeg|swf|flv|x-flv<span class="o">)</span><span class="nv">$ </span>43200 90% 432000 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>deb|rpm|exe|zip|tar|tgz|ram|rar|bin|ppt|doc|tiff<span class="o">)</span><span class="nv">$ </span>10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span>index.<span class="o">(</span>html|htm<span class="o">)</span><span class="nv">$ </span>0 40% 10080
+refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>html|htm|css|js<span class="o">)</span><span class="nv">$ </span>1440 40% 40320
+refresh_pattern <span class="nb">.</span> 0 40% 40320
+
+cache_peer 192.168.1.xxx parent 8118 0 default no-query no-digest
+acl ftp proto FTP
+always_direct allow ftp
+never_direct allow all
+cache_effective_group proxy
+
+url_rewrite_program /usr/bin/squidGuard <span class="nt">-c</span> /etc/squidguard/squidGuard.conf
+redirect_children 8
+redirector_bypass on
+redirect_program /usr/bin/squidGuard <span class="nt">-c</span> /etc/squidguard/squidGuard.conf
+
+icap_enable on
+icap_send_client_ip on
+icap_send_client_username on
+icap_client_username_encode off
+icap_client_username_header X-Authenticated-User
+icap_preview_enable on
+icap_preview_size 1024
+
+icap_service service_req reqmod_precache <span class="nv">bypass</span><span class="o">=</span>1 icap://192.168.1.xxx:1344/squidclamav
+icap_service service_resp respmod_precache <span class="nv">bypass</span><span class="o">=</span>1 icap://192.168.1.xxx:1344/squidclamav
+
+adaptation_access service_req allow all
+adaptation_access service_resp allow all
+</code></pre></div></div>
+
+<p>Open the squidclamav.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/c-icap/squidclamav.conf
+</code></pre></div></div>
+
+<p>Add the following line. Make sure you have adjusted the IP address as needed</p>
+
+<div class="callout">
+redirect http://192.168.1.<span style="color:red">xxx</span>/block.php
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># When a virus is found then redirect the user to this URL</span>
+redirect http://192.168.1.xxx/block.php
+</code></pre></div></div>
+
+<p>Create the block.php page</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/block.php
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+/<span class="k">*</span>
+  squid_clwarn.php
+  part of pfSense <span class="o">(</span>https://www.pfSense.org/<span class="o">)</span>
+  Copyright <span class="o">(</span>C<span class="o">)</span> 2015 Marcello Coutinho
+  Copyright <span class="o">(</span>C<span class="o">)</span> 2015 ESF, LLC
+  All rights reserved.
+  Redistribution and use <span class="k">in </span><span class="nb">source </span>and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  1. Redistributions of <span class="nb">source </span>code must retain the above copyright notice,
+     this list of conditions and the following disclaimer.
+  2. Redistributions <span class="k">in </span>binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer <span class="k">in </span>the
+     documentation and/or other materials provided with the distribution.
+  THIS SOFTWARE IS PROVIDED <span class="sb">``</span>AS IS<span class="s1">''</span> AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+  OR CONSEQUENTIAL DAMAGES <span class="o">(</span>INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES<span class="p">;</span> LOSS OF USE, DATA, OR PROFITS<span class="p">;</span> OR BUSINESS
+  INTERRUPTION<span class="o">)</span> HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT <span class="o">(</span>INCLUDING NEGLIGENCE OR OTHERWISE<span class="o">)</span>
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+<span class="k">*</span>/
+<span class="c"># send a notice to the admin  </span>
+<span class="nv">$to</span><span class="o">=</span><span class="s1">'l.laspada@yahoo.fr'</span><span class="p">;</span>
+<span class="nv">$from</span><span class="o">=</span><span class="s1">'Security Alerts &lt;pi-squid&gt;'</span><span class="p">;</span>
+<span class="nv">$subj</span><span class="o">=</span><span class="s2">"ALERT: Attempt to Download Malware by </span><span class="nv">$fromhost</span><span class="s2">"</span><span class="p">;</span>
+
+<span class="nv">$VERSION</span> <span class="o">=</span> <span class="s1">'6.10'</span><span class="p">;</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'url'</span><span class="o">]</span><span class="p">;</span>
+<span class="nv">$virus</span> <span class="o">=</span> <span class="o">(</span><span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'virus'</span><span class="o">]</span> ? <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'virus'</span><span class="o">]</span> : <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'malware'</span><span class="o">])</span><span class="p">;</span>
+<span class="nv">$source</span> <span class="o">=</span> preg_replace<span class="o">(</span><span class="s2">"@/-@"</span>, <span class="s2">""</span>, <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'source'</span><span class="o">])</span><span class="p">;</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span><span class="p">;</span>
+<span class="nv">$TITLE_VIRUS</span> <span class="o">=</span> <span class="s2">"SquidClamav </span><span class="nv">$VERSION</span><span class="s2">: Virus detected!"</span><span class="p">;</span>
+<span class="nv">$subtitle</span> <span class="o">=</span> <span class="s1">'Virus name'</span><span class="p">;</span>
+<span class="nv">$errorreturn</span> <span class="o">=</span> <span class="s1">'This file cannot be downloaded.'</span><span class="p">;</span>
+<span class="nv">$urlerror</span> <span class="o">=</span> <span class="s1">'contains a virus'</span><span class="p">;</span>
+<span class="k">if</span> <span class="o">(</span>preg_match<span class="o">(</span><span class="s2">"/Safebrowsing/"</span>, <span class="nv">$virus</span><span class="o">))</span> <span class="o">{</span>
+  <span class="nv">$TITLE_VIRUS</span> <span class="o">=</span> <span class="s2">"SquidClamav </span><span class="nv">$VERSION</span><span class="s2">: Unsafe Browsing detected"</span><span class="p">;</span>
+  <span class="nv">$subtitle</span> <span class="o">=</span> <span class="s1">'Malware / phishing type'</span><span class="p">;</span>
+  <span class="nv">$urlerror</span> <span class="o">=</span> <span class="s1">'is listed as suspicious'</span><span class="p">;</span>
+  <span class="nv">$errorreturn</span> <span class="o">=</span> <span class="s1">'This page cannot be displayed'</span><span class="p">;</span>
+
+<span class="o">}</span>
+// Remove clamd infos
+<span class="nv">$vp</span><span class="o">[</span>0]<span class="o">=</span><span class="s2">"/stream: /"</span><span class="p">;</span>
+<span class="nv">$vp</span><span class="o">[</span>1]<span class="o">=</span><span class="s2">"/ FOUND/"</span><span class="p">;</span>
+<span class="nv">$vr</span><span class="o">[</span>0]<span class="o">=</span><span class="s2">""</span><span class="p">;</span>
+<span class="nv">$vr</span><span class="o">[</span>1]<span class="o">=</span><span class="s2">""</span><span class="p">;</span>
+<span class="nv">$virus</span> <span class="o">=</span> preg_replace<span class="o">(</span><span class="nv">$vp</span>, <span class="nv">$vr</span>, <span class="nv">$virus</span><span class="o">)</span><span class="p">;</span>
+error_log<span class="o">(</span><span class="nb">date</span><span class="o">(</span><span class="s2">"Y-m-d H:i:s"</span><span class="o">)</span> <span class="nb">.</span> <span class="s2">" | VIRUS FOUND | "</span> <span class="nb">.</span> <span class="nv">$virus</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$url</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$source</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$user</span> <span class="nb">.</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>, 3, <span class="s2">"/var/log/c-icap/virus.log"</span><span class="o">)</span><span class="p">;</span>
+
+
+?&gt;
+&lt;style <span class="nb">type</span><span class="o">=</span><span class="s2">"text/css"</span><span class="o">&gt;</span>
+  .visu <span class="o">{</span>
+  border:1px solid <span class="c">#C0C0C0;</span>
+  color:#FFFFFF<span class="p">;</span>
+  position: relative<span class="p">;</span>
+  min-width: 13em<span class="p">;</span>
+  max-width: 52em<span class="p">;</span>
+  margin: 4em auto<span class="p">;</span>
+  border: 1px solid ThreeDShadow<span class="p">;</span>
+  border-radius: 10px<span class="p">;</span>
+  padding: 3em<span class="p">;</span>
+  <span class="nt">-moz-padding-start</span>: 30px<span class="p">;</span>
+  background-color: <span class="c">#8b0000;</span>
+<span class="o">}</span>
+.visu h2, .visu h3, .visu h4 <span class="o">{</span>
+  font-size:130%<span class="p">;</span>
+  font-family:<span class="s2">"times new roman"</span>, <span class="nb">times</span>, serif<span class="p">;</span>
+  font-style:normal<span class="p">;</span>
+  font-weight:bolder<span class="p">;</span>
+<span class="o">}</span>
+&lt;/style&gt;
+&lt;div <span class="nv">class</span><span class="o">=</span><span class="s2">"visu"</span><span class="o">&gt;</span>
+  &lt;h2&gt;&lt;?<span class="o">=</span><span class="nv">$TITLE_VIRUS</span>?&gt;&lt;/h2&gt;
+  &lt;hr /&gt;
+  &lt;p&gt;
+  The requested URL &lt;?<span class="o">=</span><span class="nv">$url</span>?&gt; &lt;?<span class="o">=</span><span class="nv">$urlerror</span>?&gt;&lt;br/&gt;
+  &lt;?<span class="o">=</span><span class="nv">$subtitle</span>?&gt;: &lt;?<span class="o">=</span><span class="nv">$virus</span>?&gt;
+  &lt;/p&gt;&lt;p&gt;
+  &lt;?<span class="o">=</span><span class="nv">$errorreturn</span>?&gt;
+  &lt;/p&gt;&lt;p&gt;
+  Origin: &lt;?<span class="o">=</span><span class="nv">$source</span>?&gt; / &lt;?<span class="o">=</span><span class="nv">$user</span>?&gt;
+  &lt;/p&gt;&lt;p&gt;
+  &lt;hr /&gt;
+  &lt;font <span class="nv">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="o">&gt;</span> Powered by &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">"http://squidclamav.darold.net/"</span><span class="o">&gt;</span>SquidClamav &lt;?<span class="o">=</span><span class="nv">$VERSION</span>?&gt;&lt;/a&gt;.&lt;/font&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p>Copy the clwarn.cgi to another location</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /usr/local/libexec/squidclamav/clwarn.cgi /usr/lib/cgi-bin/clwarn.cgi
+</code></pre></div></div>
+
+<p>Set access permissions</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod </span>755 /usr/lib/cgi-bin/clwarn.cgi
+</code></pre></div></div>
+
+<p>Copy the clwarn.cgi to another location</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /usr/local/libexec/squidclamav/clwarn.cgi /var/www/html/cgi-bin/clwarn.cgi
+</code></pre></div></div>
+
+<p>Set access permissions</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod </span>755 /var/www/html/cgi-bin/clwarn.cgi
+</code></pre></div></div>
+
+<p>Restart squid, c-icap and clamav-daemon</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /etc/init.d/squid restart
+<span class="nb">sudo</span> /etc/init.d/c-icap restart
+<span class="nb">sudo</span> /etc/init.d/clamav-daemon restart
+</code></pre></div></div>
+
+<h4 id="test-it-2"><strong>Test it!</strong></h4>
+
+<p>Try to download the EICAR test virus signature by clicking this link</p>
+
+<p><a href="http://proxy.opendnstest.com/download/eicar.com">http://proxy.opendnstest.com/download/eicar.com/</a></p>
+
+<p>Your browser should display the block.php page</p>
+
+<p><img src="/images/eicar_detected.jpg" alt="image" /></p>
+
+<div class="callout callout--warning">
+    <p>Note that this works only with HTTP unsecured addresses</p>
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-6">Reference</h4>
+
+<p><a href="http://squidclamav.darold.net/">http://squidclamav.darold.net/</a><br />
+<a href="https://www.eicar.org/">https://www.eicar.org/</a></p>
+
+<h2 id="part-3-other-programs-to-install-optional">Part 3: Other programs to install (optional)</h2>
+
+<h3 id="danted"><strong>Danted</strong></h3>
+
+<p>Install Danted</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dante-server
+</code></pre></div></div>
+
+<p>Make a backup copy of the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/danted.conf /etc/danted.conf.bkp
+</code></pre></div></div>
+
+<p>This step is optional, it removes all the lines in the config file that starts with <code class="language-plaintext highlighter-rouge">#</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+
+<span class="nb">cat</span> /etc/danted.conf.bkp | egrep <span class="nt">-v</span> <span class="nt">-e</span> <span class="s1">'^[[:blank:]]*#|^$'</span> <span class="o">&gt;</span> /etc/danted.conf
+
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Open the configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/danted.conf
+</code></pre></div></div>
+
+<p>Copy-paste the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logoutput: syslog
+
+internal: 0.0.0.0 port <span class="o">=</span> 1080
+
+external: eth0
+
+socksmethod: none
+clientmethod: none
+
+user.privileged: proxy
+user.notprivileged: nobody
+user.libwrap: nobody
+
+client pass <span class="o">{</span>
+from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+
+client block <span class="o">{</span>
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+
+socks block <span class="o">{</span>
+from: 0.0.0.0/0 to: 127.0.0.0/8
+log: connect error
+<span class="o">}</span>
+
+socks pass <span class="o">{</span>
+from: 192.168.0.0/16 to: 0.0.0.0/0
+protocol: tcp udp
+log: connect error
+<span class="o">}</span>
+
+socks block <span class="o">{</span>
+from: 0.0.0.0/0 to: 0.0.0.0/0
+log: connect error
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Open the dante.service file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /lib/systemd/system/danted.service
+</code></pre></div></div>
+
+<p>Now, we need to add one line to the privoxy.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/privoxy/config
+</code></pre></div></div>
+
+<p>Add this line at the end of the file. Adjust the IP address as needed</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forward-socks5   /               192.168.1.xxx:1080 <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Start Danted</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /etc/init.d/danted start
+</code></pre></div></div>
+
+<p>Check that it has started up correctly. The status output should show: <strong>Active: active (running)</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service danted status
+</code></pre></div></div>
+
+<p>If you see the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ERROR MESSAGE <span class="o">(</span>TO BE ADDED<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Open the dante.service file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /lib/systemd/system/danted.service
+</code></pre></div></div>
+
+<p>Find</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ReadOnlyDirectories</span><span class="o">=</span>/bin /etc /lib /lib64 /sbin /usr /var
+</code></pre></div></div>
+
+<p>Remove <code class="language-plaintext highlighter-rouge">/lib64</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ReadOnlyDirectories</span><span class="o">=</span>/bin /etc /lib /sbin /usr /var
+</code></pre></div></div>
+
+<p>Restart Danted</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /etc/init.d/danted restart
+</code></pre></div></div>
+
+<p>Check again that it has started up correctly. The status output should show: <strong>Active: active (running)</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service danted status
+</code></pre></div></div>
+
+<h4 id="test-it-3"><strong>Test it!</strong></h4>
+
+<p>Type (adjust the IP address)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-x</span> socks5h://192.168.1.xxx:1080 ifconfig.co
+</code></pre></div></div>
+
+<p>If all goes well, you should see your public IPv4 address</p>
+
+<h3 id="ufw"><strong>UFW</strong></h3>
+
+<p>Install UFW</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>ufw
+</code></pre></div></div>
+
+<p>Allow all ports from your local network</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw allow from 192.168.1.0/24
+</code></pre></div></div>
+
+<h3 id="watchdog"><strong>Watchdog</strong></h3>
+
+<p>Install Watchdog</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>watchdog
+</code></pre></div></div>
+
+<p>Open the watchdog.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/watchdog.conf
+</code></pre></div></div>
+
+<p>This is my configuration</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#ping     = 192.168.1.1</span>
+<span class="c">#ping     = 172.26.1.255</span>
+<span class="c">#interface    = eth0</span>
+<span class="c">#file     = /var/log/messages</span>
+<span class="c">#change     = 1407</span>
+
+<span class="c"># Uncomment to enable test. Setting one of these values to '0' disables it.</span>
+<span class="c"># These values will hopefully never reboot your machine during normal use</span>
+<span class="c"># (if your machine is really hung, the loadavg will go much higher than 25)</span>
+max-load-1    <span class="o">=</span> 24
+max-load-5    <span class="o">=</span> 18
+max-load-15   <span class="o">=</span> 12
+
+<span class="c"># Note that this is the number of pages!</span>
+<span class="c"># To get the real size, check how large the pagesize is on your machine.</span>
+<span class="c">#min-memory   = 1</span>
+<span class="c">#allocatable-memory = 1</span>
+
+<span class="c">#repair-binary    = /usr/sbin/repair</span>
+<span class="c">#repair-timeout   = 60</span>
+<span class="c">#test-binary    =</span>
+<span class="c">#test-timeout   = 60</span>
+
+<span class="c"># The retry-timeout and repair limit are used to handle errors in a more robust</span>
+<span class="c"># manner. Errors must persist for longer than retry-timeout to action a repair</span>
+<span class="c"># or reboot, and if repair-maximum attempts are made without the test passing a</span>
+<span class="c"># reboot is initiated anyway.</span>
+<span class="c">#retry-timeout    = 60</span>
+<span class="c">#repair-maximum   = 1</span>
+
+watchdog-device <span class="o">=</span> /dev/watchdog
+
+<span class="c"># Defaults compiled into the binary</span>
+<span class="c">#temperature-sensor =</span>
+max-temperature <span class="o">=</span> 120
+
+<span class="c"># Defaults compiled into the binary</span>
+admin      <span class="o">=</span> me@yahoo.fr
+interval    <span class="o">=</span> 10
+<span class="c">#logtick                = 1</span>
+<span class="c">#log-dir    = /var/log/watchdog</span>
+
+<span class="c"># This greatly decreases the chance that watchdog won't be scheduled before</span>
+<span class="c"># your machine is really loaded</span>
+realtime    <span class="o">=</span> <span class="nb">yes
+</span>priority    <span class="o">=</span> 1
+
+<span class="c"># Check if rsyslogd is still running by enabling the following line</span>
+<span class="c">#pidfile   = /var/run/rsyslogd.pid</span>
+</code></pre></div></div>
+
+<h3 id="webmin"><strong>Webmin</strong></h3>
+
+<p>Install Webmin and dependencies</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>apache2 apache2-suexec-custom libnet-ssleay-perl libauthen-pam-perl libio-pty-perl apt-show-versions samba bind9 webalizer locate mariadb-server-10.0 squid-cgi
+</code></pre></div></div>
+
+<p>Create a new directory named <code class="language-plaintext highlighter-rouge">installed-packages</code>at the root</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir </span>installed-packages
+</code></pre></div></div>
+
+<p>Type</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>installed-packages
+</code></pre></div></div>
+
+<p>Download the latest package</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>wget http://www.webmin.com/download/deb/webmin-current.deb
+</code></pre></div></div>
+
+<p>Install</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dpkg <span class="nt">-i</span> webmin-current.deb
+</code></pre></div></div>
+
+<p>Log in to your Webmin portal. Adjust the IP address</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://192.168.1.xxx:10000/
+</code></pre></div></div>
+
+<h3 id="msmtp"><strong>mSMTP</strong></h3>
+
+<p>This is useful if you want your Raspberry Pi tp send you reports by email</p>
+
+<p>Install msmtp</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>msmtp msmtp-mta
+</code></pre></div></div>
+
+<p>Create new file in <code class="language-plaintext highlighter-rouge">/etc</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /etc
+<span class="nb">sudo touch </span>msmtprc
+<span class="nb">sudo </span>nano /etc/msmtprc
+</code></pre></div></div>
+
+<p>Open the msmtprc file you just created and copy paste the following. Adjust as needed</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set default values for all following accounts.</span>
+defaults
+port 587
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account gmail
+host smtp.gmail.com
+from me@gmail.com
+auth on
+user me@gmail.com
+password my_gmail_password
+
+<span class="c"># Set a default account</span>
+account default : gmail
+</code></pre></div></div>
+
+<h4 id="test-it-4"><strong>Test it!</strong></h4>
+
+<p>Use your email address</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Subject: Test Mail</span><span class="se">\r\n\r\n</span><span class="s2">This is a test mail"</span> | msmtp <span class="nt">--debug</span> <span class="nt">--from</span><span class="o">=</span>default <span class="nt">-t</span> me@gmail.com
+</code></pre></div></div>
+
+<h2 id="part-4-logs">Part 4: Logs</h2>
+
+<h3 id="ccze"><strong>CCZE</strong></h3>
+
+<p>Install CCZE</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>ccze
+</code></pre></div></div>
+
+<h4 id="check-some-logs">Check some logs</h4>
+
+<p><strong>SquidGuard</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squidguard/squidGuard.log | ccze
+<span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squidguard/adult.log | ccze
+<span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squidguard/malware.log | ccze
+<span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squidguard/phishing.log | ccze
+</code></pre></div></div>
+
+<p><strong>Squid</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squid/cache.log | ccze
+<span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squid/access.log | ccze
+</code></pre></div></div>
+
+<p><strong>Clamav</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/clamav/clamav.log | ccze
+<span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/clamav/freshclam.log | ccze
+</code></pre></div></div>
+
+<p><strong>Danted</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/syslog | ccze
+</code></pre></div></div>
+
+<p><strong>Nginx</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/nginx/error.log | ccze
+</code></pre></div></div>
+
+<p><strong>Privoxy</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/privoxy/logfile | ccze
+</code></pre></div></div>
+
+							
+	<div class="c-comments u-mt-8 u-mb-3">
+		<div id="disqus_thread"></div>
+		<script>
+			/**
+			 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+			 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+			 */
+			/*
+			var disqus_config = function () {
+			this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+				this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			*/
+			(function() {
+				var d = document, s = d.createElement('script');
+
+				s.src = 'https://lls.disqus.com/embed.js';
+
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+	</div><!-- /.c-comments -->
+
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+								
+									<li class="is-active">
+										<a href="/documentation/1-proxy_filter/">
+											<p class="c-page-nav__heading">Web Filter Proxy (Ads & Pr0n)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/2-virtual_private_network/">
+											<p class="c-page-nav__heading">Virtual Private Network</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/3-web_server/">
+											<p class="c-page-nav__heading">Web server</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/4-nextcloud/">
+											<p class="c-page-nav__heading">Nextcloud</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/100-Examples/">
+											<p class="c-page-nav__heading">EXAMPLES</p>
+										</a>
+									</li>
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-12 u-text-center">
+					<div class="u-inline-block u-flex@sm">
+						
+						
+							
+							
+							
+						
+							
+							
+							
+								<a href="/documentation/2-virtual_private_network/" class="c-arrow-link c-arrow-link--next u-ml-auto">Virtual Private Network</a>
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+					</div>
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									r-pi
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy; 2020. - r-pi <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+

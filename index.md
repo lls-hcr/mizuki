@@ -16,11 +16,21 @@ features:
     rows: # Add feature rows below, there are examples with all available options
         - title: reciPi
           description: 
-          grid: # Add feature grid items below, there are examples with all available options
-              - title: Ads & p0rn filter (Parental Control)
-                description: dnsmasq + nginx + squid + clamav + SquidGuard + privoxy + danted + ufw + fail2ban + watchdog + webmin
-                icon: umbrella # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
-              - title: Virtual Private Network (VPN)
-                description: dnsmasq + apache2 + openvpn + squid + privoxy + danted + ufw + fail2ban + watchdog + webmin
+          grid: # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
+
+              - title: Web Filter Proxy & parental control
+                description: Turn a Raspberry Pi into a advanced and highly configurable web filter and parental control proxy with Privoxy, Squid and SquidGuard
+                icon: umbrella
+
+              - title: Virtual Private Network
+                description: Turn a Raspberry Pi into a VPN server
                 icon: lock
+
+              - title: Web server
+                description: Turn a Raspberry Pi into a Web server
+                icon: globe
+
+              - title: Nextcloud
+                description: Turn a Raspberry Pi into a fully File Access and sync platform
+                icon: cloud
 ---

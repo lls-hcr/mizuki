@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Danted | r-pi</title>
+			<title>Nextcloud | r-pi</title>
 		
 		
-			<meta name="description" content="Danted — Description">
+			<meta name="description" content="Set up a File Access and sync platform">
 		
 		
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -106,11 +106,11 @@
 			<div class="o-row">
 				<div class="o-col-8@lg o-col-7@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Danted — Title</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Nextcloud - File Access and sync platform</h2>
 					
 					
 						<div class="u-h6">
-							<p>Danted — Text</p>
+							<p>Step-by-step instructions</p>
 						</div>
 					
 					
@@ -129,63 +129,36 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h6 id="install-danted">Install Danted.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dante-server
-</code></pre></div></div>
-
-<h6 id="backup-the-original-configuration-file">Backup the original configuration file.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/danted.conf /etc/danted.conf.bkp
-</code></pre></div></div>
-
-<h6 id="modify-the-conf-file">Modify the conf file.</h6>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/danted.conf
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logoutput: stderr /var/log/dante.log
-
-internal: eth0 port <span class="o">=</span> 1080
-external: tun0
-
-method: none
-clientmethod: none
-
-user.privileged: proxy
-user.notprivileged: nobody
-user.libwrap: nobody
-
-client pass <span class="o">{</span>
-from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
-log: connect error
-<span class="o">}</span>
-
-client block <span class="o">{</span>
-from: 0.0.0.0/0 to: 0.0.0.0/0
-log: connect error
-<span class="o">}</span>
-
-block <span class="o">{</span>
-from: 0.0.0.0/0 to: 127.0.0.0/8
-log: connect error
-<span class="o">}</span>
-
-pass <span class="o">{</span>
-from: 192.168.0.0/16 to: 0.0.0.0/0
-protocol: tcp udp
-log: connect error
-<span class="o">}</span>
-
-block <span class="o">{</span>
-from: 0.0.0.0/0 to: 0.0.0.0/0
-log: connect error
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h2 id="credit">Credit</h2>
-<ul>
-  <li><a href="https://github.com/jonathanhaslett/PrivacyPi">PrivacyPi on Github</a>.</li>
-</ul>
+							<div class="callout html">
+    <p><strong>Please come back later!</strong>
+</p></div>
 
 							
+	<div class="c-comments u-mt-8 u-mb-3">
+		<div id="disqus_thread"></div>
+		<script>
+			/**
+			 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+			 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+			 */
+			/*
+			var disqus_config = function () {
+			this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+				this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			*/
+			(function() {
+				var d = document, s = d.createElement('script');
+
+				s.src = 'https://lls.disqus.com/embed.js';
+
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+	</div><!-- /.c-comments -->
+
 
 						</div><!-- /.c-post -->
 					</div><!-- /.o-col -->
@@ -197,32 +170,32 @@ log: connect error
 							
 								
 									<li class="is-active">
-										<a href="/documentation/1-Static_IP/">
-											<p class="c-page-nav__heading">Virtual Private Network (VPN)</p>
+										<a href="/documentation/1-proxy_filter/">
+											<p class="c-page-nav__heading">Web Filter Proxy (Ads & Pr0n)</p>
 										</a>
 									</li>
 								
 							
 								
 									<li class="is-active">
-										<a href="/documentation/3-OpenVPN/">
-											<p class="c-page-nav__heading">OpenVPN</p>
+										<a href="/documentation/2-virtual_private_network/">
+											<p class="c-page-nav__heading">Virtual Private Network</p>
 										</a>
 									</li>
 								
 							
 								
 									<li class="is-active">
-										<a href="/documentation/5-Danted/">
-											<p class="c-page-nav__heading">Danted</p>
+										<a href="/documentation/3-web_server/">
+											<p class="c-page-nav__heading">Web server</p>
 										</a>
 									</li>
 								
 							
 								
-									<li>
-										<a href="/documentation/6-Start_Chain/">
-											<p class="c-page-nav__heading">OpenVPN + Privoxy + Danted</p>
+									<li class="is-active">
+										<a href="/documentation/4-nextcloud/">
+											<p class="c-page-nav__heading">Nextcloud</p>
 										</a>
 									</li>
 								
@@ -263,11 +236,11 @@ log: connect error
 							
 							
 							
+								<a href="/documentation/3-web_server/" class="c-arrow-link c-arrow-link--prev u-mr-auto">Web server</a>
+							
 						
 							
 							
-							
-								<a href="/documentation/6-Start_Chain/" class="c-arrow-link c-arrow-link--next u-ml-auto">OpenVPN + Privoxy + Danted</a>
 							
 						
 							
@@ -296,7 +269,7 @@ log: connect error
 								</p><!-- /.c-logo -->
 							
 							
-								<p>Copyright &copy; 2018. - r-pi <br>All rights reserved.</p>
+								<p>Copyright &copy; 2020. - r-pi <br>All rights reserved.</p>
 							
 						</div><!-- /.o-col -->
 					</div><!-- /.o-row -->

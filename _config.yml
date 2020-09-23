@@ -22,7 +22,7 @@ dox:
         logo:
             text: r-pi
             image:
-        text: Copyright &copy; 2018. - r-pi <br>All rights reserved.
+        text: Copyright &copy; 2020. - r-pi <br>All rights reserved.
     google_analytics:
         tracking_code: # Add your Google Analytics tracking code to activate Google Analytics
     comments:
