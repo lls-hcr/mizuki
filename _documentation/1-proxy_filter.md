@@ -88,7 +88,7 @@ The output should look similar this:
 pi adm dialout cdrom sudo audio video plugdev games users input netdev gpio i2c spi
 </div>
 
-Remove the `pi`at the beginning and put the new username at the end. Each group separated by a comma; no space.
+Copy the line, remove the `pi`at the beginning and put the new username at the end. Each group separated by a comma; no space.
 
 Replace <span style="color:red">new_username</span> with whatever you like.
 
@@ -1249,7 +1249,7 @@ sudo nano /var/www/html/info.php
 
 Then
 
-```php
+```bash
 echo '<?php phpinfo(); ?>' > /var/www/html/info.php
 ```
 
@@ -1271,11 +1271,11 @@ Reboot
 sudo reboot
 ```
 
-Log in again and test your installation (Nginx and PHP)
+Log in again and test your installation (Nginx and PHP). Adjust the IP address
 
-```bash
-http://192.168.1.ccc/info.php
-```
+<div class="callout callout">
+https://192.168.1.<span style="color:red">xxx</span>/info.php/
+</div>
 
 You should see the following
 
@@ -1347,9 +1347,9 @@ if (isset($details) && $details) $details = implode(" | ", $details);
 </html>
 ```
 
-<span style="color:red">IMPORTANT:</span> Download this image [adult_block.png]({{ site.url }}/images/adult_block.png) and put it in your root folder (var/www/html). You can of course replace the image by anything else of your choosing.
+<span style="color:red">In addition</span>, download this image ["adult_block.png"]({{ site.url }}/images/adult_block.png) and put it in your root folder (var/www/html). You can of course replace the image by anything else of your choosing.
 
-Create the adult_filter.css file
+Create the `adult_filter.css` file
 
 ```bash
 sudo nano /var/www/html/adult_filter.css
@@ -1427,14 +1427,14 @@ When a website (HTTP<span style="color:red">S</span>) is blocked by the Adult bl
 ![image](/images/block_adult_https.jpg)
 
 <div class="callout callout--warning">
-    <p><strong>Remember!</strong>A filter based on URL or domain will never be 100% accurate. Expect some sites not to be filtered.</p>
+    <p><strong>Remember!</strong>A filter based on URL or domains will never be 100% accurate. Expect some sites not to be filtered.</p>
 </div>
 
 <div class="Reference"></div>
 
 #### Reference
 
-[AAA](https:aaa)
+[https://www.loutor.org/2017/03/29/mettre-en-place-une-protection-parentale-pour-la-famille/](https://www.loutor.org/2017/03/29/mettre-en-place-une-protection-parentale-pour-la-famille/)
 
 ### **Clamav**
 
@@ -1686,36 +1686,45 @@ Create the block.php page
 sudo nano /var/www/html/block.php
 ```
 
-Copy-paste the following
+Copy-paste the following or [download the script here]({{ site.url }}/download/block.php). Make sure you have adjusted these two lines
 
-```bash
+<div class="callout">
+...<br />
+$to='<span style="color:red">me@gmail.com</span>';<br />
+$from='Security Alerts <<span style="color:red">system_hostname</span>>';<br />
+...
+</div>
+
+
+```php
 <?php
 /*
-  squid_clwarn.php
-  part of pfSense (https://www.pfSense.org/)
-  Copyright (C) 2015 Marcello Coutinho
-  Copyright (C) 2015 ESF, LLC
-  All rights reserved.
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  1. Redistributions of source code must retain the above copyright notice,
-     this list of conditions and the following disclaimer.
-  2. Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
-  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
-  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
-  AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-  AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
-  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
+	squid_clwarn.php
+	part of pfSense (https://www.pfSense.org/)
+	Copyright (C) 2015 Marcello Coutinho
+	Copyright (C) 2015 ESF, LLC
+	All rights reserved.
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright
+	   notice, this list of conditions and the following disclaimer in the
+	   documentation and/or other materials provided with the distribution.
+	THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+	INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+	AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+	AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+	OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
 */
+
 # send a notice to the admin  
-$to='l.laspada@yahoo.fr';
+$to='me@yahoo.fr';
 $from='Security Alerts <pi-squid>';
 $subj="ALERT: Attempt to Download Malware by $fromhost";
 
@@ -1724,62 +1733,63 @@ $url = $_REQUEST['url'];
 $virus = ($_REQUEST['virus'] ? $_REQUEST['virus'] : $_REQUEST['malware']);
 $source = preg_replace("@/-@", "", $_REQUEST['source']);
 $user = $_REQUEST['user'];
+
 $TITLE_VIRUS = "SquidClamav $VERSION: Virus detected!";
 $subtitle = 'Virus name';
 $errorreturn = 'This file cannot be downloaded.';
 $urlerror = 'contains a virus';
 if (preg_match("/Safebrowsing/", $virus)) {
-  $TITLE_VIRUS = "SquidClamav $VERSION: Unsafe Browsing detected";
-  $subtitle = 'Malware / phishing type';
-  $urlerror = 'is listed as suspicious';
-  $errorreturn = 'This page cannot be displayed';
-
+	$TITLE_VIRUS = "SquidClamav $VERSION: Unsafe Browsing detected";
+	$subtitle = 'Malware / phishing type';
+	$urlerror = 'is listed as suspicious';
+	$errorreturn = 'This page cannot be displayed';
 }
+
 // Remove clamd infos
 $vp[0]="/stream: /";
 $vp[1]="/ FOUND/";
 $vr[0]="";
 $vr[1]="";
+
 $virus = preg_replace($vp, $vr, $virus);
 error_log(date("Y-m-d H:i:s") . " | VIRUS FOUND | " . $virus . " | " . $url . " | " . $source . " | " . $user . "\n", 3, "/var/log/c-icap/virus.log");
 
-
 ?>
 <style type="text/css">
-  .visu {
-  border:1px solid #C0C0C0;
-  color:#FFFFFF;
-  position: relative;
-  min-width: 13em;
-  max-width: 52em;
-  margin: 4em auto;
-  border: 1px solid ThreeDShadow;
-  border-radius: 10px;
-  padding: 3em;
-  -moz-padding-start: 30px;
-  background-color: #8b0000;
+	.visu {
+	border:1px solid #C0C0C0;
+	color:#FFFFFF;
+	position: relative;
+	min-width: 13em;
+	max-width: 52em;
+	margin: 4em auto;
+	border: 1px solid ThreeDShadow;
+	border-radius: 10px;
+	padding: 3em;
+	-moz-padding-start: 30px;
+	background-color: #8b0000;
 }
 .visu h2, .visu h3, .visu h4 {
-  font-size:130%;
-  font-family:"times new roman", times, serif;
-  font-style:normal;
-  font-weight:bolder;
+	font-size:130%;
+	font-family:"times new roman", times, serif;
+	font-style:normal;
+	font-weight:bolder;
 }
 </style>
 <div class="visu">
-  <h2><?=$TITLE_VIRUS?></h2>
-  <hr />
-  <p>
-  The requested URL <?=$url?> <?=$urlerror?><br/>
-  <?=$subtitle?>: <?=$virus?>
-  </p><p>
-  <?=$errorreturn?>
-  </p><p>
-  Origin: <?=$source?> / <?=$user?>
-  </p><p>
-  <hr />
-  <font color="blue"> Powered by <a href="http://squidclamav.darold.net/">SquidClamav <?=$VERSION?></a>.</font>
-  </p>
+	<h2><?=$TITLE_VIRUS?></h2>
+	<hr />
+	<p>
+	The requested URL <?=$url?> <?=$urlerror?><br/>
+	<?=$subtitle?>: <?=$virus?>
+	</p><p>
+	<?=$errorreturn?>
+	</p><p>
+	Origin: <?=$source?> / <?=$user?>
+	</p><p>
+	<hr />
+	<font color="blue"> Powered by <a href="http://squidclamav.darold.net/">SquidClamav <?=$VERSION?></a>.</font>
+	</p>
 </div>
 ```
 
@@ -1834,6 +1844,7 @@ Your browser should display the block.php page
 #### Reference
 
 [http://squidclamav.darold.net/](http://squidclamav.darold.net/)<br />
+[https://github.com/pfsense/pfsense-packages/blob/master/config/squid3/34/squid_clwarn.php](https://github.com/pfsense/pfsense-packages/blob/master/config/squid3/34/squid_clwarn.php)<br />
 [https://www.eicar.org/](https://www.eicar.org/)
 
 ## Part 3: Other programs to install (optional)
@@ -2104,9 +2115,15 @@ sudo dpkg -i webmin-current.deb
 
 Log in to your Webmin portal. Adjust the IP address
 
-```bash
-https://192.168.1.xxx:10000/
-```
+<div class="callout callout">
+https://192.168.1.<span style="color:red">xxx</span>:10000/
+</div>
+
+![image](/images/webmin_login.jpg)
+
+If you have installed Squid and SquidGuard modules, you will see them on the server menu
+
+![image](/images/webmin.jpg)
 
 ### **mSMTP**
 

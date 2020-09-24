@@ -205,7 +205,7 @@ static <span class="nv">domain_name_servers</span><span class="o">=</span>192.16
 pi adm dialout cdrom sudo audio video plugdev games users input netdev gpio i2c spi
 </div>
 
-<p>Remove the <code class="language-plaintext highlighter-rouge">pi</code>at the beginning and put the new username at the end. Each group separated by a comma; no space.</p>
+<p>Copy the line, remove the <code class="language-plaintext highlighter-rouge">pi</code>at the beginning and put the new username at the end. Each group separated by a comma; no space.</p>
 
 <p>Replace <span style="color:red">new_username</span> with whatever you like.</p>
 
@@ -1313,7 +1313,7 @@ include /etc/nginx/fastcgi_params<span class="p">;</span>
 
 <p>Then</p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo '<span class="cp">&lt;?php</span> <span class="nb">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span>' &gt; /var/www/html/info.php
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'&lt;?php phpinfo(); ?&gt;'</span> <span class="o">&gt;</span> /var/www/html/info.php
 </code></pre></div></div>
 
 <p>In case you have apache already installed and running, stop it</p>
@@ -1331,10 +1331,11 @@ include /etc/nginx/fastcgi_params<span class="p">;</span>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>reboot
 </code></pre></div></div>
 
-<p>Log in again and test your installation (Nginx and PHP)</p>
+<p>Log in again and test your installation (Nginx and PHP). Adjust the IP address</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.1.ccc/info.php
-</code></pre></div></div>
+<div class="callout callout">
+https://192.168.1.<span style="color:red">xxx</span>/info.php/
+</div>
 
 <p>You should see the following</p>
 
@@ -1404,9 +1405,9 @@ height=300px src='http://192.168.1.<span style="color:red">xxx</span>/adult_bloc
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div></div>
 
-<p><span style="color:red">IMPORTANT:</span> Download this image <a href="http://192.168.1.121:4000/images/adult_block.png">adult_block.png</a> and put it in your root folder (var/www/html). You can of course replace the image by anything else of your choosing.</p>
+<p><span style="color:red">In addition</span>, download this image <a href="http://192.168.1.121:4000/images/adult_block.png">“adult_block.png”</a> and put it in your root folder (var/www/html). You can of course replace the image by anything else of your choosing.</p>
 
-<p>Create the adult_filter.css file</p>
+<p>Create the <code class="language-plaintext highlighter-rouge">adult_filter.css</code> file</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/adult_filter.css
 </code></pre></div></div>
@@ -1481,14 +1482,14 @@ div.error <span class="o">{</span>
 <p><img src="/images/block_adult_https.jpg" alt="image" /></p>
 
 <div class="callout callout--warning">
-    <p><strong>Remember!</strong>A filter based on URL or domain will never be 100% accurate. Expect some sites not to be filtered.</p>
+    <p><strong>Remember!</strong>A filter based on URL or domains will never be 100% accurate. Expect some sites not to be filtered.</p>
 </div>
 
 <div class="Reference"></div>
 
 <h4 id="reference-4">Reference</h4>
 
-<p><a href="https:aaa">AAA</a></p>
+<p><a href="https://www.loutor.org/2017/03/29/mettre-en-place-une-protection-parentale-pour-la-famille/">https://www.loutor.org/2017/03/29/mettre-en-place-une-protection-parentale-pour-la-famille/</a></p>
 
 <h3 id="clamav"><strong>Clamav</strong></h3>
 
@@ -1722,100 +1723,109 @@ redirect http://192.168.1.xxx/block.php
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /var/www/html/block.php
 </code></pre></div></div>
 
-<p>Copy-paste the following</p>
+<p>Copy-paste the following or <a href="http://192.168.1.121:4000/download/block.php">download the script here</a>. Make sure you have adjusted these two lines</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
-/<span class="k">*</span>
-  squid_clwarn.php
-  part of pfSense <span class="o">(</span>https://www.pfSense.org/<span class="o">)</span>
-  Copyright <span class="o">(</span>C<span class="o">)</span> 2015 Marcello Coutinho
-  Copyright <span class="o">(</span>C<span class="o">)</span> 2015 ESF, LLC
-  All rights reserved.
-  Redistribution and use <span class="k">in </span><span class="nb">source </span>and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  1. Redistributions of <span class="nb">source </span>code must retain the above copyright notice,
-     this list of conditions and the following disclaimer.
-  2. Redistributions <span class="k">in </span>binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer <span class="k">in </span>the
-     documentation and/or other materials provided with the distribution.
-  THIS SOFTWARE IS PROVIDED <span class="sb">``</span>AS IS<span class="s1">''</span> AND ANY EXPRESS OR IMPLIED WARRANTIES,
-  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
-  AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-  AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
-  OR CONSEQUENTIAL DAMAGES <span class="o">(</span>INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES<span class="p">;</span> LOSS OF USE, DATA, OR PROFITS<span class="p">;</span> OR BUSINESS
-  INTERRUPTION<span class="o">)</span> HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT <span class="o">(</span>INCLUDING NEGLIGENCE OR OTHERWISE<span class="o">)</span>
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
-<span class="k">*</span>/
-<span class="c"># send a notice to the admin  </span>
-<span class="nv">$to</span><span class="o">=</span><span class="s1">'l.laspada@yahoo.fr'</span><span class="p">;</span>
+<div class="callout">
+...<br />
+$to='<span style="color:red">me@gmail.com</span>';<br />
+$from='Security Alerts &lt;<span style="color:red">system_hostname</span>&gt;';<br />
+...
+</div>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="cm">/*
+	squid_clwarn.php
+	part of pfSense (https://www.pfSense.org/)
+	Copyright (C) 2015 Marcello Coutinho
+	Copyright (C) 2015 ESF, LLC
+	All rights reserved.
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright
+	   notice, this list of conditions and the following disclaimer in the
+	   documentation and/or other materials provided with the distribution.
+	THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+	INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+	AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+	AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+	OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
+*/</span>
+
+<span class="c1"># send a notice to the admin  </span>
+<span class="nv">$to</span><span class="o">=</span><span class="s1">'me@yahoo.fr'</span><span class="p">;</span>
 <span class="nv">$from</span><span class="o">=</span><span class="s1">'Security Alerts &lt;pi-squid&gt;'</span><span class="p">;</span>
 <span class="nv">$subj</span><span class="o">=</span><span class="s2">"ALERT: Attempt to Download Malware by </span><span class="nv">$fromhost</span><span class="s2">"</span><span class="p">;</span>
 
 <span class="nv">$VERSION</span> <span class="o">=</span> <span class="s1">'6.10'</span><span class="p">;</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'url'</span><span class="o">]</span><span class="p">;</span>
-<span class="nv">$virus</span> <span class="o">=</span> <span class="o">(</span><span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'virus'</span><span class="o">]</span> ? <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'virus'</span><span class="o">]</span> : <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'malware'</span><span class="o">])</span><span class="p">;</span>
-<span class="nv">$source</span> <span class="o">=</span> preg_replace<span class="o">(</span><span class="s2">"@/-@"</span>, <span class="s2">""</span>, <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'source'</span><span class="o">])</span><span class="p">;</span>
-<span class="nv">$user</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span><span class="p">;</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'url'</span><span class="p">];</span>
+<span class="nv">$virus</span> <span class="o">=</span> <span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'virus'</span><span class="p">]</span> <span class="o">?</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'virus'</span><span class="p">]</span> <span class="o">:</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'malware'</span><span class="p">]);</span>
+<span class="nv">$source</span> <span class="o">=</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="s2">"@/-@"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'source'</span><span class="p">]);</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'user'</span><span class="p">];</span>
+
 <span class="nv">$TITLE_VIRUS</span> <span class="o">=</span> <span class="s2">"SquidClamav </span><span class="nv">$VERSION</span><span class="s2">: Virus detected!"</span><span class="p">;</span>
 <span class="nv">$subtitle</span> <span class="o">=</span> <span class="s1">'Virus name'</span><span class="p">;</span>
 <span class="nv">$errorreturn</span> <span class="o">=</span> <span class="s1">'This file cannot be downloaded.'</span><span class="p">;</span>
 <span class="nv">$urlerror</span> <span class="o">=</span> <span class="s1">'contains a virus'</span><span class="p">;</span>
-<span class="k">if</span> <span class="o">(</span>preg_match<span class="o">(</span><span class="s2">"/Safebrowsing/"</span>, <span class="nv">$virus</span><span class="o">))</span> <span class="o">{</span>
-  <span class="nv">$TITLE_VIRUS</span> <span class="o">=</span> <span class="s2">"SquidClamav </span><span class="nv">$VERSION</span><span class="s2">: Unsafe Browsing detected"</span><span class="p">;</span>
-  <span class="nv">$subtitle</span> <span class="o">=</span> <span class="s1">'Malware / phishing type'</span><span class="p">;</span>
-  <span class="nv">$urlerror</span> <span class="o">=</span> <span class="s1">'is listed as suspicious'</span><span class="p">;</span>
-  <span class="nv">$errorreturn</span> <span class="o">=</span> <span class="s1">'This page cannot be displayed'</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="s2">"/Safebrowsing/"</span><span class="p">,</span> <span class="nv">$virus</span><span class="p">))</span> <span class="p">{</span>
+	<span class="nv">$TITLE_VIRUS</span> <span class="o">=</span> <span class="s2">"SquidClamav </span><span class="nv">$VERSION</span><span class="s2">: Unsafe Browsing detected"</span><span class="p">;</span>
+	<span class="nv">$subtitle</span> <span class="o">=</span> <span class="s1">'Malware / phishing type'</span><span class="p">;</span>
+	<span class="nv">$urlerror</span> <span class="o">=</span> <span class="s1">'is listed as suspicious'</span><span class="p">;</span>
+	<span class="nv">$errorreturn</span> <span class="o">=</span> <span class="s1">'This page cannot be displayed'</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="o">}</span>
-// Remove clamd infos
-<span class="nv">$vp</span><span class="o">[</span>0]<span class="o">=</span><span class="s2">"/stream: /"</span><span class="p">;</span>
-<span class="nv">$vp</span><span class="o">[</span>1]<span class="o">=</span><span class="s2">"/ FOUND/"</span><span class="p">;</span>
-<span class="nv">$vr</span><span class="o">[</span>0]<span class="o">=</span><span class="s2">""</span><span class="p">;</span>
-<span class="nv">$vr</span><span class="o">[</span>1]<span class="o">=</span><span class="s2">""</span><span class="p">;</span>
-<span class="nv">$virus</span> <span class="o">=</span> preg_replace<span class="o">(</span><span class="nv">$vp</span>, <span class="nv">$vr</span>, <span class="nv">$virus</span><span class="o">)</span><span class="p">;</span>
-error_log<span class="o">(</span><span class="nb">date</span><span class="o">(</span><span class="s2">"Y-m-d H:i:s"</span><span class="o">)</span> <span class="nb">.</span> <span class="s2">" | VIRUS FOUND | "</span> <span class="nb">.</span> <span class="nv">$virus</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$url</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$source</span> <span class="nb">.</span> <span class="s2">" | "</span> <span class="nb">.</span> <span class="nv">$user</span> <span class="nb">.</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>, 3, <span class="s2">"/var/log/c-icap/virus.log"</span><span class="o">)</span><span class="p">;</span>
+<span class="c1">// Remove clamd infos</span>
+<span class="nv">$vp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">"/stream: /"</span><span class="p">;</span>
+<span class="nv">$vp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">"/ FOUND/"</span><span class="p">;</span>
+<span class="nv">$vr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">""</span><span class="p">;</span>
+<span class="nv">$vr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">""</span><span class="p">;</span>
 
+<span class="nv">$virus</span> <span class="o">=</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="nv">$vp</span><span class="p">,</span> <span class="nv">$vr</span><span class="p">,</span> <span class="nv">$virus</span><span class="p">);</span>
+<span class="nb">error_log</span><span class="p">(</span><span class="nb">date</span><span class="p">(</span><span class="s2">"Y-m-d H:i:s"</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">" | VIRUS FOUND | "</span> <span class="mf">.</span> <span class="nv">$virus</span> <span class="mf">.</span> <span class="s2">" | "</span> <span class="mf">.</span> <span class="nv">$url</span> <span class="mf">.</span> <span class="s2">" | "</span> <span class="mf">.</span> <span class="nv">$source</span> <span class="mf">.</span> <span class="s2">" | "</span> <span class="mf">.</span> <span class="nv">$user</span> <span class="mf">.</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"/var/log/c-icap/virus.log"</span><span class="p">);</span>
 
-?&gt;
-&lt;style <span class="nb">type</span><span class="o">=</span><span class="s2">"text/css"</span><span class="o">&gt;</span>
-  .visu <span class="o">{</span>
-  border:1px solid <span class="c">#C0C0C0;</span>
-  color:#FFFFFF<span class="p">;</span>
-  position: relative<span class="p">;</span>
-  min-width: 13em<span class="p">;</span>
-  max-width: 52em<span class="p">;</span>
-  margin: 4em auto<span class="p">;</span>
-  border: 1px solid ThreeDShadow<span class="p">;</span>
-  border-radius: 10px<span class="p">;</span>
-  padding: 3em<span class="p">;</span>
-  <span class="nt">-moz-padding-start</span>: 30px<span class="p">;</span>
-  background-color: <span class="c">#8b0000;</span>
-<span class="o">}</span>
-.visu h2, .visu h3, .visu h4 <span class="o">{</span>
-  font-size:130%<span class="p">;</span>
-  font-family:<span class="s2">"times new roman"</span>, <span class="nb">times</span>, serif<span class="p">;</span>
-  font-style:normal<span class="p">;</span>
-  font-weight:bolder<span class="p">;</span>
-<span class="o">}</span>
-&lt;/style&gt;
-&lt;div <span class="nv">class</span><span class="o">=</span><span class="s2">"visu"</span><span class="o">&gt;</span>
-  &lt;h2&gt;&lt;?<span class="o">=</span><span class="nv">$TITLE_VIRUS</span>?&gt;&lt;/h2&gt;
-  &lt;hr /&gt;
-  &lt;p&gt;
-  The requested URL &lt;?<span class="o">=</span><span class="nv">$url</span>?&gt; &lt;?<span class="o">=</span><span class="nv">$urlerror</span>?&gt;&lt;br/&gt;
-  &lt;?<span class="o">=</span><span class="nv">$subtitle</span>?&gt;: &lt;?<span class="o">=</span><span class="nv">$virus</span>?&gt;
-  &lt;/p&gt;&lt;p&gt;
-  &lt;?<span class="o">=</span><span class="nv">$errorreturn</span>?&gt;
-  &lt;/p&gt;&lt;p&gt;
-  Origin: &lt;?<span class="o">=</span><span class="nv">$source</span>?&gt; / &lt;?<span class="o">=</span><span class="nv">$user</span>?&gt;
-  &lt;/p&gt;&lt;p&gt;
-  &lt;hr /&gt;
-  &lt;font <span class="nv">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="o">&gt;</span> Powered by &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">"http://squidclamav.darold.net/"</span><span class="o">&gt;</span>SquidClamav &lt;?<span class="o">=</span><span class="nv">$VERSION</span>?&gt;&lt;/a&gt;.&lt;/font&gt;
-  &lt;/p&gt;
-&lt;/div&gt;
+<span class="cp">?&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+	<span class="nc">.visu</span> <span class="p">{</span>
+	<span class="nl">border</span><span class="p">:</span><span class="m">1px</span> <span class="nb">solid</span> <span class="m">#C0C0C0</span><span class="p">;</span>
+	<span class="nl">color</span><span class="p">:</span><span class="m">#FFFFFF</span><span class="p">;</span>
+	<span class="nl">position</span><span class="p">:</span> <span class="nb">relative</span><span class="p">;</span>
+	<span class="nl">min-width</span><span class="p">:</span> <span class="m">13em</span><span class="p">;</span>
+	<span class="nl">max-width</span><span class="p">:</span> <span class="m">52em</span><span class="p">;</span>
+	<span class="nl">margin</span><span class="p">:</span> <span class="m">4em</span> <span class="nb">auto</span><span class="p">;</span>
+	<span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="n">ThreeDShadow</span><span class="p">;</span>
+	<span class="nl">border-radius</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+	<span class="nl">padding</span><span class="p">:</span> <span class="m">3em</span><span class="p">;</span>
+	<span class="nl">-moz-padding-start</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span>
+	<span class="nl">background-color</span><span class="p">:</span> <span class="m">#8b0000</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.visu</span> <span class="nt">h2</span><span class="o">,</span> <span class="nc">.visu</span> <span class="nt">h3</span><span class="o">,</span> <span class="nc">.visu</span> <span class="nt">h4</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span><span class="m">130%</span><span class="p">;</span>
+	<span class="nl">font-family</span><span class="p">:</span><span class="s1">"times new roman"</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="nb">serif</span><span class="p">;</span>
+	<span class="nl">font-style</span><span class="p">:</span><span class="nb">normal</span><span class="p">;</span>
+	<span class="nl">font-weight</span><span class="p">:</span><span class="nb">bolder</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"visu"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;h2&gt;</span><span class="cp">&lt;?=</span><span class="nv">$TITLE_VIRUS</span><span class="cp">?&gt;</span><span class="nt">&lt;/h2&gt;</span>
+	<span class="nt">&lt;hr</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;p&gt;</span>
+	The requested URL <span class="cp">&lt;?=</span><span class="nv">$url</span><span class="cp">?&gt;</span> <span class="cp">&lt;?=</span><span class="nv">$urlerror</span><span class="cp">?&gt;</span><span class="nt">&lt;br/&gt;</span>
+	<span class="cp">&lt;?=</span><span class="nv">$subtitle</span><span class="cp">?&gt;</span>: <span class="cp">&lt;?=</span><span class="nv">$virus</span><span class="cp">?&gt;</span>
+	<span class="nt">&lt;/p&gt;&lt;p&gt;</span>
+	<span class="cp">&lt;?=</span><span class="nv">$errorreturn</span><span class="cp">?&gt;</span>
+	<span class="nt">&lt;/p&gt;&lt;p&gt;</span>
+	Origin: <span class="cp">&lt;?=</span><span class="nv">$source</span><span class="cp">?&gt;</span> / <span class="cp">&lt;?=</span><span class="nv">$user</span><span class="cp">?&gt;</span>
+	<span class="nt">&lt;/p&gt;&lt;p&gt;</span>
+	<span class="nt">&lt;hr</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;font</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span> Powered by <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://squidclamav.darold.net/"</span><span class="nt">&gt;</span>SquidClamav <span class="cp">&lt;?=</span><span class="nv">$VERSION</span><span class="cp">?&gt;</span><span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/font&gt;</span>
+	<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
 </code></pre></div></div>
 
 <p>Copy the clwarn.cgi to another location</p>
@@ -1864,6 +1874,7 @@ error_log<span class="o">(</span><span class="nb">date</span><span class="o">(</
 <h4 id="reference-6">Reference</h4>
 
 <p><a href="http://squidclamav.darold.net/">http://squidclamav.darold.net/</a><br />
+<a href="https://github.com/pfsense/pfsense-packages/blob/master/config/squid3/34/squid_clwarn.php">https://github.com/pfsense/pfsense-packages/blob/master/config/squid3/34/squid_clwarn.php</a><br />
 <a href="https://www.eicar.org/">https://www.eicar.org/</a></p>
 
 <h2 id="part-3-other-programs-to-install-optional">Part 3: Other programs to install (optional)</h2>
@@ -2106,8 +2117,15 @@ realtime    <span class="o">=</span> <span class="nb">yes
 
 <p>Log in to your Webmin portal. Adjust the IP address</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://192.168.1.xxx:10000/
-</code></pre></div></div>
+<div class="callout callout">
+https://192.168.1.<span style="color:red">xxx</span>:10000/
+</div>
+
+<p><img src="/images/webmin_login.jpg" alt="image" /></p>
+
+<p>If you have installed Squid and SquidGuard modules, you will see them on the server menu</p>
+
+<p><img src="/images/webmin.jpg" alt="image" /></p>
 
 <h3 id="msmtp"><strong>mSMTP</strong></h3>
 
