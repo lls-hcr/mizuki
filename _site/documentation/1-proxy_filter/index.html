@@ -133,13 +133,11 @@
 
 <p>The IP range of my LAN network is of type 192.168.1.0/24. Adjust as needed if you have a different range.</p>
 
-<div class="callout callout--info">
-<p><strong></strong>I don't take any credit for the below, all was found on the Internet and gathered from various specialised websites. In each section, I have put reference links (those I still have or that are still alive).</p>
+<p>I don’t take any credit for the below, all was found on the Internet and gathered from various specialised websites. In each section, I have put reference links (those I still have or that are still alive).</p>
 
 <p>English is not my mother tongue, I apologise for any mistake, typo and grammar.</p>
 
 <p>Feel free to leave a message, ask a question or make a suggestion in the chat box at the bottom of the page.</p>
-</div>
 
 <p><strong>Main programs to install</strong></p>
 <ul>
@@ -1493,7 +1491,7 @@ div.error <span class="o">{</span>
 
 <h3 id="clamav"><strong>Clamav</strong></h3>
 
-<p>Here, parts 7 &amp; 8, we will install an antivirus engine to scan the device for trojans, viruses, malware, and other malicious threats, but also to scan threats coming from the Internet (this works on HTTP connections only)</p>
+<p>Here, we will install an antivirus engine to scan the device for trojans, viruses, malware, and other malicious threats, but also to scan threats coming from the Internet (this works on HTTP connections only)</p>
 
 <p>Install Clamav</p>
 
@@ -1608,8 +1606,8 @@ Service squidclamav squidclamav.so
 
 <div class="callout">
 ...<br />
-icap_service service_req reqmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
-icap_service service_resp respmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
+icap_service service_req reqmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>:1344/squidclamav<br />
+icap_service service_resp respmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>:1344/squidclamav<br />
 ...
 </div>
 
@@ -1910,6 +1908,7 @@ $from='Security Alerts &lt;<span style="color:red">system_hostname</span>&gt;';<
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logoutput: syslog
 
 internal: 0.0.0.0 port <span class="o">=</span> 1080
+<span class="c">#internal: 192.168.1.xxx port = 1080</span>
 
 external: eth0
 
@@ -1920,27 +1919,34 @@ user.privileged: proxy
 user.notprivileged: nobody
 user.libwrap: nobody
 
+<span class="c"># Allow localhost (stunnel) connections</span>
 client pass <span class="o">{</span>
-from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
+from: 192.168.1.0/24 to: 192.168.1.0/24
 log: connect error
 <span class="o">}</span>
 
+<span class="c"># Block and log the rest of connection attempts</span>
 client block <span class="o">{</span>
 from: 0.0.0.0/0 to: 0.0.0.0/0
 log: connect error
 <span class="o">}</span>
 
+<span class="c"># Blocking clients access to the localhost services</span>
 socks block <span class="o">{</span>
-from: 0.0.0.0/0 to: 127.0.0.0/8
+from: 0.0.0.0/0 to: lo
 log: connect error
 <span class="o">}</span>
 
+<span class="c"># Allow clients access to the outside - tcp using "connect" method</span>
 socks pass <span class="o">{</span>
-from: 192.168.0.0/16 to: 0.0.0.0/0
-protocol: tcp udp
+from: 192.168.1.0/24 to: 0.0.0.0/0
+<span class="nb">command</span>: connect
+<span class="c">#protocol: tcp udp</span>
+protocol: tcp
 log: connect error
 <span class="o">}</span>
 
+<span class="c"># Block and log all other clients attempts</span>
 socks block <span class="o">{</span>
 from: 0.0.0.0/0 to: 0.0.0.0/0
 log: connect error
@@ -2007,9 +2013,18 @@ log: connect error
 <p>Type (adjust the IP address)</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-x</span> socks5h://192.168.1.xxx:1080 ifconfig.co
+or
+curl <span class="nt">--proxy</span> socks5h://192.168.1.xxx:1080 https://api.ipify.org/
 </code></pre></div></div>
 
 <p>If all goes well, you should see your public IPv4 address</p>
+
+<div class="Reference"></div>
+
+<h4 id="reference-7">Reference</h4>
+
+<p><a href="http://www.inet.no/dante/">http://www.inet.no/dante/</a><br />
+<a href="https://hamy.io/post/0014/setting-up-an-encrypted-socks-proxy-using-dante-and-stunnel/#gsc.tab=0">https://hamy.io/post/0014/setting-up-an-encrypted-socks-proxy-using-dante-and-stunnel/#gsc.tab=0</a></p>
 
 <h3 id="ufw"><strong>UFW</strong></h3>
 
@@ -2088,6 +2103,23 @@ realtime    <span class="o">=</span> <span class="nb">yes
 <span class="c">#pidfile   = /var/run/rsyslogd.pid</span>
 </code></pre></div></div>
 
+<h4 id="test-it-4"><strong>Test it!</strong></h4>
+
+<p>Copy-paste the code below to run a fork bomb on your shell.</p>
+
+<div class="callout callout--danger">
+    <p><strong>WARNING</strong> Running this code will render your Raspberry Pi unaccessible until it’s reset by the watchdog.</p>
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>bash <span class="nt">-c</span> <span class="s1">':(){ :|:&amp; };:'</span>
+</code></pre></div></div>
+
+<div class="Reference"></div>
+
+<h4 id="reference-8">Reference</h4>
+
+<p><a href="https://www.domoticz.com/wiki/Setting_up_the_raspberry_pi_watchdog">https://www.domoticz.com/wiki/Setting_up_the_raspberry_pi_watchdog</a></p>
+
 <h3 id="webmin"><strong>Webmin</strong></h3>
 
 <p>Install Webmin and dependencies</p>
@@ -2113,6 +2145,37 @@ realtime    <span class="o">=</span> <span class="nb">yes
 <p>Install</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dpkg <span class="nt">-i</span> webmin-current.deb
+</code></pre></div></div>
+
+<p>We need to add one line in the squid.conf file to authorise communication to port 10000 (webmin’s default port).</p>
+
+<p>Open the squid.conf file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squid/squid.conf
+</code></pre></div></div>
+
+<p>Add the line below after the <code class="language-plaintext highlighter-rouge">acl Safe_ports</code> section</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acl SSL_ports port 10000         <span class="c"># Webmin</span>
+</code></pre></div></div>
+
+<p>Like this</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+acl SSL_ports port 443
+acl Safe_ports port 80           <span class="c"># http</span>
+acl Safe_ports port 21           <span class="c"># ftp</span>
+acl Safe_ports port 443          <span class="c"># https</span>
+acl Safe_ports port 70           <span class="c"># gopher</span>
+acl Safe_ports port 210          <span class="c"># wais</span>
+acl Safe_ports port 1025-65535   <span class="c"># unregistered ports</span>
+acl Safe_ports port 280          <span class="c"># http-mgmt</span>
+acl Safe_ports port 488          <span class="c"># gss-http</span>
+acl Safe_ports port 591          <span class="c"># filemaker</span>
+acl Safe_ports port 777          <span class="c"># multiling http</span>
+acl Safe_ports port 873          <span class="c"># rsync</span>
+acl SSL_ports port 10000         <span class="c"># Webmin</span>
+...
 </code></pre></div></div>
 
 <p>Log in to your Webmin portal. Adjust the IP address</p>
@@ -2162,7 +2225,7 @@ password my_gmail_password
 account default : gmail
 </code></pre></div></div>
 
-<h4 id="test-it-4"><strong>Test it!</strong></h4>
+<h4 id="test-it-5"><strong>Test it!</strong></h4>
 
 <p>Use your email address</p>
 

@@ -16,13 +16,11 @@ This is a quick-reference guide to setting up a highly configurable web filter o
 
 The IP range of my LAN network is of type 192.168.1.0/24. Adjust as needed if you have a different range.
 
-<div class="callout callout--info">
-<p><strong></strong>I don't take any credit for the below, all was found on the Internet and gathered from various specialised websites. In each section, I have put reference links (those I still have or that are still alive).</p>
+I don't take any credit for the below, all was found on the Internet and gathered from various specialised websites. In each section, I have put reference links (those I still have or that are still alive).
 
-<p>English is not my mother tongue, I apologise for any mistake, typo and grammar.</p>
+English is not my mother tongue, I apologise for any mistake, typo and grammar.
 
-<p>Feel free to leave a message, ask a question or make a suggestion in the chat box at the bottom of the page.</p>
-</div>
+Feel free to leave a message, ask a question or make a suggestion in the chat box at the bottom of the page.
 
 **Main programs to install**
 - <span style="color:red">Dnsmasq:</span> a lightweight DHCP and caching DNS server
@@ -1438,7 +1436,7 @@ When a website (HTTP<span style="color:red">S</span>) is blocked by the Adult bl
 
 ### **Clamav**
 
-Here, parts 7 & 8, we will install an antivirus engine to scan the device for trojans, viruses, malware, and other malicious threats, but also to scan threats coming from the Internet (this works on HTTP connections only)
+Here, we will install an antivirus engine to scan the device for trojans, viruses, malware, and other malicious threats, but also to scan threats coming from the Internet (this works on HTTP connections only)
 
 Install Clamav
 
@@ -1566,8 +1564,8 @@ Add at the end of the file the following lines. Make sure you have adjusted the 
 
 <div class="callout">
 ...<br />
-icap_service service_req reqmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
-icap_service service_resp respmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>::1344/squidclamav<br />
+icap_service service_req reqmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>:1344/squidclamav<br />
+icap_service service_resp respmod_precache bypass=1 icap://192.168.1.<span style="color:red">xxx</span>:1344/squidclamav<br />
 ...
 </div>
 
@@ -1886,6 +1884,7 @@ Copy-paste the following
 logoutput: syslog
 
 internal: 0.0.0.0 port = 1080
+#internal: 192.168.1.xxx port = 1080
 
 external: eth0
 
@@ -1896,27 +1895,34 @@ user.privileged: proxy
 user.notprivileged: nobody
 user.libwrap: nobody
 
+# Allow localhost (stunnel) connections
 client pass {
-from: 192.168.0.0/16 port 1-65535 to: 0.0.0.0/0
+from: 192.168.1.0/24 to: 192.168.1.0/24
 log: connect error
 }
 
+# Block and log the rest of connection attempts
 client block {
 from: 0.0.0.0/0 to: 0.0.0.0/0
 log: connect error
 }
 
+# Blocking clients access to the localhost services
 socks block {
-from: 0.0.0.0/0 to: 127.0.0.0/8
+from: 0.0.0.0/0 to: lo
 log: connect error
 }
 
+# Allow clients access to the outside - tcp using "connect" method
 socks pass {
-from: 192.168.0.0/16 to: 0.0.0.0/0
-protocol: tcp udp
+from: 192.168.1.0/24 to: 0.0.0.0/0
+command: connect
+#protocol: tcp udp
+protocol: tcp
 log: connect error
 }
 
+# Block and log all other clients attempts
 socks block {
 from: 0.0.0.0/0 to: 0.0.0.0/0
 log: connect error
@@ -1995,9 +2001,18 @@ Type (adjust the IP address)
 
 ```bash
 curl -x socks5h://192.168.1.xxx:1080 ifconfig.co
+or
+curl --proxy socks5h://192.168.1.xxx:1080 https://api.ipify.org/
 ```
 
 If all goes well, you should see your public IPv4 address
+
+<div class="Reference"></div>
+
+#### Reference
+
+[http://www.inet.no/dante/](http://www.inet.no/dante/)<br />
+[https://hamy.io/post/0014/setting-up-an-encrypted-socks-proxy-using-dante-and-stunnel/#gsc.tab=0](https://hamy.io/post/0014/setting-up-an-encrypted-socks-proxy-using-dante-and-stunnel/#gsc.tab=0)
 
 ### **UFW**
 
@@ -2081,6 +2096,24 @@ priority    = 1
 #pidfile   = /var/run/rsyslogd.pid
 ```
 
+#### **Test it!**
+
+Copy-paste the code below to run a fork bomb on your shell.
+
+<div class="callout callout--danger">
+    <p><strong>WARNING</strong> Running this code will render your Raspberry Pi unaccessible until it’s reset by the watchdog.</p>
+</div>
+
+```bash
+sudo bash -c ':(){ :|:& };:'
+```
+
+<div class="Reference"></div>
+
+#### Reference
+
+[https://www.domoticz.com/wiki/Setting_up_the_raspberry_pi_watchdog](https://www.domoticz.com/wiki/Setting_up_the_raspberry_pi_watchdog)
+
 ### **Webmin**
 
 Install Webmin and dependencies
@@ -2111,6 +2144,40 @@ Install
 
 ```bash
 sudo dpkg -i webmin-current.deb
+```
+
+We need to add one line in the squid.conf file to authorise communication to port 10000 (webmin's default port).
+
+Open the squid.conf file
+
+```bash
+sudo nano /etc/squid/squid.conf
+```
+
+Add the line below after the `acl Safe_ports` section
+
+```bash
+acl SSL_ports port 10000         # Webmin
+```
+
+Like this
+
+```bash
+...
+acl SSL_ports port 443
+acl Safe_ports port 80           # http
+acl Safe_ports port 21           # ftp
+acl Safe_ports port 443          # https
+acl Safe_ports port 70           # gopher
+acl Safe_ports port 210          # wais
+acl Safe_ports port 1025-65535   # unregistered ports
+acl Safe_ports port 280          # http-mgmt
+acl Safe_ports port 488          # gss-http
+acl Safe_ports port 591          # filemaker
+acl Safe_ports port 777          # multiling http
+acl Safe_ports port 873          # rsync
+acl SSL_ports port 10000         # Webmin
+...
 ```
 
 Log in to your Webmin portal. Adjust the IP address
