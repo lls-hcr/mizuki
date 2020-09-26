@@ -1959,13 +1959,21 @@ Check that it has started up correctly. The status output should show: **Active:
 sudo service danted status
 ```
 
-If you see the following
+In some cases, danted might failed to start.
 
-```bash
-ERROR MESSAGE (TO BE ADDED)
-```
+<div class="callout callout--info">
+  ● danted.service - SOCKS (v4 and v5) proxy daemon (danted)<br />
+...<br />
+   Active: <span style="color:red">failed</span> (Result: exit-code) since Sat 2020-09-26 10:32:00 BST; 37s ago<br />
+ ...<br />
+Sep 26 10:32:00 pi-squid systemd[2315]: danted.service: <span style="color:red">Failed to set up mount namespacing: No such file or directory</span><br />
+Sep 26 10:32:00 pi-squid systemd[2315]: danted.service: <span style="color:red">Failed at step NAMESPACE spawning /bin/sh: No such file or directory</span><br />
+...<br />
+Sep 26 10:32:00 pi-squid systemd[1]: <span style="color:red">Failed to start SOCKS (v4 and v5) proxy daemon (danted).</span><br />
+...
+</div>
 
-Open the dante.service file
+If this happen, open the dante.service file
 
 ```bash
 sudo nano /lib/systemd/system/danted.service
@@ -1981,6 +1989,12 @@ Remove `/lib64`
 
 ```bash
 ReadOnlyDirectories=/bin /etc /lib /sbin /usr /var
+```
+
+Reload the Danted daemon
+
+```bash
+sudo systemctl daemon-reload
 ```
 
 Restart Danted

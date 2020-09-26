@@ -1978,12 +1978,21 @@ log: connect error
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service danted status
 </code></pre></div></div>
 
-<p>If you see the following</p>
+<p>In some cases, danted might failed to start.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ERROR MESSAGE <span class="o">(</span>TO BE ADDED<span class="o">)</span>
-</code></pre></div></div>
+<div class="callout callout--info">
+  ● danted.service - SOCKS (v4 and v5) proxy daemon (danted)<br />
+...<br />
+   Active: <span style="color:red">failed</span> (Result: exit-code) since Sat 2020-09-26 10:32:00 BST; 37s ago<br />
+ ...<br />
+Sep 26 10:32:00 pi-squid systemd[2315]: danted.service: <span style="color:red">Failed to set up mount namespacing: No such file or directory</span><br />
+Sep 26 10:32:00 pi-squid systemd[2315]: danted.service: <span style="color:red">Failed at step NAMESPACE spawning /bin/sh: No such file or directory</span><br />
+...<br />
+Sep 26 10:32:00 pi-squid systemd[1]: <span style="color:red">Failed to start SOCKS (v4 and v5) proxy daemon (danted).</span><br />
+...
+</div>
 
-<p>Open the dante.service file</p>
+<p>If this happen, open the dante.service file</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /lib/systemd/system/danted.service
 </code></pre></div></div>
@@ -1996,6 +2005,11 @@ log: connect error
 <p>Remove <code class="language-plaintext highlighter-rouge">/lib64</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ReadOnlyDirectories</span><span class="o">=</span>/bin /etc /lib /sbin /usr /var
+</code></pre></div></div>
+
+<p>Reload the Danted daemon</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl daemon-reload
 </code></pre></div></div>
 
 <p>Restart Danted</p>
@@ -2345,14 +2359,6 @@ account default : gmail
 									</li>
 								
 							
-								
-									<li>
-										<a href="/documentation/100-Examples/">
-											<p class="c-page-nav__heading">EXAMPLES</p>
-										</a>
-									</li>
-								
-							
 						</ul><!-- /.c-page-nav -->
 					</div><!-- /.o-col -->
 				
@@ -2378,10 +2384,6 @@ account default : gmail
 							
 							
 								<a href="/documentation/2-virtual_private_network/" class="c-arrow-link c-arrow-link--next u-ml-auto">Virtual Private Network</a>
-							
-						
-							
-							
 							
 						
 							
