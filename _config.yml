@@ -52,3 +52,6 @@ layouts_dir: ./dox-theme/_layouts
 includes_dir: ./dox-theme/_includes
 exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title/
+
+# Google services
+google_analytics: UA-1349910-6

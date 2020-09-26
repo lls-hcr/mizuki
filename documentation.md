@@ -7,6 +7,6 @@ keywords: # Define keywords for search engines
 
 # Hero section
 hero:
-    title: Ingredients
-    text: All the ingredients to bake a r-pi.
+    title: Projects
+    text: 
 ---

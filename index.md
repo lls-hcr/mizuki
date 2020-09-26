@@ -14,7 +14,7 @@ hero:
 # Features section
 features:
     rows: # Add feature rows below, there are examples with all available options
-        - title: reciPi
+        - title: Projects
           description: 
           grid: # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
 
