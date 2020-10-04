@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://192.168.1.121:4000/documentation/nextcloud/</loc>
+<lastmod>2020-10-04T09:35:34+02:00</lastmod>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/documentation/parental_control/</loc>
+<lastmod>2020-10-04T09:35:34+02:00</lastmod>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/documentation/vpn/</loc>
+<lastmod>2020-10-04T09:35:34+02:00</lastmod>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/documentation/web_server/</loc>
+<lastmod>2020-10-04T09:35:34+02:00</lastmod>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/default/</loc>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/documentation/</loc>
+</url>
+<url>
+<loc>http://192.168.1.121:4000/</loc>
+</url>
+</urlset>

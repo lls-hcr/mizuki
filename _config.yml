@@ -55,3 +55,8 @@ permalink: /:title/
 
 # Google services
 google_analytics: UA-1349910-6
+
+url: "https://mizuki.ch" # the base hostname & protocol for your site
+
+plugins:
+  - jekyll-sitemap

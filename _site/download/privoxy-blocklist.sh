@@ -175,13 +175,13 @@ then
 URLS=(\"https://easylist.to/easylist/easylist.txt\" \"https://easylist.to/easylist/easyprivacy.txt\" \"https://easylist.to/easylist/fanboy-annoyance.txt\" \"https://easylist.to/easylist/fanboy-social.txt\" \"https://easylist-downloads.adblockplus.org/easylist-cookie.txt\" \"https://easylist-downloads.adblockplus.org/liste_fr.txt\" \"https://easylist-downloads.adblockplus.org/antiadblockfilters.txt\" \"https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt\" \"https://easylist-downloads.adblockplus.org/malwaredomains_full.txt\")
 
 # config for privoxy initscript providing PRIVOXY_CONF, PRIVOXY_USER and PRIVOXY_GROUP
-INIT_CONF=\"/etc/privoxy\"
+INIT_CONF=\"/etc/conf.d/privoxy\"
 
 # !! if the config above doesn't exist set these variables here !!
 # !! These values will be overwritten by INIT_CONF !!
-# PRIVOXY_USER=\"privoxy\"
-# PRIVOXY_GROUP=\"privoxy\"
-# PRIVOXY_CONF=\"/etc/privoxy/config\"
+PRIVOXY_USER=\"proxy\"
+PRIVOXY_GROUP=\"proxy\"
+PRIVOXY_CONF=\"/etc/privoxy/config\"
 
 # name for lock file (default: script name)
 TMPNAME=\"\$(basename \${0})\"
