@@ -2,7 +2,7 @@
 # Page settings
 title: Web Filter Proxy (kid safe) # Define a title of your page
 description: Web filter and parental control proxy with Privoxy, Squid and SquidGuard # Define a description of your page
-keywords: # Define keywords for search engines
+keywords: Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn # Define keywords for search engines
 order: 1 # Define order of this page in list of all documentation documents
 comments: true # Set to "true" in order to enable comments on this page. Make sure you properly setup "disqus_forum_shortname" variable in "_config.yml"
 
@@ -11,7 +11,19 @@ hero:
     title: Web Filter Proxy
     text: A configurable <span style="color:red">web filter proxy</span> with advanced <span style="color:red">parental control</span> features.
 ---
-_Last update: <span style="color:red">2020.10.03</span>_
+_Last update: <span style="color:red">2021.04.06</span>_
+
+###### **Kid Safe Proxy Filter**
+
+<div class="container">
+  <div class="video">
+    <video width="100%" autoplay="true" muted loop>
+      <source src="/images/kid_safe.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+<br />
 
 This is a quick-reference guide to setting up a highly configurable web filter on a Raspberry Pi. The filter will be configured to block ads, websites with mild to hard adult content as well as other malware and phishing sites. For this project, I am using a Raspberry Pi 4 Model B (4G) with the [Raspberry Pi OS Lite (buster)](https://www.raspberrypi.org/downloads/raspberry-pi-os/).
 
@@ -147,7 +159,7 @@ Reboot and log in using the new username and password.
 Now, you can delete the old username "pi"
 
 ```bash
-sudo deluser pi
+sudo deluser --remove-all-files pi
 ```
 
 You should see the following
@@ -301,6 +313,7 @@ digitalocean.com.       1       IN      A       104.16.182.15<br />
 
 #### Reference
 
+[https://pimylifeup.com/raspberry-pi-static-ip-address/](https://pimylifeup.com/raspberry-pi-static-ip-address/)<br />
 [https://pimylifeup.com/raspberry-pi-dns-server/](https://pimylifeup.com/raspberry-pi-dns-server/)
 
 ### **Privoxy**
@@ -929,7 +942,7 @@ In your browser's URL bar, type again [http://p.p/](http://p.p/)
 #### Reference
 
 [http://www.privoxy.org/](http://www.privoxy.org/)<br />
-[hhttps://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh](https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh)<br />
+[https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh](https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh)<br />
 [https://www.prxbx.com/forums/showthread.php?tid=2261](https://www.prxbx.com/forums/showthread.php?tid=2261)
 
 ### **Squid**
@@ -989,15 +1002,23 @@ acl Safe_ports port 488          # gss-http
 acl Safe_ports port 591          # filemaker
 acl Safe_ports port 777          # multiling http
 acl Safe_ports port 873          # rsync
+acl Safe_ports port 10000        # Webmin
 
 acl CONNECT method CONNECT
 
+# block anything not targeting authorized ports
 http_access deny !Safe_ports
 http_access deny CONNECT !SSL_ports
+
+# manager access
 http_access allow localhost manager
 http_access deny manager
+
+# allow local networks
 http_access allow localnet
 http_access allow localhost
+
+# deny anything else
 http_access deny all
 
 http_port 3128
@@ -1011,6 +1032,10 @@ memory_cache_mode always
 cache_dir ufs /var/spool/squid 4096 16 256
 coredump_dir /var/spool/squid
 
+# More URL detail in logs:
+logformat secdis %ts.%03tu %6tr %>a %>p %Ss/%03>Hs %<st %rm %ru %rp %rv %<a %<p %<A %mt %ssl::>sni "%{User-Agent}>h"
+access_log      stdio:/var/log/squid/access.log secdis
+
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i \.(gif|png|jpg|jpeg|ico)$ 10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
@@ -1019,6 +1044,9 @@ refresh_pattern -i \.(deb|rpm|exe|zip|tar|tgz|ram|rar|bin|ppt|doc|tiff)$ 10080 9
 refresh_pattern -i \.index.(html|htm)$ 0 40% 10080
 refresh_pattern -i \.(html|htm|css|js)$ 1440 40% 40320
 refresh_pattern . 0 40% 40320
+
+refresh_pattern -i youtube.com/.* 10080 90% 43200
+refresh_pattern (/cgi-bin/|\?) 0 0% 0
 
 cache_peer 192.168.1.xxx parent 8118 0 default no-query no-digest
 acl ftp proto FTP
@@ -1093,7 +1121,9 @@ Save and close with `ctrl-x` `y` `return`
 
 #### Reference
 
-[http://www.squid-cache.org/](http://www.squid-cache.org/)
+[http://www.squid-cache.org/](http://www.squid-cache.org/)<br />
+[https://www.securitydistractions.com/2020/09/03/squid-proxy-log-format/](https://www.securitydistractions.com/2020/09/03/squid-proxy-log-format/)<br />
+[https://www.linux.com/news/speed-your-internet-access-using-squids-refresh-patterns/](https://www.linux.com/news/speed-your-internet-access-using-squids-refresh-patterns/)
 
 ### **SquidGuard**
 
@@ -2094,9 +2124,7 @@ Your browser should display the block.php page
 
 ![image](/images/eicar_detected.jpg)
 
-<div class="callout callout--warning">
-    <p>Note that this works only with HTTP unsecured addresses</p>
-</div>
+Note that this will only work with HTTP unsecured addresses. If you want this to work with HTTPS, see the <span style="color:red">[Wireless Access Point with transparent Squid and SquidGuard proxy](https://mizuki.ch/documentation/access_point/)</span> project<br />
 
 <div class="Reference"></div>
 
@@ -2363,7 +2391,7 @@ watchdog-device = /dev/watchdog
 
 # Defaults compiled into the binary
 #temperature-sensor =
-max-temperature = 120
+max-temperature = 80
 
 # Defaults compiled into the binary
 admin      = me@yahoo.fr

@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<p><span style="color:red">{{ page.date | date_to_string }} - {{ page.author }}</span></p>
+
+{{ content }}
+
+<br />
+
+<div class="c-pagination">
+   {% if page.previous %}
+   <div>
+       <h4><a  class="btn"  href="{{ site.baseurl }}{{page.previous.url}}">Previous post: {{page.previous.title}}</a></h4>
+   </div>
+   {% endif %}
+   {% if page.next %}
+   <div>
+       <h4><a  class="btn"  href="{{ site.baseurl }}{{page.next.url}}">Next post: {{page.next.title}}</a></h4>
+   </div>
+   {% endif %}
+</div>
+
+
+
+

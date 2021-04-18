@@ -15,6 +15,8 @@
 			<meta name="description" content="Set up a VPN server">
 		
 		
+			<meta name="keywords" content="Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn">
+		
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
 		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
@@ -29,14 +31,20 @@
 							
 								<li><a href="/">Homepage</a></li>
 							
+								<li><a href="/about">About</a></li>
+							
+								<li><a href="/blog">Emergency</a></li>
+							
+								<li><a href="/photo">Photo</a></li>
+							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
-								Documentation
+							<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Projects
 								<div class="c-btn__icon">
-									<i class="o-icon o-icon--folder"></i>
+									<i class="o-icon o-icon--code"></i>
 								</div>
 							</a>
 						
@@ -66,15 +74,24 @@
 													
 													<li class=""><a href="/">Homepage</a></li>
 												
+													
+													<li class=""><a href="/about">About</a></li>
+												
+													
+													<li class=""><a href="/blog">Emergency</a></li>
+												
+													
+													<li class=""><a href="/photo">Photo</a></li>
+												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
-														Documentation
+													<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Projects
 														<div class="c-btn__icon">
-															<i class="o-icon o-icon--folder"></i>
+															<i class="o-icon o-icon--code"></i>
 														</div>
 													</a>
 												
@@ -111,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Step-by-step instructions</p>
+							<p>Install a <span style="color:red">personal VPN server</span> with OpenVPN.</p>
 						</div>
 					
 					
@@ -130,9 +147,264 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<div class="callout html">
-    <p><strong>Please come back later!</strong>
-</p></div>
+							<p><em>Last update: <span style="color:red">2021.04.10</span></em></p>
+
+<p>Having a personal Virtual Private Network server can be useful. When traveling, I connect to my VPN server at home to encrypt communication when browsing from hotel and other public networks or to watch live TV streaming that necessitate a local IP from my country. Setting a VPN server is quite easy. For this project, I am using OpenVPN.</p>
+
+<p>First, update the system</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>Install OpenVPN and OpenSSL</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>openvpn openssl
+</code></pre></div></div>
+
+<p>Then let’s disable OpenVPN</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>update-rc.d openvpn disable
+</code></pre></div></div>
+
+<p>Copy the <code class="language-plaintext highlighter-rouge">easy-rsa</code> scripts in the OpenSSL configuration directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> <span class="nt">-r</span> /usr/share/easy-rsa /etc/openvpn/easy-rsa
+</code></pre></div></div>
+
+<p>Open the following config file for editing</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/openvpn/easy-rsa/vars
+</code></pre></div></div>
+
+<p>Find</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">EASY_RSA</span><span class="o">=</span><span class="s2">"</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span><span class="s2">
+</span></code></pre></div></div>
+
+<p>And replace with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">EASY_RSA</span><span class="o">=</span><span class="s2">"/etc/openvpn/easy-rsa"</span>
+</code></pre></div></div>
+
+<p>Set the key size to <code class="language-plaintext highlighter-rouge">2048</code>. That is good enough for a r-pi 3 or 4 (1024 for less security or 4096 for more security)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">KEY_SIZE</span><span class="o">=</span>2048
+</code></pre></div></div>
+
+<p>Change directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /etc/openvpn/easy-rsa
+</code></pre></div></div>
+
+<p>Type the three commands below</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+<span class="nb">source </span>vars
+<span class="nb">ln</span> <span class="nt">-s</span> openssl-1.0.0.cnf openssl.cnf
+</code></pre></div></div>
+
+<p>If you see an error message, it could be that some files are not found. This can be fixed with the following commands</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
+<span class="nb">sudo cp</span> /etc/openvpn/easy-rsa/openssl-easyrsa.cnf /etc/openvpn/easy-rsa/openssl.cnf
+</code></pre></div></div>
+
+<p>Now, we can create keys</p>
+
+<div class="callout callout--warning">
+    <p><strong>Note</strong> If you intent to connect form multiple device, such as a tablet, a mobile phone and a laptop, it is advised to create a different key for each device.</p>
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./clean-all
+./build-ca OpenVPN
+</code></pre></div></div>
+
+<p>You will be asked to enter some information. Enter the two letters identifying your country (US=USA; FR=France; DE=Germany; etc.) The other fields are optional. You can fill them in or leave them blank and press the <code class="language-plaintext highlighter-rouge">return</code> key.</p>
+
+<p>Now, create a key for the server</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build-key-server server
+</code></pre></div></div>
+
+<p>Then, create a key for the client. Give it a name of your choice</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build-key-pass name_of_your_choice
+</code></pre></div></div>
+
+<p>You will be asked to set a password</p>
+
+<p>Finally, type the command below to generate a certificate</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build-dh
+</code></pre></div></div>
+
+<p>Then</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Now, create a configuration file for the server</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/openvpn/openvpn.conf
+</code></pre></div></div>
+
+<p>With the following (1194 is the default port)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dev tun
+proto udp
+port 1194
+
+ca /etc/openvpn/easy-rsa/keys/ca.crt
+cert /etc/openvpn/easy-rsa/keys/server.crt
+key /etc/openvpn/easy-rsa/keys/server.key
+dh /etc/openvpn/easy-rsa/keys/dh2048.pem
+
+server 10.8.0.0 255.255.255.0
+
+push <span class="s2">"redirect-gateway def1 bypass-dhcp"</span>
+
+<span class="c"># DNS servers provided by OpenDNS</span>
+push <span class="s2">"dhcp-option DNS 208.67.222.222"</span>
+push <span class="s2">"dhcp-option DNS 208.67.220.220"</span>
+log-append /var/log/openvpn
+
+persist-key
+persist-tun
+user nobody
+group nogroup
+status /var/log/openvpn-status.log
+verb 3
+client-to-client
+comp-lzo
+
+ifconfig-pool-persist /etc/openvpn/ipp.txt
+</code></pre></div></div>
+
+<p>Change directory with <code class="language-plaintext highlighter-rouge">sudo su</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+<span class="nb">cd</span> /etc/openvpn/easy-rsa/keys
+</code></pre></div></div>
+
+<p>And create a configuration fole for the client</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano name_of_your_choice
+</code></pre></div></div>
+
+<p>With the following. Make sure you have correctly adjusted <code class="language-plaintext highlighter-rouge">remote</code>, <code class="language-plaintext highlighter-rouge">cert</code> and <code class="language-plaintext highlighter-rouge">key</code> according to your setting</p>
+
+<div class="callout callout--warning">
+    <p><strong>Note</strong> After "remote", use an IP or a domain name as needed.</p>
+</div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dev tun
+client
+proto udp
+remote x.x.x.x 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert name_of_your_choice.crt
+key name_of_your_choice.key
+comp-lzo
+verb 3
+</code></pre></div></div>
+
+<p>Now you can zip the files you will need to install on your client. Install zip first if you don’t have it already installed</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get <span class="nb">install </span>zip
+</code></pre></div></div>
+
+<p>Then</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zip /home/USER/name_of_your_choice.zip ca.crt name_of_your_choice.crt name_of_your_choice.key name_of_your_choice.ovpn
+</code></pre></div></div>
+
+<p>Change ownership (again, adjust as needed)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown </span>USER:USER /home/USER/name_of_your_choice.zip
+</code></pre></div></div>
+
+<p>Finally</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Almost done. To access your local network from the VPN, we need to redirect traffic. Create a file with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/init.d/rpivpn
+</code></pre></div></div>
+
+<p>Add the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#! /bin/sh</span>
+<span class="c">### BEGIN INIT INFO</span>
+<span class="c"># Provides:          rpivpn</span>
+<span class="c"># Required-Start:    $remote_fs $syslog</span>
+<span class="c"># Required-Stop:     $remote_fs $syslog</span>
+<span class="c"># Default-Start:     2 3 4 5</span>
+<span class="c"># Default-Stop:      0 1 6</span>
+<span class="c"># Short-Description: VPN initialization script</span>
+<span class="c">### END INIT INFO</span>
+
+<span class="nb">echo</span> <span class="s1">'echo "1" &gt; /proc/sys/net/ipv4/ip_forward'</span> | <span class="nb">sudo</span> <span class="nt">-s</span>
+
+iptables <span class="nt">-A</span> INPUT <span class="nt">-i</span> tun+ <span class="nt">-j</span> ACCEPT
+iptables <span class="nt">-A</span> FORWARD <span class="nt">-i</span> tun+ <span class="nt">-j</span> ACCEPT
+
+iptables <span class="nt">-A</span> FORWARD <span class="nt">-m</span> state <span class="nt">--state</span> ESTABLISHED,RELATED <span class="nt">-j</span> ACCEPT
+iptables <span class="nt">-t</span> nat <span class="nt">-F</span> POSTROUTING
+iptables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-s</span> 10.8.0.0/24 <span class="nt">-o</span> eth0 <span class="nt">-j</span> MASQUERADE
+</code></pre></div></div>
+
+<p>Then</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod</span> +x /etc/init.d/rpivpn
+<span class="nb">sudo </span>update-rc.d rpivpn defaults
+</code></pre></div></div>
+
+<p>Now execute and restart</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /etc/init.d/rpivpn
+<span class="nb">sudo</span> /etc/init.d/openvpn restart
+</code></pre></div></div>
+
+<p>That’s it. Now install the files you have generated earlier to your client (laptop, tablet or mobile phone) and try to connect to your VPN server.</p>
+
+<div class="callout callout--warning">
+    <p><strong>Note</strong> If you have a firewall such as UFW, make sure you allow port 1194/udp</p>
+</div>
+
+<p>Last thing, I don’t need my VPN server to be running when I don’t need it. So, I have created three little script that I can run anytime from my device to start or stop the server. The third one gives me the status.</p>
+
+<p>Start script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service openvpn start
+</code></pre></div></div>
+
+<p>Stop script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">sudo </span>service openvpn stop
+</code></pre></div></div>
+
+<p>Status script</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+ifconfig tun0
+service openvpn status
+</code></pre></div></div>
+
+<p>Voilà!</p>
+
+<div class="Reference"></div>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://www.ionos.fr/digitalguide/serveur/configuration/installer-un-serveur-vpn-via-raspberry-pi-et-openvpn/">https://www.ionos.fr/digitalguide/serveur/configuration/installer-un-serveur-vpn-via-raspberry-pi-et-openvpn/</a></p>
 
 							
 	<div class="c-comments u-mt-8 u-mb-3">
@@ -179,6 +451,22 @@
 							
 								
 									<li class="is-active">
+										<a href="/documentation/access_point/">
+											<p class="c-page-nav__heading">Wireless Access Point (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/backup/">
+											<p class="c-page-nav__heading">Backup multiple r-pi with rsnapshot</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
 										<a href="/documentation/vpn/">
 											<p class="c-page-nav__heading">Virtual Private Network</p>
 										</a>
@@ -188,7 +476,7 @@
 								
 									<li>
 										<a href="/documentation/web_server/">
-											<p class="c-page-nav__heading">Web server</p>
+											<p class="c-page-nav__heading">Web server (under construction)</p>
 										</a>
 									</li>
 								
@@ -196,7 +484,7 @@
 								
 									<li>
 										<a href="/documentation/nextcloud/">
-											<p class="c-page-nav__heading">Nextcloud</p>
+											<p class="c-page-nav__heading">Nextcloud (under construction)</p>
 										</a>
 									</li>
 								
@@ -221,7 +509,15 @@
 							
 							
 							
-								<a href="/documentation/parental_control/" class="c-arrow-link c-arrow-link--prev u-mr-auto">Web Filter Proxy (kid safe)</a>
+						
+							
+							
+							
+						
+							
+							
+							
+								<a href="/documentation/backup/" class="c-arrow-link c-arrow-link--prev u-mr-auto">Backup multiple r-pi with rsnapshot</a>
 							
 						
 							
@@ -231,7 +527,7 @@
 							
 							
 							
-								<a href="/documentation/web_server/" class="c-arrow-link c-arrow-link--next u-ml-auto">Web server</a>
+								<a href="/documentation/web_server/" class="c-arrow-link c-arrow-link--next u-ml-auto">Web server (under construction)</a>
 							
 						
 							
@@ -260,7 +556,7 @@
 								</p><!-- /.c-logo -->
 							
 							
-								<p>Copyright &copy; 2020. - r-pi <br>All rights reserved.</p>
+								<p>Copyright &copy; 2021. - r-pi <br>All rights reserved.</p>
 							
 						</div><!-- /.o-col -->
 					</div><!-- /.o-row -->

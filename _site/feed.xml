@@ -1,1 +1,389 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://192.168.1.121:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://192.168.1.121:4000/" rel="alternate" type="text/html" /><updated>2020-10-04T09:35:34+02:00</updated><id>http://192.168.1.121:4000/feed.xml</id></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://192.168.1.121:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://192.168.1.121:4000/" rel="alternate" type="text/html" /><updated>2021-04-18T19:08:46+02:00</updated><id>http://192.168.1.121:4000/feed.xml</id><entry><title type="html">Mon titre ici (post 3)</title><link href="http://192.168.1.121:4000/test-3/" rel="alternate" type="text/html" title="Mon titre ici (post 3)" /><published>2021-04-18T00:00:00+02:00</published><updated>2021-04-18T00:00:00+02:00</updated><id>http://192.168.1.121:4000/test-3</id><content type="html" xml:base="http://192.168.1.121:4000/test-3/">&lt;p&gt;Un résummé ici (test 3)&lt;/p&gt;
+
+&lt;p&gt;Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -&lt;/p&gt;</content><author><name>lls</name></author><category term="jekyll" /><summary type="html">Un résummé ici (test 3)</summary></entry><entry><title type="html">Mon titre ici (post 2)</title><link href="http://192.168.1.121:4000/test-2/" rel="alternate" type="text/html" title="Mon titre ici (post 2)" /><published>2021-04-17T00:00:00+02:00</published><updated>2021-04-17T00:00:00+02:00</updated><id>http://192.168.1.121:4000/test-2</id><content type="html" xml:base="http://192.168.1.121:4000/test-2/">&lt;p&gt;Un résummé ici (test 2)&lt;/p&gt;
+
+&lt;p&gt;Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -&lt;/p&gt;</content><author><name>lls</name></author><category term="jekyll" /><summary type="html">Un résummé ici (test 2)</summary></entry><entry><title type="html">Mon titre ici (post 1)</title><link href="http://192.168.1.121:4000/test-1/" rel="alternate" type="text/html" title="Mon titre ici (post 1)" /><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><id>http://192.168.1.121:4000/test-1</id><content type="html" xml:base="http://192.168.1.121:4000/test-1/">&lt;p&gt;Un résummé ici (test 1)&lt;/p&gt;
+
+&lt;div class=&quot;image-gallery&quot;&gt;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_9.jpg&quot; title=&quot;venezia_9&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_9.jpg &quot; alt=&quot;venezia_9&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_8.jpg&quot; title=&quot;venezia_8&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_8.jpg &quot; alt=&quot;venezia_8&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_7.jpg&quot; title=&quot;venezia_7&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_7.jpg &quot; alt=&quot;venezia_7&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_6.jpg&quot; title=&quot;venezia_6&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_6.jpg &quot; alt=&quot;venezia_6&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_5.jpg&quot; title=&quot;venezia_5&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_5.jpg &quot; alt=&quot;venezia_5&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_4.jpg&quot; title=&quot;venezia_4&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_4.jpg &quot; alt=&quot;venezia_4&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_3.jpg&quot; title=&quot;venezia_3&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_3.jpg &quot; alt=&quot;venezia_3&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_2.jpg&quot; title=&quot;venezia_2&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_2.jpg &quot; alt=&quot;venezia_2&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+    
+      
+       &lt;div class=&quot;box&quot;&gt;&lt;a href=&quot;/images/photo/venezia/venezia_1.jpg&quot; title=&quot;venezia_1&quot;&gt;
+         &lt;img src=&quot;/images/photo/thumbnail/venezia_1.jpg &quot; alt=&quot;venezia_1&quot; class=&quot;img-gallery&quot; /&gt;
+       &lt;/a&gt;&lt;/div&gt;
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ &lt;/div&gt;
+
+&lt;p&gt;Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -
+Ceci est un test - This is a test - Ceci est un test - This is a test -&lt;/p&gt;</content><author><name>lls</name></author><category term="jekyll" /><summary type="html">Un résummé ici (test 1)</summary></entry></feed>

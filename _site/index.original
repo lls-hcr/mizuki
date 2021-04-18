@@ -29,14 +29,20 @@
 							
 								<li><a href="/">Homepage</a></li>
 							
+								<li><a href="/about">About</a></li>
+							
+								<li><a href="/blog">Emergency</a></li>
+							
+								<li><a href="/photo">Photo</a></li>
+							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
-								Documentation
+							<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Projects
 								<div class="c-btn__icon">
-									<i class="o-icon o-icon--folder"></i>
+									<i class="o-icon o-icon--code"></i>
 								</div>
 							</a>
 						
@@ -66,15 +72,24 @@
 													
 													<li class=""><a href="/">Homepage</a></li>
 												
+													
+													<li class=""><a href="/about">About</a></li>
+												
+													
+													<li class=""><a href="/blog">Emergency</a></li>
+												
+													
+													<li class=""><a href="/photo">Photo</a></li>
+												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/documentation" class="c-btn c-btn--md c-btn--white u-text-md">
-														Documentation
+													<a href="/projects" class="c-btn c-btn--md c-btn--white u-text-md">
+														Projects
 														<div class="c-btn__icon">
-															<i class="o-icon o-icon--folder"></i>
+															<i class="o-icon o-icon--code"></i>
 														</div>
 													</a>
 												
@@ -334,7 +349,7 @@
 								</p><!-- /.c-logo -->
 							
 							
-								<p>Copyright &copy; 2020. - r-pi <br>All rights reserved.</p>
+								<p>Copyright &copy; 2021. - r-pi <br>All rights reserved.</p>
 							
 						</div><!-- /.o-col -->
 					</div><!-- /.o-row -->

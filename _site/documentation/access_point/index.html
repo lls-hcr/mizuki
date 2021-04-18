@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-US">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Wireless Access Point (kid safe) | r-pi</title>
+		
+		
+			<meta name="description" content="Wireless access point with transparent Squid and SquidGuard proxy">
+		
+		
+			<meta name="keywords" content="Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn">
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
+		
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/">Homepage</a></li>
+							
+								<li><a href="/about">About</a></li>
+							
+								<li><a href="/blog">Emergency</a></li>
+							
+								<li><a href="/photo">Photo</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Projects
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--code"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									
+										<p class="c-logo u-mb-0 js-logo">
+											<a href="/" class="c-logo__link">r-pi</a>
+										</p><!-- /.c-logo -->
+									
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/">Homepage</a></li>
+												
+													
+													<li class=""><a href="/about">About</a></li>
+												
+													
+													<li class=""><a href="/blog">Emergency</a></li>
+												
+													
+													<li class=""><a href="/photo">Photo</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Projects
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--code"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Wireless Access Point with transparent Squid and SquidGuard proxy</h2>
+					
+					
+						<div class="u-h6">
+							<p>A <span style="color:red">wireless access point</span> with <span style="color:red">transparent Squid and SquidGuard</span> proxy.</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p><em>Last update: <span style="color:red">2021.03.28</span></em></p>
+
+<p><a href="https://mizuki.ch/documentation/parental_control/">In a previous project</a>, I described how to set up a configurable web filter based on Privoxy, Squid and SquidGuard to filter out unwanted content on the web.</p>
+
+<p>Here, we will see how to turn the r-pi as a wireless access point with transparent HTTP/HTTPS proxy. “Transparent” means that anyone connecting to the wifi will have all traffic automatically redirected through the proxy server and content will be filtered.</p>
+
+<p>This method is more difficult to circumvent as all the parameters are set on the server side and not on the client side. But there are some pros and cons that we will explore further below.</p>
+
+<h2 id="step-1-configuring-the-access-point-host-software-hostapd">Step 1: Configuring the access point host software (Hostapd)</h2>
+
+<p>First, update the system</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>Install Hostapd</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>hostapd
+</code></pre></div></div>
+
+<p>Edit the dhcpcd configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/dhcpcd.conf
+</code></pre></div></div>
+
+<p>Add the following lines at the end.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface wlan0
+static <span class="nv">ip_address</span><span class="o">=</span>192.168.4.1/24
+nohook wpa_supplicant
+</code></pre></div></div>
+
+<p>Restart the dhcpcd daemon</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service dhcpcd restart
+</code></pre></div></div>
+
+<p>Edit the dhcpcd configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/dnsmasq.conf
+</code></pre></div></div>
+
+<p>Add the following lines at the end.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Configuration for Wi-Fi Access Point</span>
+<span class="nv">interface</span><span class="o">=</span>wlan0
+dhcp-range<span class="o">=</span>192.168.4.1,192.168.4.20,255.255.255.0,24h
+</code></pre></div></div>
+
+<p>Restart dnsmasq</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service dnsmasq restart
+</code></pre></div></div>
+
+<p>Edit the hostapd configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/hostapd/hostapd.conf
+</code></pre></div></div>
+
+<p>This is my configuration. You can simply copy-paste, but don’t forget to rename the ssid and to set a password between 8 and 64 characters.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#a = IEEE 802.11a (5 GHz)</span>
+<span class="c">#b = IEEE 802.11b (2.4 GHz)</span>
+<span class="c">#g = IEEE 802.11g (2.4 GHz)</span>
+
+<span class="nv">interface</span><span class="o">=</span>wlan0
+<span class="nv">driver</span><span class="o">=</span>nl80211
+<span class="nv">ssid</span><span class="o">=</span>your_network_name
+<span class="nv">hw_mode</span><span class="o">=</span>b
+<span class="nv">channel</span><span class="o">=</span>7
+<span class="nv">wmm_enabled</span><span class="o">=</span>0
+<span class="nv">macaddr_acl</span><span class="o">=</span>0
+<span class="nv">auth_algs</span><span class="o">=</span>1
+<span class="nv">ignore_broadcast_ssid</span><span class="o">=</span>0
+<span class="nv">wpa</span><span class="o">=</span>2
+<span class="nv">wpa_passphrase</span><span class="o">=</span>your_password
+<span class="nv">wpa_key_mgmt</span><span class="o">=</span>WPA-PSK
+<span class="nv">wpa_pairwise</span><span class="o">=</span>TKIP
+<span class="nv">rsn_pairwise</span><span class="o">=</span>CCMP
+</code></pre></div></div>
+
+<p>Open the following file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/default/hostapd
+</code></pre></div></div>
+
+<p>Find #DAEMON_CONF and replace with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">DAEMON_CONF</span><span class="o">=</span><span class="s2">"/etc/hostapd/hostapd.conf"</span>
+</code></pre></div></div>
+
+<p>Enable and start hostapd</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl unmask hostapd
+<span class="nb">sudo </span>systemctl <span class="nb">enable </span>hostapd
+<span class="nb">sudo </span>systemctl start hostapd
+</code></pre></div></div>
+
+<p>Check status to be sure all is working</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl status hostapd
+<span class="nb">sudo </span>systemctl status dnsmasq
+</code></pre></div></div>
+
+<p>Edit /etc/sysctl.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/sysctl.conf
+</code></pre></div></div>
+
+<p>and uncomment this line</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.ipv4.ip_forward<span class="o">=</span>1
+</code></pre></div></div>
+
+<p>After reboot, you should be able to see and connect to your new access point, look for the ssid name that you have used in the <strong>hostapd.conf</strong> file. You will need to add an iptable masquerade rule to access the Internet</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -m comment --comment "masquerade lan-&gt;wan"
+</code></pre></div></div>
+
+<p>If you have UFW enabled, you may want to add the rule below to allow all internal traffic on 192.168.4.0</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw allow from 192.168.4.0/24
+</code></pre></div></div>
+
+<div class="callout callout--warning">
+    <p><strong>Note</strong> At this point the iptable rule is not saved and will be lost after reboot. We will see later how to permanently apply iptable rules.</p>
+</div>
+
+<div class="Reference"></div>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://learn.pi-supply.com/make/how-to-setup-a-wireless-access-point-on-the-raspberry-pi/">https://learn.pi-supply.com/make/how-to-setup-a-wireless-access-point-on-the-raspberry-pi/</a><br />
+<a href="https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/">https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/</a><br /></p>
+
+<h2 id="step-2-configuring-squid-as-transparent-httphttps-proxy-with-iptables">Step 2: Configuring Squid as transparent HTTP+HTTPS Proxy with iptables</h2>
+
+<p>First thing to do here is to configure squid with SSL-TLS supprt. The original distribution does not come with what we need. We will have to build Squid from the source with the necessary arguments. You may have Squid already installed, no worries as it will be replaced.</p>
+
+<p>First, we need to install a few additional packages</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>dpkg-dev libldap2-dev libpam0g-dev libdb-dev cdbs libsasl2-dev debhelper libcppunit-dev libkrb5-dev comerr-dev libcap2-dev libecap3-dev libexpat1-dev libxml2-dev autotools-dev libltdl-dev pkg-config libnetfilter-conntrack-dev nettle-dev libgnutls28-dev libssl1.0-dev build-essential openssl
+</code></pre></div></div>
+
+<p>Now, we need to get the source package so we can build it with the following missing arguments enabled: <strong>–enable-ssl –enable-ssl-crtd –with-openssl</strong>. To do that, modify the source.list</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/apt/sources.list
+</code></pre></div></div>
+
+<p>Uncomment the line below</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
+</code></pre></div></div>
+
+<p>then update and get the Squid source package</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">source </span>squid
+</code></pre></div></div>
+
+<p>Change directory. Make sure you have the same version, if not, modify as required.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd  </span>squid-4.6
+</code></pre></div></div>
+
+<p>Open</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano debian/rules
+</code></pre></div></div>
+
+<p>Look for <strong>–enable-ecap /</strong> and add the missing arguments right below</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--enable-ssl</span> <span class="nt">--enable-ssl-crtd</span> <span class="nt">--with-openssl</span> <span class="se">\</span>
+</code></pre></div></div>
+
+<p>Open</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano debian/control
+</code></pre></div></div>
+
+<p>Look for <strong>, nettle-dev</strong> and add the following right beolw</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>, libssl1.0-dev
+</code></pre></div></div>
+
+<p>Now, build your Squid</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dpkg-buildpackage <span class="nt">-rfakeroot</span> <span class="nt">-b</span>
+</code></pre></div></div>
+
+<p>Now you can have a beer or a coffee, the process takes some time.</p>
+
+<p>When done, move out of the Squid directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
+</code></pre></div></div>
+
+<p>We need two only these two packages: <strong>quid_4.6-1+deb10u5_armhf.deb</strong> and <strong>squid-common_4.6-1+deb10u5_all.deb</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dpkg <span class="nt">-i</span> squid_4.6-1+deb10u5_armhf.deb squid-common_4.6-1+deb10u5_all.deb
+</code></pre></div></div>
+
+<p>And</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-f</span>
+</code></pre></div></div>
+
+<p>Now let’s do a quick check</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>squid <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>And make sure the arguments that we have added are in place</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Squid Cache: Version 4.6
+Service Name: squid
+Raspbian linux
+
+This binary uses OpenSSL 1.0.2q  20 Nov 2018. For legal restrictions on distribution see https://www.openssl.org/source/license.html
+
+...<span class="s1">'--enable-ssl'</span> <span class="s1">'--enable-ssl-crtd'</span> <span class="s1">'--with-openssl'</span> ...
+</code></pre></div></div>
+
+<p>Now, we will generate a certificate. In</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /etc/squid
+</code></pre></div></div>
+
+<p>create a new directlory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir </span>ssl_cert
+</code></pre></div></div>
+
+<p>Change permission</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod </span>700 ssl_cert/
+</code></pre></div></div>
+
+<p>As super user</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+</code></pre></div></div>
+
+<p>Change directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>ssl_cert
+</code></pre></div></div>
+
+<p>Now we can create the certificate with the following command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl req <span class="nt">-new</span> <span class="nt">-newkey</span> rsa:2048 <span class="nt">-sha256</span> <span class="nt">-days</span> 365 <span class="nt">-nodes</span> <span class="nt">-x509</span> <span class="nt">-extensions</span> v3_ca <span class="nt">-keyout</span> squid_ssl.pem <span class="nt">-out</span> squid_ssl.pem
+</code></pre></div></div>
+
+<p>We will also create a certificate that we will later import in the browser on the client side</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl x509 <span class="nt">-in</span> squid_ssl.pem <span class="nt">-outform</span> DER <span class="nt">-out</span> squid_ssl.der
+</code></pre></div></div>
+
+<p>This last certificate will be needed on the client machine (a computer or laptop - I haven’t try with a mobile phone). I am using <strong>scp</strong> to export the file, but you can use any method you like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp squid_ssl.der mbp-i7@192.168.1.xxx:/Users/mbp-i7
+</code></pre></div></div>
+
+<p>Now we generate the ssl_db with the following command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/lib/squid/security_file_certgen <span class="nt">-c</span> <span class="nt">-s</span> /var/lib/ssl_db <span class="nt">-M</span> 4MB
+</code></pre></div></div>
+
+<p>Okay, let’s move out of the directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
+</code></pre></div></div>
+
+<p>And change the user : group</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-R</span> proxy:proxy ssl_cert
+<span class="nb">chown</span> <span class="nt">-R</span> proxy:proxy /var/lib/ssl_db
+</code></pre></div></div>
+
+<p>then exit super user mode</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Now, we need to edit the Squid configuration file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/squid/squid.conf
+</code></pre></div></div>
+
+<p>Under <code class="language-plaintext highlighter-rouge">acl localnet src 192.168.1.0/24  # Home network</code> add the following line</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acl localnet src 192.168.1.0/24  <span class="c"># Home network</span>
+acl localnet src 192.168.4.0/24  <span class="c"># Wi-Fi Access Point network</span>
+</code></pre></div></div>
+
+<p>Then, under <code class="language-plaintext highlighter-rouge">http_port 3128</code> and add the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http_port 3128
+http_port 8080 intercept
+https_port 3129 intercept ssl-bump <span class="se">\</span>
+        <span class="nv">cert</span><span class="o">=</span>/etc/squid/ssl_cert/squid_ssl.pem <span class="se">\</span>
+        generate-host-certificates<span class="o">=</span>on <span class="nv">dynamic_cert_mem_cache_size</span><span class="o">=</span>4MB
+
+sslcrtd_program /usr/lib/squid/security_file_certgen <span class="nt">-s</span> /var/lib/ssl_db <span class="nt">-M</span> 4MB
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump all
+ssl_bump splice all
+</code></pre></div></div>
+
+<p>If you have chained Squid with Privoxy you will have problems. Unfortunately, at the time of writing this project Privoxy does not handle HTTPS encripted traffic (version 3.0.28). So we are going to comment the lines related to Privoxy.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#cache_peer 192.168.1.xxx parent 8118 0 default no-query no-digest</span>
+<span class="c">#acl ftp proto FTP</span>
+<span class="c">#always_direct allow ftp</span>
+<span class="c">#never_direct allow all</span>
+<span class="c">#cache_effective_group proxy</span>
+</code></pre></div></div>
+
+<p>Restart Squid</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service squid restart
+</code></pre></div></div>
+
+<p>Check Squid status to make sure all went well</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service squid status
+</code></pre></div></div>
+
+<p>So, no more Privoxy for the time being, but we might be able to bring it back with a newer version. This will be in another project. Note that you can use Privoxy, but only for the HTTP pages, which is not very useful as all HTTPS pages will show an error message.</p>
+
+<h2 id="now-the-iptables">Now the iptables</h2>
+
+<p>Add a Masquerade rule to allow Internet access</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-o</span> eth0 <span class="nt">-j</span> MASQUERADE <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"masquerade lan-&gt;wan"</span>
+</code></pre></div></div>
+
+<p>Add Rules to allow ports 8080 and 3129</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-A</span> INPUT <span class="nt">-j</span> ACCEPT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 8080 <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"squid transparent http proxy"</span>
+<span class="nb">sudo </span>iptables <span class="nt">-A</span> INPUT <span class="nt">-j</span> ACCEPT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 3129 <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"squid transparent https proxy"</span>
+</code></pre></div></div>
+
+<p>Optionally add more rules to allow other ports. For example the Dropbox LAN sync</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-A</span> INPUT <span class="nt">-j</span> ACCEPT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 17500 <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"dropbox lan sync"</span>
+</code></pre></div></div>
+
+<p>Add Rules to redirect traffic. Here, we have the wlan0 (WiFi) traffic on <strong>192.168.4.0/24</strong> and the eth0 destination on <strong>192.168.1.xxx</strong> depending on your configuration</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> PREROUTING <span class="nt">-s</span> 192.168.4.0/24 <span class="nt">-p</span> tcp <span class="nt">--dport</span> 80 <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"squid transparent http proxy"</span> <span class="nt">-j</span> DNAT <span class="nt">--to-destination</span> 192.168.1.xxx:8080
+<span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> PREROUTING <span class="nt">-s</span> 192.168.4.0/24 <span class="nt">-p</span> tcp <span class="nt">--dport</span> 443 <span class="nt">-m</span> comment <span class="nt">--comment</span> <span class="s2">"squid transparent https proxy"</span> <span class="nt">-j</span> DNAT <span class="nt">--to-destination</span> 192.168.1.xxx:3129
+</code></pre></div></div>
+
+<p>Save the iptable rules</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>sh <span class="nt">-c</span> <span class="s2">"iptables-save &gt; /etc/iptables.ipv4.nat"</span>
+</code></pre></div></div>
+
+<p>Edit /etc/rc.local</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/rc.local
+</code></pre></div></div>
+
+<p>Add the line below just above “exit 0” to install iptable rules on boot</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables-restore &lt; /etc/iptables.ipv4.nat
+</code></pre></div></div>
+
+<p>You can check your iptable rules with the following commands</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-L</span>
+<span class="nb">sudo </span>iptables <span class="nt">-L</span>
+</code></pre></div></div>
+
+<h2 id="upload-the-client-certificate-on-your-browser">Upload the client certificate on your browser</h2>
+
+<p>Remember that we have generated a certificate that we need to upload on the client’s browser to avoid a security warning. Now, if you try to go on the google page (or any other), you should see an error warning like this one</p>
+
+<p><img src="/images/squid_warning.jpg" alt="image" /></p>
+
+<p>Go to the preference in your browser and look for “view certificates” under Security/Privacy. In FireFox, it looks like this</p>
+
+<p><img src="/images/squid_browser_pref.jpg" alt="image" /></p>
+
+<p>Import your certificate.</p>
+
+<p><img src="/images/squid_cert_import.jpg" alt="image" /></p>
+
+<p>Check the box corresponding to the web site authentication. You can also view the cert detail info.</p>
+
+<p><img src="/images/squid_cert_authority.jpg" alt="image" /></p>
+
+<p>On a Mac, you can import and validate the certificate in the Keycahin Access app. If you don’t do that, Mail and other app will complain about the certificate being not reliable. You can also import and validate your certificate on an iPad or iPhone.</p>
+
+<p><img src="/images/mac_cert.jpg" alt="image" /></p>
+
+<p>That’s it! At this point, if you refresh your browser, you should have access to Internet from your r-pi WiFi access point, and all traffic should be filtered by Squid (and SquidGuard if you are coming from the previous project). You do not need to configure your browser to point to the proxy as all settings are done on the r-pi itself.</p>
+
+<p>Check the traffic on the squid access log</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tail</span> <span class="nt">-f</span> /var/log/squid/access.log | ccze
+</code></pre></div></div>
+
+<p>Now, if you have set up you r-pi with both Squid and SquidGuard as developped in <a href="https://mizuki.ch/documentation/parental_control/">another project</a>, when trying to access a forbdiden website, SquidGuard will return the following:</p>
+
+<p><img src="/images/squid_transparent_block_page.jpg" alt="image" /></p>
+
+<p>Voilà! That was fun to do. Hope you enjoyed. Please share comments in the chat box below. Thanks!</p>
+
+<div class="Reference"></div>
+
+<h4 id="reference-1">Reference</h4>
+
+<p><a href="https://www.youtube.com/watch?v=Bogdplu_lsE">https://www.youtube.com/watch?v=Bogdplu_lsE</a><br />
+<a href="https://elatov.github.io/2019/01/using-squid-to-proxy-ssl-sites/">https://elatov.github.io/2019/01/using-squid-to-proxy-ssl-sites/</a><br />
+<br />
+<a href="https://mizuki.ch//download/squid_ssl.der">der cert</a></p>
+
+							
+	<div class="c-comments u-mt-8 u-mb-3">
+		<div id="disqus_thread"></div>
+		<script>
+			/**
+			 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+			 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+			 */
+			/*
+			var disqus_config = function () {
+			this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+				this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			*/
+			(function() {
+				var d = document, s = d.createElement('script');
+
+				s.src = 'https://lls.disqus.com/embed.js';
+
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+	</div><!-- /.c-comments -->
+
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+								
+									<li class="is-active">
+										<a href="/documentation/parental_control/">
+											<p class="c-page-nav__heading">Web Filter Proxy (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/access_point/">
+											<p class="c-page-nav__heading">Wireless Access Point (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/backup/">
+											<p class="c-page-nav__heading">Backup multiple r-pi with rsnapshot</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/vpn/">
+											<p class="c-page-nav__heading">Virtual Private Network</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/web_server/">
+											<p class="c-page-nav__heading">Web server (under construction)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/nextcloud/">
+											<p class="c-page-nav__heading">Nextcloud (under construction)</p>
+										</a>
+									</li>
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-12 u-text-center">
+					<div class="u-inline-block u-flex@sm">
+						
+						
+							
+							
+							
+								<a href="/documentation/parental_control/" class="c-arrow-link c-arrow-link--prev u-mr-auto">Web Filter Proxy (kid safe)</a>
+							
+						
+							
+							
+							
+						
+							
+							
+							
+								<a href="/documentation/backup/" class="c-arrow-link c-arrow-link--next u-ml-auto">Backup multiple r-pi with rsnapshot</a>
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+					</div>
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									r-pi
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy; 2021. - r-pi <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/dox-theme/assets/js/scripts.min.js"></script>
+
+		<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1349910-6', 'auto');
+  ga('send', 'pageview');
+
+</script>
+	</body>
+</html>
+
+

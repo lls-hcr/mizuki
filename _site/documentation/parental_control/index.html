@@ -15,6 +15,8 @@
 			<meta name="description" content="Web filter and parental control proxy with Privoxy, Squid and SquidGuard">
 		
 		
+			<meta name="keywords" content="Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn">
+		
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
 		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
@@ -29,14 +31,20 @@
 							
 								<li><a href="/">Homepage</a></li>
 							
+								<li><a href="/about">About</a></li>
+							
+								<li><a href="/blog">Emergency</a></li>
+							
+								<li><a href="/photo">Photo</a></li>
+							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
-								Documentation
+							<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Projects
 								<div class="c-btn__icon">
-									<i class="o-icon o-icon--folder"></i>
+									<i class="o-icon o-icon--code"></i>
 								</div>
 							</a>
 						
@@ -66,15 +74,24 @@
 													
 													<li class=""><a href="/">Homepage</a></li>
 												
+													
+													<li class=""><a href="/about">About</a></li>
+												
+													
+													<li class=""><a href="/blog">Emergency</a></li>
+												
+													
+													<li class=""><a href="/photo">Photo</a></li>
+												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/documentation" class="c-btn c-btn--md c-btn--gray u-text-md">
-														Documentation
+													<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Projects
 														<div class="c-btn__icon">
-															<i class="o-icon o-icon--folder"></i>
+															<i class="o-icon o-icon--code"></i>
 														</div>
 													</a>
 												
@@ -130,7 +147,19 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p><em>Last update: <span style="color:red">2020.10.03</span></em></p>
+							<p><em>Last update: <span style="color:red">2021.04.06</span></em></p>
+
+<h6 id="kid-safe-proxy-filter"><strong>Kid Safe Proxy Filter</strong></h6>
+
+<div class="container">
+  <div class="video">
+    <video width="100%" autoplay="true" muted="" loop="">
+      <source src="/images/kid_safe.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+<p><br /></p>
 
 <p>This is a quick-reference guide to setting up a highly configurable web filter on a Raspberry Pi. The filter will be configured to block ads, websites with mild to hard adult content as well as other malware and phishing sites. For this project, I am using a Raspberry Pi 4 Model B (4G) with the <a href="https://www.raspberrypi.org/downloads/raspberry-pi-os/">Raspberry Pi OS Lite (buster)</a>.</p>
 
@@ -259,7 +288,7 @@ ExecStart=-/sbin/agetty --autologin <span style="color:red">new_username</span> 
 
 <p>Now, you can delete the old username “pi”</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>deluser pi
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>deluser <span class="nt">--remove-all-files</span> pi
 </code></pre></div></div>
 
 <p>You should see the following</p>
@@ -400,7 +429,8 @@ digitalocean.com.       1       IN      A       104.16.182.15<br />
 
 <h4 id="reference-1">Reference</h4>
 
-<p><a href="https://pimylifeup.com/raspberry-pi-dns-server/">https://pimylifeup.com/raspberry-pi-dns-server/</a></p>
+<p><a href="https://pimylifeup.com/raspberry-pi-static-ip-address/">https://pimylifeup.com/raspberry-pi-static-ip-address/</a><br />
+<a href="https://pimylifeup.com/raspberry-pi-dns-server/">https://pimylifeup.com/raspberry-pi-dns-server/</a></p>
 
 <h3 id="privoxy"><strong>Privoxy</strong></h3>
 
@@ -1018,7 +1048,7 @@ main
 <h4 id="reference-2">Reference</h4>
 
 <p><a href="http://www.privoxy.org/">http://www.privoxy.org/</a><br />
-<a href="https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh">hhttps://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh</a><br />
+<a href="https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh">https://github.com/Andrwe/privoxy-blocklist/blob/master/privoxy-blocklist.sh</a><br />
 <a href="https://www.prxbx.com/forums/showthread.php?tid=2261">https://www.prxbx.com/forums/showthread.php?tid=2261</a></p>
 
 <h3 id="squid"><strong>Squid</strong></h3>
@@ -1073,15 +1103,23 @@ acl Safe_ports port 488          <span class="c"># gss-http</span>
 acl Safe_ports port 591          <span class="c"># filemaker</span>
 acl Safe_ports port 777          <span class="c"># multiling http</span>
 acl Safe_ports port 873          <span class="c"># rsync</span>
+acl Safe_ports port 10000        <span class="c"># Webmin</span>
 
 acl CONNECT method CONNECT
 
+<span class="c"># block anything not targeting authorized ports</span>
 http_access deny <span class="o">!</span>Safe_ports
 http_access deny CONNECT <span class="o">!</span>SSL_ports
+
+<span class="c"># manager access</span>
 http_access allow localhost manager
 http_access deny manager
+
+<span class="c"># allow local networks</span>
 http_access allow localnet
 http_access allow localhost
+
+<span class="c"># deny anything else</span>
 http_access deny all
 
 http_port 3128
@@ -1095,6 +1133,10 @@ memory_cache_mode always
 cache_dir ufs /var/spool/squid 4096 16 256
 coredump_dir /var/spool/squid
 
+<span class="c"># More URL detail in logs:</span>
+logformat secdis %ts.%03tu %6tr %&gt;a %&gt;p %Ss/%03&gt;Hs %&lt;st %rm %ru %rp %rv %&lt;a %&lt;p %&lt;A %mt %ssl::&gt;sni <span class="s2">"%{User-Agent}&gt;h"</span>
+access_log      stdio:/var/log/squid/access.log secdis
+
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>gif|png|jpg|jpeg|ico<span class="o">)</span><span class="nv">$ </span>10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
@@ -1103,6 +1145,9 @@ refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class
 refresh_pattern <span class="nt">-i</span> <span class="se">\.</span>index.<span class="o">(</span>html|htm<span class="o">)</span><span class="nv">$ </span>0 40% 10080
 refresh_pattern <span class="nt">-i</span> <span class="se">\.</span><span class="o">(</span>html|htm|css|js<span class="o">)</span><span class="nv">$ </span>1440 40% 40320
 refresh_pattern <span class="nb">.</span> 0 40% 40320
+
+refresh_pattern <span class="nt">-i</span> youtube.com/.<span class="k">*</span> 10080 90% 43200
+refresh_pattern <span class="o">(</span>/cgi-bin/|<span class="se">\?</span><span class="o">)</span> 0 0% 0
 
 cache_peer 192.168.1.xxx parent 8118 0 default no-query no-digest
 acl ftp proto FTP
@@ -1171,7 +1216,9 @@ graph_font /usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
 
 <h4 id="reference-3">Reference</h4>
 
-<p><a href="http://www.squid-cache.org/">http://www.squid-cache.org/</a></p>
+<p><a href="http://www.squid-cache.org/">http://www.squid-cache.org/</a><br />
+<a href="https://www.securitydistractions.com/2020/09/03/squid-proxy-log-format/">https://www.securitydistractions.com/2020/09/03/squid-proxy-log-format/</a><br />
+<a href="https://www.linux.com/news/speed-your-internet-access-using-squids-refresh-patterns/">https://www.linux.com/news/speed-your-internet-access-using-squids-refresh-patterns/</a></p>
 
 <h3 id="squidguard"><strong>SquidGuard</strong></h3>
 
@@ -2117,9 +2164,7 @@ $from='Security Alerts &lt;<span style="color:red">system_hostname</span>&gt;';<
 
 <p><img src="/images/eicar_detected.jpg" alt="image" /></p>
 
-<div class="callout callout--warning">
-    <p>Note that this works only with HTTP unsecured addresses</p>
-</div>
+<p>Note that this will only work with HTTP unsecured addresses. If you want this to work with HTTPS, see the <span style="color:red"><a href="https://mizuki.ch/documentation/access_point/">Wireless Access Point with transparent Squid and SquidGuard proxy</a></span> project<br /></p>
 
 <div class="Reference"></div>
 
@@ -2362,7 +2407,7 @@ watchdog-device <span class="o">=</span> /dev/watchdog
 
 <span class="c"># Defaults compiled into the binary</span>
 <span class="c">#temperature-sensor =</span>
-max-temperature <span class="o">=</span> 120
+max-temperature <span class="o">=</span> 80
 
 <span class="c"># Defaults compiled into the binary</span>
 admin      <span class="o">=</span> me@yahoo.fr
@@ -2608,6 +2653,22 @@ account default : gmail
 							
 								
 									<li>
+										<a href="/documentation/access_point/">
+											<p class="c-page-nav__heading">Wireless Access Point (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/backup/">
+											<p class="c-page-nav__heading">Backup multiple r-pi with rsnapshot</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
 										<a href="/documentation/vpn/">
 											<p class="c-page-nav__heading">Virtual Private Network</p>
 										</a>
@@ -2617,7 +2678,7 @@ account default : gmail
 								
 									<li>
 										<a href="/documentation/web_server/">
-											<p class="c-page-nav__heading">Web server</p>
+											<p class="c-page-nav__heading">Web server (under construction)</p>
 										</a>
 									</li>
 								
@@ -2625,7 +2686,7 @@ account default : gmail
 								
 									<li>
 										<a href="/documentation/nextcloud/">
-											<p class="c-page-nav__heading">Nextcloud</p>
+											<p class="c-page-nav__heading">Nextcloud (under construction)</p>
 										</a>
 									</li>
 								
@@ -2654,7 +2715,15 @@ account default : gmail
 							
 							
 							
-								<a href="/documentation/vpn/" class="c-arrow-link c-arrow-link--next u-ml-auto">Virtual Private Network</a>
+								<a href="/documentation/access_point/" class="c-arrow-link c-arrow-link--next u-ml-auto">Wireless Access Point (kid safe)</a>
+							
+						
+							
+							
+							
+						
+							
+							
 							
 						
 							
@@ -2687,7 +2756,7 @@ account default : gmail
 								</p><!-- /.c-logo -->
 							
 							
-								<p>Copyright &copy; 2020. - r-pi <br>All rights reserved.</p>
+								<p>Copyright &copy; 2021. - r-pi <br>All rights reserved.</p>
 							
 						</div><!-- /.o-col -->
 					</div><!-- /.o-row -->

@@ -12,17 +12,25 @@ dox:
             - item_name: Homepage
               item_url: /
 # Add top page menu items - add as many pages as needed
-#             - item_name: Default Layout
-#               item_url: /default
+            - item_name: About
+              item_url: /about
+            - item_name: Emergency
+              item_url: /blog
+            - item_name: Photo
+              item_url: /photo
         cta:
-            label: Documentation
-            url: /documentation
-            icon: folder # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
+            label: Photo
+            url: /photo
+            icon: code # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
+        cta:
+            label: Projects
+            url: /projects
+            icon: code # Choose from 266 icons in "Feather" icon set, list of all icons is available here - https://feathericons.com
     footer:
         logo:
             text: r-pi
             image:
-        text: Copyright &copy; 2020. - r-pi <br>All rights reserved.
+        text: Copyright &copy; 2021. - r-pi <br>All rights reserved.
     google_analytics:
         tracking_code: # Add your Google Analytics tracking code to activate Google Analytics
     comments:
@@ -60,3 +68,8 @@ url: "https://mizuki.ch" # the base hostname & protocol for your site
 
 plugins:
   - jekyll-sitemap
+
+# Photo gallery
+#imagesurl: "/images/photo/"
+thumbsurl: "/images/photo/thumbnail/"
+
