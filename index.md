@@ -30,8 +30,12 @@ features:
                 description: Backup multiple r-pi on an external USB drive with rsnapshot
                 icon: save
 
-              - title: Virtual Private Network
-                description: Turn a Raspberry Pi into a VPN server
+              - title: Virtual Private Network (1)
+                description: Turn a Raspberry Pi into a VPN server with OpenVPN
+                icon: lock
+
+              - title: Virtual Private Network (2)
+                description: Turn a Raspberry Pi into a VPN server with Wireguard
                 icon: lock
 
               - title: Web server (under construction)

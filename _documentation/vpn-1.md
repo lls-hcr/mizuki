@@ -1,15 +1,15 @@
 ---
 # Page settings
-title: Virtual Private Network # Define a title of your page
-description: Set up a VPN server # Define a description of your page
+title: Virtual Private Network (1) # Define a title of your page
+description: Set up a VPN server with OpenVPN # Define a description of your page
 keywords: Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn # Define keywords for search engines
 order: 4 # Define order of this page in list of all documentation documents
 comments: true # Set to "true" in order to enable comments on this page. Make sure you properly setup "disqus_forum_shortname" variable in "_config.yml"
 
 # Hero section
 hero:
-    title: VPN server
-    text: Install a <span style="color:red">personal VPN server</span> with OpenVPN.
+    title: OpenVPN server
+    text: Install a personal <span style="color:red">VPN server</span> with <span style="color:red">OpenVPN</span>.
 ---
 
 _Last update: <span style="color:red">2021.04.10</span>_

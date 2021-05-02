@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Virtual Private Network | r-pi</title>
+			<title>Virtual Private Network (1) | r-pi</title>
 		
 		
-			<meta name="description" content="Set up a VPN server">
+			<meta name="description" content="Set up a VPN server with OpenVPN">
 		
 		
 			<meta name="keywords" content="Raspberry Pi, Privoxy, Squid, SquidGuard, Parental Control, Web Filter, backup, rsnapshot, vpn, openvpn">
@@ -21,6 +21,23 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
 		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
 		
+
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//stats.mizuki.ch/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+
 	</head>
 	<body>
 		
@@ -124,11 +141,11 @@
 			<div class="o-row">
 				<div class="o-col-8@lg o-col-7@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">VPN server</h2>
+						<h2 class="u-text-lg u-text-xl@sm">OpenVPN server</h2>
 					
 					
 						<div class="u-h6">
-							<p>Install a <span style="color:red">personal VPN server</span> with OpenVPN.</p>
+							<p>Install a personal <span style="color:red">VPN server</span> with <span style="color:red">OpenVPN</span>.</p>
 						</div>
 					
 					
@@ -467,8 +484,16 @@ service openvpn status
 							
 								
 									<li class="is-active">
-										<a href="/documentation/vpn/">
-											<p class="c-page-nav__heading">Virtual Private Network</p>
+										<a href="/documentation/vpn-1/">
+											<p class="c-page-nav__heading">Virtual Private Network (1)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li>
+										<a href="/documentation/vpn-2/">
+											<p class="c-page-nav__heading">Virtual Private Network (2)</p>
 										</a>
 									</li>
 								
@@ -527,7 +552,11 @@ service openvpn status
 							
 							
 							
-								<a href="/documentation/web_server/" class="c-arrow-link c-arrow-link--next u-ml-auto">Web server (under construction)</a>
+								<a href="/documentation/vpn-2/" class="c-arrow-link c-arrow-link--next u-ml-auto">Virtual Private Network (2)</a>
+							
+						
+							
+							
 							
 						
 							
@@ -573,7 +602,7 @@ service openvpn status
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-1349910-6', 'auto');
+  ga('create', '', 'auto');
   ga('send', 'pageview');
 
 </script>

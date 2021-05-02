@@ -62,14 +62,24 @@ exclude: [ 'README.md', 'CHANGELOG.md' ]
 permalink: /:title/
 
 # Google services
-google_analytics: UA-1349910-6
+#google_analytics: UA-1349910-6
 
 url: "https://mizuki.ch" # the base hostname & protocol for your site
 
 plugins:
   - jekyll-sitemap
+  - jekyll-analytics
 
 # Photo gallery
 #imagesurl: "/images/photo/"
 thumbsurl: "/images/photo/thumbnail/"
+
+jekyll_analytics:
+  GoogleAnalytics:          # Add, if you want to track with Google Analytics
+    id: UA-1349910-6        # Required - replace with your tracking id
+    anonymizeIp: false      # Optional - Default: false - set to true for anonymized tracking
+
+  Matomo:                   # Add, if you want to track with Matomo (former Piwik Analytics)
+    url: stats.mizuki.ch    # Required - url to Matomo installation without trailing /
+    siteId: "1"             # Required - replace with your Matomo site id (Write id as string)
 

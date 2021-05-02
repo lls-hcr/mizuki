@@ -21,6 +21,23 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
 		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
 		
+
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//stats.mizuki.ch/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+
 	</head>
 	<body>
 		
@@ -218,8 +235,24 @@
 									
 									
 										<div class="c-feature-card__content">
-											<h4 class="c-feature-card__title">Virtual Private Network</h4>
-											<p>Turn a Raspberry Pi into a VPN server</p>
+											<h4 class="c-feature-card__title">Virtual Private Network (1)</h4>
+											<p>Turn a Raspberry Pi into a VPN server with OpenVPN</p>
+										</div><!-- /.c-featured-card__content -->
+									
+								</div><!-- /.c-feature-card -->
+							</div><!-- /.o-col -->
+						
+							<div class="o-col-6@md o-col-4@lg u-mb-3">
+								<div class="c-feature-card">
+									
+										<div class="c-feature-card__icon">
+											<i class="o-icon o-icon--lock"></i>
+										</div><!-- /.c-feature-card__icon -->
+									
+									
+										<div class="c-feature-card__content">
+											<h4 class="c-feature-card__title">Virtual Private Network (2)</h4>
+											<p>Turn a Raspberry Pi into a VPN server with Wireguard</p>
 										</div><!-- /.c-featured-card__content -->
 									
 								</div><!-- /.c-feature-card -->
@@ -296,7 +329,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-1349910-6', 'auto');
+  ga('create', '', 'auto');
   ga('send', 'pageview');
 
 </script>
