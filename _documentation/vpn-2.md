@@ -110,7 +110,7 @@ PrivateKey = insert client_private_key
     
 [Peer]
 PublicKey = insert server_public_key
-Endpoint = your.publicdns.com::51900
+Endpoint = your.publicdns.com:51900
 AllowedIPs = 0.0.0.0/0, ::/0
 PersistentKeepalive = 25
 ```

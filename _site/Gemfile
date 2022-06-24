@@ -26,8 +26,8 @@ group :jekyll_plugins do
   gem "jekyll-paginate"
  end
 
-gem "nokogiri", ">= 1.11.0"
-gem "rack", "~> 2.1.4"
+gem "nokogiri", ">= 1.13.6"
+gem "rack", "~> 2.1.4.1"
 gem "rspec"
 gem "kramdown-parser-gfm"
 gem "kramdown", ">= 2.3.1"
