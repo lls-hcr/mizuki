@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-US">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>IoT Project | r-pi</title>
+		
+		
+			<meta name="description" content="LoRaWan Gateway and Node">
+		
+		
+			<meta name="keywords" content="Raspberry Pi, LoRaWan, IoT, Gateway, Lora Node">
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/dox-theme/assets/css/style.css">
+		
+
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//stats.mizuki.ch/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/">Homepage</a></li>
+							
+								<li><a href="/about">About</a></li>
+							
+								<li><a href="/blog">Emergency</a></li>
+							
+								<li><a href="/photo">Photo</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Projects
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--code"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									
+										<p class="c-logo u-mb-0 js-logo">
+											<a href="/" class="c-logo__link">r-pi</a>
+										</p><!-- /.c-logo -->
+									
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/">Homepage</a></li>
+												
+													
+													<li class=""><a href="/about">About</a></li>
+												
+													
+													<li class=""><a href="/blog">Emergency</a></li>
+												
+													
+													<li class=""><a href="/photo">Photo</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/projects" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Projects
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--code"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">IoT Gateway and Node</h2>
+					
+					
+						<div class="u-h6">
+							<p>Deploy an <span style="color:red">IoT</span> Gateway and Node on <span style="color:red">TTN</span>.</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p><em>Last update: <span style="color:red">2023.01.12</span></em></p>
+
+<h6 id="the-gateway"><strong>The Gateway</strong></h6>
+
+<p>Some time ago, I built a LoRaWan gateway that I deployed on The Things Network (TTN). The gateway has a Raspberry Pi 3+ and a IoT Gateway HAT from Pi Supply. The board utilises the RAKWireless RAK833 LoRa gateway concentrator module.</p>
+
+<p>It also has a Pi PoE Switch HAT and a PiJuice HAT, also from Pi Supply. In addition to the LoRa antenna, I put a <a href="https://www.antennas.us/UC-1574-653RS-small-GPS-GNSS-antenna.html">Small GNSS Antenna (GPS)</a> that I purchased at the <a href="https://www.antennas.us/">Antennas &amp; RF Electronics StoreGPS)</a>. All is assembled in the Nebra IP67 Enclosure.</p>
+
+<p><img src="/images/gateway.jpg" alt="image" /></p>
+
+<p>I have deployed the software using balenaCloud. This conveniently allows to remotely manage and update the gateway through the balenaCloud application.</p>
+
+<p><img src="/images/balena_gateway.png" alt="image" /></p>
+
+<p>The Gateway is then deployed on TTN.</p>
+
+<p><img src="/images/ttn_node.png" alt="image" /></p>
+
+<h6 id="the-node"><strong>The Node</strong></h6>
+
+<p>I am also using a Raspberry Pi IoT LoRa pHAT together with a Raspberry Pi Zero W. I added to it a Pimoroni BME680 Breakout sensor that can measure air quality, temperature, pressure and humidity.</p>
+
+<p><img src="/images/node.jpg" alt="image" /></p>
+
+<p>To send the data to the Gateway, I am using the Python code below. This will send temperature, barometric pressure and humidity values to TTN. The sensor.set_temp_offset(offset) and display_data(-3) code allow compensating the temperature by +/- n degrees. I noticed that the temperature value may be a few degrees too high, especially if the sensor is in a box or close to a battery that generates heat.</p>
+
+<h6 id="the-code"><strong>The Code</strong></h6>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+</span><span class="kn">from</span> <span class="nn">rak811.rak811</span> <span class="kn">import</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">Rak811</span>
+<span class="kn">import</span> <span class="nn">bme680</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">lora</span> <span class="o">=</span> <span class="n">Rak811</span><span class="p">()</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">hard_reset</span><span class="p">()</span>
+<span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">Mode</span><span class="p">.</span><span class="n">LoRaWan</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">band</span> <span class="o">=</span> <span class="s">'EU868'</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">set_config</span><span class="p">(</span><span class="n">dev_eui</span><span class="o">=</span><span class="s">'XXXXXXXXXXXXXXXX'</span><span class="p">,</span>
+<span class="n">app_eui</span><span class="o">=</span><span class="s">'XXXXXXXXXXXXXXXX'</span><span class="p">,</span>
+<span class="n">app_key</span><span class="o">=</span><span class="s">'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'</span><span class="p">)</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">join_otaa</span><span class="p">()</span>
+<span class="n">lora</span><span class="p">.</span><span class="n">dr</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">bme680</span><span class="p">.</span><span class="n">BME680</span><span class="p">(</span><span class="n">bme680</span><span class="p">.</span><span class="n">I2C_ADDR_PRIMARY</span><span class="p">)</span>
+<span class="n">sensor</span><span class="p">.</span><span class="n">set_humidity_oversample</span><span class="p">(</span><span class="n">bme680</span><span class="p">.</span><span class="n">OS_2X</span><span class="p">)</span>
+<span class="n">sensor</span><span class="p">.</span><span class="n">set_pressure_oversample</span><span class="p">(</span><span class="n">bme680</span><span class="p">.</span><span class="n">OS_4X</span><span class="p">)</span>
+<span class="n">sensor</span><span class="p">.</span><span class="n">set_temperature_oversample</span><span class="p">(</span><span class="n">bme680</span><span class="p">.</span><span class="n">OS_8X</span><span class="p">)</span>
+<span class="n">sensor</span><span class="p">.</span><span class="n">set_filter</span><span class="p">(</span><span class="n">bme680</span><span class="p">.</span><span class="n">FILTER_SIZE_3</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+     <span class="k">def</span> <span class="nf">display_data</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+         <span class="n">sensor</span><span class="p">.</span><span class="n">set_temp_offset</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">sensor</span><span class="p">.</span><span class="n">get_sensor_data</span><span class="p">():</span>
+         <span class="n">Temp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">sensor</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">temperature</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+         <span class="n">Pression</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">sensor</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">pressure</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+         <span class="n">HR</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sensor</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">humidity</span><span class="p">)</span>
+         <span class="n">display_data</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+         <span class="n">lora</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="nb">bytes</span><span class="p">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'0167{:04x}0273{:04x}0368{:02x}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">Temp</span><span class="p">,</span> <span class="n">Pression</span><span class="p">,</span> <span class="n">HR</span><span class="p">)))</span>
+         <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">lora</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Data is sent to the Gateway and can be seen on the Live Data board.</p>
+
+<p><img src="/images/ttn_data.png" alt="image" /></p>
+
+<h6 id="the-data-visualisation"><strong>The Data Visualisation</strong></h6>
+
+<p>Finally, I am using Datacake to visualise the data through a custom dashboard.</p>
+
+<p><img src="/images/datacake_bme680.png" alt="image" /></p>
+
+<p>That’s it !</p>
+
+<div class="Reference"></div>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://www.framboise314.fr/connecter-une-gateway-lora-rak833-a-ttn-v3/">https://www.framboise314.fr/connecter-une-gateway-lora-rak833-a-ttn-v3/</a><br />
+<a href="https://www.hardill.me.uk/wordpress/2020/08/01/another-lora-temperature-humidity-sensor/?unapproved=28525&amp;moderation-hash=625a6af01e4b6e29e7c066ecb3b2271d#comment-28525">https://www.hardill.me.uk/wordpress/2020/08/01/another-lora-temperature-humidity-sensor/?unapproved=28525&amp;moderation-hash=625a6af01e4b6e29e7c066ecb3b2271d#comment-28525</a><br />
+<a href="https://learn.pimoroni.com/article/getting-started-with-bme680-breakout">https://learn.pimoroni.com/article/getting-started-with-bme680-breakout</a><br />
+<a href="https://docs.datacake.de/lorawan/using-cayenne-lpp">https://docs.datacake.de/lorawan/using-cayenne-lpp</a><br /></p>
+
+<h4 id="material">Material</h4>
+
+<p><a href="https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi?_pos=23&amp;_sid=b7540842e&amp;_ss=r">IoT Gateway HAT for Raspberry Pi</a><br />
+<a href="https://uk.pi-supply.com/products/iot-lora-node-phat-for-raspberry-pi">Raspberry Pi IoT LoRa pHAT</a><br />
+<a href="https://uk.pi-supply.com/products/raspberry-pi-zero-w">Raspberry Pi Zero W</a><br />
+<a href="https://uk.pi-supply.com/products/die-cast-outdoor-weatherproof-enclosure">Nebra IP67 Enclosure</a><br />
+<a href="https://uk.pi-supply.com/products/nebra-ip67-case-gateway-hat-mounting-and-expansion-board">Mounting Expansion Board</a><br />
+<a href="https://uk.pi-supply.com/products/pi-poe-switch-hat-power-over-ethernet-for-raspberry-pi?_pos=9&amp;_sid=c4cadcfd7&amp;_ss=r">Pi PoE Switch HAT</a><br />
+<a href="https://uk.pi-supply.com/products/pijuice-standard?_pos=22&amp;_sid=6e5cbdb02&amp;_ss=r">PiJuice HAT</a><br />
+<a href="https://shop.pimoroni.com/collections/breakout-garden">BME680 Sensor</a><br />
+<a href="https://www.antennas.us/UC-1574-653RS-small-GPS-GNSS-antenna.html">Small GNSS Antenna (GPS)</a></p>
+
+<h4 id="assembly-guide">Assembly Guide</h4>
+
+<p><a href="https://learn.pi-supply.com/make/how-to-assemble-your-hat-holder-for-the-nebra-ip67-case/">How to assemble your HAT Holder for the Nebra IP67 Case</a><br /></p>
+
+							
+	<div class="c-comments u-mt-8 u-mb-3">
+		<div id="disqus_thread"></div>
+		<script>
+			/**
+			 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+			 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+			 */
+			/*
+			var disqus_config = function () {
+			this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+				this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			*/
+			(function() {
+				var d = document, s = d.createElement('script');
+
+				s.src = 'https://lls.disqus.com/embed.js';
+
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+	</div><!-- /.c-comments -->
+
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+								
+									<li class="is-active">
+										<a href="/documentation/parental_control/">
+											<p class="c-page-nav__heading">Web Filter Proxy (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/access_point/">
+											<p class="c-page-nav__heading">Wireless Access Point (kid safe)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/backup/">
+											<p class="c-page-nav__heading">Backup multiple r-pi with rsnapshot</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/vpn-1/">
+											<p class="c-page-nav__heading">Virtual Private Network (1)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/vpn-2/">
+											<p class="c-page-nav__heading">Virtual Private Network (2)</p>
+										</a>
+									</li>
+								
+							
+								
+									<li class="is-active">
+										<a href="/documentation/IoT/">
+											<p class="c-page-nav__heading">IoT Project</p>
+										</a>
+									</li>
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-12 u-text-center">
+					<div class="u-inline-block u-flex@sm">
+						
+						
+							
+							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+						
+							
+							
+							
+								<a href="/documentation/vpn-2/" class="c-arrow-link c-arrow-link--prev u-mr-auto">Virtual Private Network (2)</a>
+							
+						
+							
+							
+							
+						
+					</div>
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									r-pi
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy; 2021. - r-pi <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/dox-theme/assets/js/scripts.min.js"></script>
+
+		<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+
+</script>
+	</body>
+</html>
+
+

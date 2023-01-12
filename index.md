@@ -38,11 +38,15 @@ features:
                 description: Turn a Raspberry Pi into a VPN server with Wireguard
                 icon: lock
 
-              - title: Web server (under construction)
-                description: Turn a Raspberry Pi into a Web server
-                icon: globe
+              - title: IoT Project
+                description: Deploy IoT Gateway and Node on TTN
+                icon: radio
 
-              - title: Nextcloud (under construction)
-                description: Turn a Raspberry Pi into a fully File Access and sync platform
-                icon: cloud
+#              - title: Web server (under construction)
+#                description: Turn a Raspberry Pi into a Web server
+#                icon: globe
+
+#              - title: Nextcloud (under construction)
+#                description: Turn a Raspberry Pi into a fully File Access and sync platform
+#                icon: cloud
 ---

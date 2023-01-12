@@ -7,6 +7,10 @@ keywords: # Define keywords for search engines
 comments: false # Set to "true" in order to enable comments on this page. Make sure you properly setup "disqus_forum_shortname" variable in "_config.yml"
 ---
 
+##### <span style="color:red">Ukraine</span>
+
+{% include image-gallery.html folder="images/photo/ukraine" %}<br />
+
 ##### <span style="color:red">Chad</span>
 
 {% include image-gallery.html folder="images/photo/chad" %}<br />
