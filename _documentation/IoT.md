@@ -111,6 +111,7 @@ That’s it !
 [Pi PoE Switch HAT](https://uk.pi-supply.com/products/pi-poe-switch-hat-power-over-ethernet-for-raspberry-pi?_pos=9&_sid=c4cadcfd7&_ss=r)<br />
 [PiJuice HAT](https://uk.pi-supply.com/products/pijuice-standard?_pos=22&_sid=6e5cbdb02&_ss=r)<br />
 [BME680 Sensor](https://shop.pimoroni.com/collections/breakout-garden)<br />
+[Ublox NEO-6M GPS UART](https://uk.pi-supply.com/products/ublox-neo-6m-gps-uart-module-breakout-with-antenna)<br />
 [Small GNSS Antenna (GPS)](https://www.antennas.us/UC-1574-653RS-small-GPS-GNSS-antenna.html)
 
 
