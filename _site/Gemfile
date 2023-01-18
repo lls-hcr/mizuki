@@ -27,7 +27,7 @@ group :jekyll_plugins do
  end
 
 gem "nokogiri", ">= 1.13.6"
-gem "rack", "~> 2.1.4.1"
+gem "rack", "~> 2.1.4.2"
 gem "rspec"
 gem "kramdown-parser-gfm"
 gem "kramdown", ">= 2.3.1"
