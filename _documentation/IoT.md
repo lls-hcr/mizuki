@@ -18,7 +18,7 @@ _Last update: <span style="color:red">2023.01.12</span>_
 
 Some time ago, I built a LoRaWan gateway that I deployed on The Things Network (TTN). The gateway has a Raspberry Pi 3+ and a IoT Gateway HAT from Pi Supply. The board utilises the RAKWireless RAK833 LoRa gateway concentrator module.
 
-It also has a Pi PoE Switch HAT and a PiJuice HAT, also from Pi Supply. In addition to the LoRa antenna, I put a [Small GNSS Antenna (GPS)](https://www.antennas.us/UC-1574-653RS-small-GPS-GNSS-antenna.html) that I purchased at the [Antennas & RF Electronics StoreGPS)](https://www.antennas.us/). All is assembled in the Nebra IP67 Enclosure.
+It also has a Pi PoE Switch HAT and a PiJuice HAT, also from Pi Supply. In addition to the LoRa antenna, I put a [Small GNSS Antenna (GPS)](https://www.antennas.us/UC-1574-653RS-small-GPS-GNSS-antenna.html) that I purchased at the [Antennas & RF Electronics Store](https://www.antennas.us/). All is assembled in the Nebra IP67 Enclosure.
 
 ![image](/images/gateway.jpg)
 

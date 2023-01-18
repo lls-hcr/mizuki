@@ -14,7 +14,7 @@ hero:
 
 _Last update: <span style="color:red">2021.04.25</span>_
 
-I have been using OpenVPN for some time now, always with full satisfaction. Recently, I decided to try an alternative called Wireguard. It is said to be faster, simpler and more secure than most other VPN solutions. I describe below how to install and configure vpn tunnels using this new tool. I have to say thet the process is pleasently easy. 
+I have been using OpenVPN for some time now, always with full satisfaction. Recently, I decided to try an alternative called Wireguard. It is said to be faster, simpler and more secure than most other VPN solutions. I describe below how to install and configure vpn tunnels using this new tool. I have to say that the process is pleasently easy. 
 
 First, update the system
 
